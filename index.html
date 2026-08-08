@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#FFFFFF"/>
+<meta name="description" content="سَرْمَد - المنصة الشخصية لخالد أحمد"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="سَرْمَد"/>
+<title>سَرْمَد | Sarmad</title>
+<link rel="manifest" href="#" id="manifest-link"/>
+<link rel="apple-touch-icon" href="https://i.ibb.co/2112xb11/icon.png"/>
+<link rel="icon" href="https://i.ibb.co/2112xb11/icon.png"/>
+
+<style>
+@font-face{font-family:'SarmadBold';src:url('https://files.catbox.moe/f266rt.ttf');font-weight:700;}
+@font-face{font-family:'SarmadMed';src:url('https://files.catbox.moe/rkyvtf.ttf');font-weight:400;}
+@font-face{font-family:'SarmadLight';src:url('https://files.catbox.moe/jer4tg.ttf');font-weight:300;}
+
+/* ═══════ ROOT TOKENS — WHITE/RED IDENTITY ═══════ */
+:root{
+  --red:#E60000;
+  --red-dark:#B30000;
+  --red-light:#fff0f0;
+  --red-glow:rgba(230,0,0,0.15);
+  --bg:#FFFFFF;
+  --bg2:#F7F7F7;
+  --bg3:#EFEFEF;
+  --border:#E8E8E8;
+  --border-strong:#D0D0D0;
+  --text:#0a0a0a;
+  --text2:#555555;
+  --text3:#999999;
+  --glass:rgba(230,0,0,0.04);
+  --glass-border:rgba(230,0,0,0.12);
+  --radius:16px;
+  --radius-sm:10px;
+  --font-h:'SarmadBold',sans-serif;
+  --font-b:'SarmadMed',sans-serif;
+  --font-l:'SarmadLight',sans-serif;
+  --transition:0.32s cubic-bezier(0.4,0,0.2,1);
+  --shadow:0 2px 20px rgba(0,0,0,0.06);
+  --shadow-md:0 6px 32px rgba(0,0,0,0.1);
+  --shadow-red:0 8px 28px rgba(230,0,0,0.18);
+}
+
+/* ═══════ RESET ═══════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--font-b);
+  min-height:100vh;overflow-x:hidden;line-height:1.6;
+  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+}
+input,select,textarea{
+  -webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+  font-family:var(--font-b);
+}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;border:none;background:none;font-family:var(--font-b);}
+img{
+  max-width:100%;display:block;
+  -webkit-user-drag:none;user-drag:none;pointer-events:none;
+}
+.cert-image-wrap img{pointer-events:auto;}
+img{-webkit-touch-callout:none;}
+@media print{
+  .cert-image-wrap,.hero-photo,.about-photo,.tool-logo{display:none!important;}
+  body::after{content:'جميع الحقوق محفوظة لدى سَرْمَد — خالد أحمد';display:block;text-align:center;padding:40px;font-size:1.2rem;}
+}
+
+/* ═══════ SCROLLBAR ═══════ */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+
+/* ═══════ NAV ═══════ */
+#nav{
+  position:fixed;top:0;right:0;left:0;z-index:1000;
+  padding:0 32px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#FFFFFF;border-bottom:2px solid var(--red);
+  transition:var(--transition);
+}
+#nav.scrolled{box-shadow:0 2px 24px rgba(230,0,0,0.1);}
+.nav-logo img{height:38px;object-fit:contain;}
+.nav-logo-text{font-family:var(--font-h);font-size:1.4rem;color:var(--red);}
+.nav-links{display:flex;gap:6px;align-items:center;}
+.nav-links a{
+  font-family:var(--font-l);font-size:0.875rem;
+  color:var(--text2);padding:6px 14px;border-radius:8px;
+  transition:color 0.2s,background 0.2s;
+}
+.nav-links a:hover{color:var(--red);background:var(--red-light);}
+.nav-store-btn{
+  background:var(--red);color:#fff;
+  padding:8px 18px;border-radius:var(--radius-sm);
+  font-size:0.85rem;font-family:var(--font-h);
+  display:flex;align-items:center;gap:7px;
+  transition:var(--transition);box-shadow:0 2px 12px rgba(230,0,0,0.25);
+}
+.nav-store-btn:hover{background:var(--red-dark);transform:translateY(-1px);box-shadow:var(--shadow-red);}
+.nav-auth-btn{
+  background:var(--bg2);color:var(--text);
+  padding:8px 18px;border-radius:var(--radius-sm);
+  font-size:0.85rem;border:1px solid var(--border-strong);
+  transition:var(--transition);
+}
+.nav-auth-btn:hover{border-color:var(--red);color:var(--red);}
+.nav-menu-btn{display:none;flex-direction:column;gap:5px;padding:4px;}
+.nav-menu-btn span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:var(--transition);display:block;}
+
+/* ═══════ MOBILE NAV ═══════ */
+#mobile-nav{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:#FFFFFF;
+  flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  border-right:4px solid var(--red);
+}
+#mobile-nav.open{display:flex;}
+#mobile-nav a{
+  font-family:var(--font-h);font-size:1.5rem;color:var(--text);
+  opacity:0;transform:translateY(20px);animation:fadeSlideUp 0.4s forwards;
+}
+#mobile-nav a:nth-child(1){animation-delay:0.05s;}
+#mobile-nav a:nth-child(2){animation-delay:0.1s;}
+#mobile-nav a:nth-child(3){animation-delay:0.15s;}
+#mobile-nav a:nth-child(4){animation-delay:0.2s;}
+#mobile-nav a:nth-child(5){animation-delay:0.25s;}
+#mobile-nav a:nth-child(6){animation-delay:0.3s;}
+#mobile-nav a:nth-child(7){animation-delay:0.35s;}
+#mobile-nav a:hover{color:var(--red);}
+.mobile-nav-close{
+  position:absolute;top:20px;left:20px;
+  font-size:1.5rem;color:var(--text2);cursor:pointer;
+  background:var(--bg2);border:1px solid var(--border);
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ═══════ HERO ═══════ */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding:80px 32px 60px;
+  background:linear-gradient(150deg,#fff 60%,#fff5f5 100%);
+}
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;opacity:0.5;pointer-events:none;
+}
+.hero-content{
+  max-width:1100px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;position:relative;z-index:1;
+}
+.hero-text h1{
+  font-family:var(--font-h);font-size:clamp(2.4rem,5.5vw,4.2rem);
+  line-height:1.15;margin-bottom:18px;color:var(--text);
+}
+.hero-text h1 .name-red{color:var(--red);display:inline-block;position:relative;}
+.hero-text h1 .name-red::after{
+  content:'';position:absolute;bottom:-2px;right:0;left:0;
+  height:3px;background:var(--red);border-radius:2px;
+}
+.hero-sub{
+  font-family:var(--font-l);font-size:1rem;
+  color:var(--text2);margin-bottom:32px;max-width:480px;line-height:1.75;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{
+  background:var(--red);color:#fff;padding:13px 26px;border-radius:var(--radius-sm);
+  font-size:0.92rem;font-family:var(--font-h);transition:var(--transition);
+  display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(230,0,0,0.25);
+}
+.btn-primary:hover{background:var(--red-dark);transform:translateY(-2px);box-shadow:var(--shadow-red);}
+.btn-secondary{
+  background:#fff;color:var(--text);padding:13px 26px;border-radius:var(--radius-sm);
+  font-size:0.92rem;border:1.5px solid var(--border-strong);
+  transition:var(--transition);display:flex;align-items:center;gap:8px;
+}
+.btn-secondary:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px);}
+.btn-store{
+  background:var(--red);color:#fff;padding:13px 26px;border-radius:var(--radius-sm);
+  font-size:0.92rem;font-family:var(--font-h);transition:var(--transition);
+  display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(230,0,0,0.25);
+}
+.btn-store:hover{background:var(--red-dark);transform:translateY(-2px);box-shadow:var(--shadow-red);}
+
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center;}
+.hero-photo-wrap{position:relative;z-index:2;}
+.hero-photo{
+  width:320px;height:420px;object-fit:cover;object-position:top center;display:block;
+  filter:drop-shadow(0 20px 40px rgba(230,0,0,0.12));
+}
+.hero-red-block{
+  position:absolute;bottom:-20px;right:-20px;width:200px;height:200px;
+  background:var(--red);border-radius:var(--radius);z-index:1;opacity:0.08;
+}
+.hero-tags-float{position:absolute;top:30px;left:-30px;display:flex;flex-direction:column;gap:8px;z-index:3;}
+.hero-tag-chip{
+  background:#fff;border:1.5px solid var(--border);padding:6px 14px;border-radius:50px;
+  font-size:0.72rem;color:var(--text2);box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.hero-tag-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block;}
+
+.social-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+.social-link{
+  display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:var(--radius-sm);
+  font-size:0.83rem;font-family:var(--font-l);
+  color:var(--text2);border:1px solid var(--border);transition:var(--transition);background:#fff;
+}
+.social-link:hover{border-color:var(--red);color:var(--red);background:var(--red-light);}
+
+.scroll-indicator{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  animation:bounceY 2s ease-in-out infinite;
+}
+.scroll-indicator span{font-size:0.7rem;color:var(--text3);font-family:var(--font-l);}
+.scroll-arrow{width:20px;height:20px;border-right:2px solid var(--red);border-bottom:2px solid var(--red);transform:rotate(45deg);}
+
+/* ═══════ STATS ═══════ */
+#stats{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg);}
+.stats-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-right:1px solid var(--border);
+}
+.stat-item{
+  padding:32px 20px;text-align:center;border-left:1px solid var(--border);
+  border-bottom:1px solid var(--border);transition:var(--transition);
+  position:relative;overflow:hidden;
+}
+.stat-item::after{
+  content:'';position:absolute;bottom:0;right:0;left:0;height:3px;
+  background:var(--red);transform:scaleX(0);transition:transform 0.3s;transform-origin:right;
+}
+.stat-item:hover::after{transform:scaleX(1);}
+.stat-number{font-family:var(--font-h);font-size:2.2rem;color:var(--red);margin-bottom:6px;display:block;}
+.stat-label{font-family:var(--font-l);font-size:0.8rem;color:var(--text2);}
+
+/* ═══════ SECTIONS SHARED ═══════ */
+.section{padding:80px 32px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-header{
+  margin-bottom:48px;display:flex;align-items:flex-end;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.section-eyebrow{
+  font-family:var(--font-l);font-size:0.75rem;color:var(--red);letter-spacing:0.14em;
+  text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;
+}
+.section-eyebrow::before{content:'';width:24px;height:2px;background:var(--red);display:inline-block;}
+.section-title{font-family:var(--font-h);font-size:clamp(1.6rem,4vw,2.3rem);color:var(--text);}
+.section-title span{color:var(--red);}
+.view-all{font-family:var(--font-l);font-size:0.83rem;color:var(--red);display:flex;align-items:center;gap:6px;transition:gap 0.2s;}
+.view-all:hover{gap:10px;}
+.section-alt{background:var(--bg2);}
+
+/* ═══════ CARD BASE ═══════ */
+.card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--radius);transition:var(--transition);box-shadow:var(--shadow);
+}
+.card:hover{border-color:rgba(230,0,0,0.3);box-shadow:0 8px 32px rgba(230,0,0,0.08);}
+
+/* ═══════ FILTER TABS ═══════ */
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+.filter-tab{
+  padding:7px 18px;border-radius:50px;font-size:0.82rem;
+  border:1.5px solid var(--border);color:var(--text2);background:#fff;transition:var(--transition);
+}
+.filter-tab.active,.filter-tab:hover{background:var(--red);color:#fff;border-color:var(--red);}
+
+/* ═══════ BOOKS ═══════ */
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px;}
+.book-card{padding:18px;display:flex;flex-direction:column;gap:12px;cursor:pointer;position:relative;overflow:hidden;}
+.book-card::before{
+  content:'';position:absolute;top:0;right:0;width:3px;height:0;
+  background:var(--red);transition:height var(--transition);border-radius:0 var(--radius) var(--radius) 0;
+}
+.book-card:hover::before{height:100%;}
+.book-cover{width:100%;aspect-ratio:3/4;border-radius:var(--radius-sm);background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.book-cover-img{width:100%;height:100%;object-fit:cover;}
+.book-category{display:inline-block;background:var(--red-light);border:1px solid rgba(230,0,0,0.2);color:var(--red);font-size:0.7rem;padding:3px 10px;border-radius:50px;font-family:var(--font-l);width:fit-content;}
+.book-title{font-family:var(--font-h);font-size:0.92rem;line-height:1.3;color:var(--text);}
+.book-desc{font-family:var(--font-l);font-size:0.78rem;color:var(--text2);line-height:1.5;}
+.book-actions{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap;}
+.btn-download{flex:1;background:var(--red);color:#fff;padding:9px;border-radius:var(--radius-sm);font-size:0.8rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--transition);min-width:0;}
+.btn-download:hover{background:var(--red-dark);transform:translateY(-1px);}
+.btn-view-pdf{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:9px 12px;border-radius:var(--radius-sm);font-size:0.8rem;display:flex;align-items:center;gap:6px;transition:var(--transition);}
+.btn-view-pdf:hover{border-color:var(--red);color:var(--red);}
+.btn-share{background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:9px 12px;border-radius:var(--radius-sm);font-size:0.8rem;display:flex;align-items:center;gap:6px;transition:var(--transition);}
+.btn-share:hover{border-color:var(--red);color:var(--red);}
+
+/* ═══════ CERTS ═══════ */
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;}
+.cert-card{overflow:hidden;cursor:pointer;position:relative;}
+.cert-image-wrap{position:relative;overflow:hidden;}
+.cert-image-wrap img{width:100%;height:auto;display:block;transition:transform 0.5s ease;}
+.cert-card:hover .cert-image-wrap img{transform:scale(1.02);}
+.cert-blur-overlay{
+  position:absolute;inset:0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(255,255,255,0.75);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity 0.3s;
+}
+.cert-blur-overlay.hidden{opacity:0;pointer-events:none;}
+.cert-lock-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--red-light);color:var(--red);}
+.cert-unlock-msg{font-family:var(--font-h);font-size:0.88rem;color:var(--text);text-align:center;}
+.cert-info{padding:16px 20px;border-top:1px solid var(--border);}
+.cert-title{font-family:var(--font-h);font-size:0.95rem;margin-bottom:4px;color:var(--text);}
+.cert-issuer{font-family:var(--font-l);font-size:0.8rem;color:var(--text2);margin-bottom:10px;}
+.cert-verify{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--red);transition:gap 0.2s;font-family:var(--font-l);}
+.cert-verify:hover{gap:10px;}
+
+/* ═══════ PROJECTS ═══════ */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+.project-card{padding:28px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
+.project-card::after{
+  content:'';position:absolute;bottom:0;right:0;left:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+  transform:scaleX(0);transition:transform 0.4s;
+}
+.project-card:hover::after{transform:scaleX(1);}
+.project-num{font-family:var(--font-h);font-size:2.2rem;color:rgba(230,0,0,0.1);line-height:1;}
+.project-title{font-family:var(--font-h);font-size:1.05rem;color:var(--text);}
+.project-desc{font-family:var(--font-l);font-size:0.83rem;color:var(--text2);line-height:1.6;}
+.project-tech{display:flex;flex-wrap:wrap;gap:6px;}
+.tech-tag{background:var(--red-light);border:1px solid rgba(230,0,0,0.2);color:var(--red);font-size:0.7rem;padding:3px 10px;border-radius:4px;font-family:var(--font-l);}
+.project-link{display:inline-flex;align-items:center;gap:6px;color:var(--red);font-size:0.82rem;margin-top:auto;transition:gap 0.2s;font-family:var(--font-l);}
+.project-link:hover{gap:10px;}
+
+/* ═══════ SKILLS ═══════ */
+.skills-container{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.skill-category{padding:28px;}
+.skill-cat-title{font-family:var(--font-h);font-size:1rem;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.skill-cat-title::before{content:'';width:4px;height:18px;background:var(--red);border-radius:2px;display:block;}
+.skill-item{margin-bottom:16px;}
+.skill-label{font-family:var(--font-l);font-size:0.83rem;display:flex;justify-content:space-between;margin-bottom:7px;color:var(--text2);}
+.skill-bar-bg{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.skill-bar{height:100%;background:linear-gradient(90deg,var(--red-dark),var(--red));border-radius:2px;width:0;transition:width 1.1s cubic-bezier(0.4,0,0.2,1);}
+
+/* ═══════ BADGES (NEW) ═══════ */
+#badges{background:var(--bg);}
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;}
+.badge-card{
+  padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  text-align:center;cursor:default;position:relative;overflow:hidden;
+  transition:var(--transition);
+}
+.badge-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(230,0,0,0.1);}
+.badge-icon-wrap{
+  width:60px;height:60px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--red-light);color:var(--red);
+  box-shadow:0 4px 16px rgba(230,0,0,0.15);
+  transition:var(--transition);
+}
+.badge-card:hover .badge-icon-wrap{transform:scale(1.1);}
+.badge-title{font-family:var(--font-h);font-size:0.9rem;color:var(--text);}
+.badge-desc{font-family:var(--font-l);font-size:0.75rem;color:var(--text2);line-height:1.5;}
+.badge-date{font-family:var(--font-l);font-size:0.7rem;color:var(--text3);margin-top:auto;}
+.badge-shimmer{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 40%,rgba(230,0,0,0.04) 50%,transparent 60%);
+  background-size:200% 200%;
+  animation:shimmer 3s ease infinite;
+}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* ═══════ TESTIMONIALS (NEW) ═══════ */
+#testimonials{background:var(--bg2);}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+.testimonial-card{
+  padding:28px;display:flex;flex-direction:column;gap:14px;
+  position:relative;overflow:hidden;
+}
+.testimonial-card::before{
+  content:'"';font-family:Georgia,serif;font-size:5rem;color:rgba(230,0,0,0.06);
+  position:absolute;top:10px;left:16px;line-height:1;pointer-events:none;
+}
+.testimonial-stars{display:flex;gap:4px;}
+.star{color:var(--red);font-size:0.85rem;}
+.star.empty{color:var(--border-strong);}
+.testimonial-text{font-family:var(--font-l);font-size:0.88rem;color:var(--text2);line-height:1.75;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:14px;border-top:1px solid var(--border);}
+.testimonial-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--red-light);border:2px solid rgba(230,0,0,0.2);
+  display:flex;align-items:center;justify-content:center;color:var(--red);
+  overflow:hidden;flex-shrink:0;
+}
+.testimonial-avatar img{width:100%;height:100%;object-fit:cover;}
+.testimonial-name{font-family:var(--font-h);font-size:0.87rem;color:var(--text);}
+.testimonial-role{font-family:var(--font-l);font-size:0.75rem;color:var(--text3);}
+
+/* ═══════ ABOUT ═══════ */
+#about{background:var(--bg);}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.about-text p{font-family:var(--font-l);font-size:0.95rem;color:var(--text2);line-height:1.85;margin-bottom:16px;}
+.about-text p:last-child{margin-bottom:0;}
+.about-highlights{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px;}
+.about-highlight{background:var(--red-light);border:1px solid rgba(230,0,0,0.15);border-radius:var(--radius-sm);padding:16px;display:flex;flex-direction:column;gap:6px;}
+.about-highlight-icon{color:var(--red);}
+.about-highlight-label{font-family:var(--font-h);font-size:0.85rem;color:var(--text);}
+.about-photo-wrap{position:relative;}
+.about-photo{width:100%;max-width:340px;object-fit:cover;object-position:top;filter:drop-shadow(0 16px 32px rgba(230,0,0,0.1));margin:0 auto;}
+.about-red-accent{position:absolute;bottom:-10px;left:-10px;width:120px;height:120px;background:var(--red);border-radius:var(--radius);opacity:0.08;z-index:-1;}
+
+/* ═══════ TOOLS ═══════ */
+#tools{background:var(--bg2);}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+.tool-card{padding:24px;display:flex;flex-direction:column;gap:14px;cursor:pointer;}
+.tool-card:hover{border-color:rgba(230,0,0,0.4);}
+.tool-logo{width:52px;height:52px;border-radius:12px;object-fit:contain;background:#fff;padding:6px;box-shadow:var(--shadow);}
+.tool-logo-placeholder{width:52px;height:52px;border-radius:12px;background:var(--red-light);display:flex;align-items:center;justify-content:center;color:var(--red);}
+.tool-name{font-family:var(--font-h);font-size:1rem;color:var(--text);}
+.tool-desc{font-family:var(--font-l);font-size:0.82rem;color:var(--text2);line-height:1.6;}
+.tool-category-badge{display:inline-block;background:var(--red-light);border:1px solid rgba(230,0,0,0.2);color:var(--red);font-size:0.68rem;padding:2px 10px;border-radius:50px;font-family:var(--font-l);width:fit-content;}
+.tool-link{display:inline-flex;align-items:center;gap:6px;color:var(--red);font-size:0.8rem;margin-top:auto;font-family:var(--font-l);transition:gap 0.2s;}
+.tool-link:hover{gap:10px;}
+
+/* ═══════ CV ═══════ */
+#cv{background:var(--bg);}
+.cv-layout{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:start;}
+.timeline{position:relative;padding-right:32px;}
+.timeline::before{content:'';position:absolute;right:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--red),var(--border));}
+.timeline-item{position:relative;margin-bottom:32px;padding-right:28px;}
+.timeline-item::before{content:'';position:absolute;right:-37px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(230,0,0,0.15);}
+.timeline-date{font-family:var(--font-l);font-size:0.75rem;color:var(--red);margin-bottom:5px;}
+.timeline-title{font-family:var(--font-h);font-size:0.95rem;margin-bottom:3px;color:var(--text);}
+.timeline-sub{font-family:var(--font-l);font-size:0.83rem;color:var(--text2);}
+.cv-download-card{padding:28px;text-align:center;position:sticky;top:90px;}
+.cv-icon{width:56px;height:56px;border-radius:14px;background:var(--red-light);color:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.cv-download-card h3{font-family:var(--font-h);font-size:1.1rem;margin-bottom:8px;color:var(--text);}
+.cv-download-card p{font-family:var(--font-l);font-size:0.83rem;color:var(--text2);margin-bottom:22px;}
+
+/* ═══════ TERMINAL ═══════ */
+#terminal-toggle{
+  position:fixed;bottom:24px;left:24px;width:46px;height:46px;
+  background:var(--text);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;
+  z-index:500;transition:var(--transition);box-shadow:0 4px 20px rgba(0,0,0,0.2);color:#fff;
+}
+#terminal-toggle:hover{background:var(--red);transform:scale(1.05);}
+#terminal-panel{
+  position:fixed;bottom:82px;left:24px;width:380px;max-width:calc(100vw - 48px);
+  background:#0d1117;border:1px solid rgba(230,0,0,0.25);border-radius:var(--radius);
+  overflow:hidden;z-index:499;display:none;animation:slideUp 0.3s ease;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+#terminal-panel.open{display:block;}
+.terminal-header{background:#161b22;padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.terminal-dots{display:flex;gap:6px;}
+.terminal-dot{width:10px;height:10px;border-radius:50%;}
+.terminal-dot:nth-child(1){background:#ff5f57;}
+.terminal-dot:nth-child(2){background:#ffbd2e;}
+.terminal-dot:nth-child(3){background:#28ca41;}
+.terminal-title{flex:1;text-align:center;font-size:0.75rem;color:#666;font-family:monospace;}
+.terminal-body{padding:16px;height:200px;overflow-y:auto;font-family:'Courier New',monospace;font-size:0.82rem;color:#58a6ff;}
+.terminal-line{margin-bottom:4px;line-height:1.5;}
+.terminal-line.cmd{color:#e3b341;}
+.terminal-line.out{color:#7ee787;}
+.terminal-line.err{color:#f85149;}
+.terminal-input-row{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid rgba(255,255,255,0.05);background:#0d1117;}
+.terminal-prompt{color:#58a6ff;font-family:monospace;font-size:0.82rem;white-space:nowrap;}
+#terminal-input{flex:1;background:none;border:none;color:#e6edf3;font-family:monospace;font-size:0.82rem;outline:none;caret-color:var(--red);direction:ltr;}
+
+/* ═══════ AUTH MODAL ═══════ */
+#auth-modal{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);padding:20px;}
+#auth-modal.open{display:flex;}
+.modal-card{width:100%;max-width:420px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;animation:scaleIn 0.3s ease;box-shadow:0 20px 60px rgba(0,0,0,0.15);position:relative;}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.modal-header-icon{width:40px;height:40px;border-radius:10px;background:var(--red-light);color:var(--red);display:flex;align-items:center;justify-content:center;}
+.modal-header-title{font-family:var(--font-h);font-size:1rem;color:var(--text);}
+.modal-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);}
+.modal-tab{padding:14px;text-align:center;font-family:var(--font-h);font-size:0.88rem;color:var(--text2);transition:var(--transition);border-bottom:2px solid transparent;}
+.modal-tab.active{color:var(--red);border-bottom-color:var(--red);background:var(--red-light);}
+.modal-body{padding:24px;}
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-family:var(--font-l);font-size:0.8rem;color:var(--text2);margin-bottom:7px;}
+.form-input{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;color:var(--text);font-size:0.9rem;outline:none;transition:border-color 0.2s;direction:rtl;}
+.form-input:focus{border-color:var(--red);}
+.form-submit{width:100%;background:var(--red);color:#fff;padding:13px;border-radius:var(--radius-sm);font-family:var(--font-h);font-size:0.95rem;margin-top:8px;transition:var(--transition);}
+.form-submit:hover{background:var(--red-dark);}
+.modal-close{position:absolute;top:14px;left:16px;background:var(--bg2);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:1rem;cursor:pointer;transition:var(--transition);}
+.modal-close:hover{border-color:var(--red);color:var(--red);}
+.form-error{font-size:0.76rem;color:var(--red);margin-top:5px;display:none;font-family:var(--font-l);}
+.form-error.show{display:block;}
+
+/* ═══════ PDF MODAL ═══════ */
+#pdf-modal{position:fixed;inset:0;z-index:2500;display:none;flex-direction:column;background:rgba(10,10,10,0.97);}
+#pdf-modal.open{display:flex;}
+.pdf-header{padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);background:rgba(20,20,20,0.9);}
+.pdf-title{font-family:var(--font-h);font-size:0.95rem;color:#fff;}
+.pdf-actions{display:flex;gap:10px;}
+.pdf-btn{padding:8px 16px;border-radius:var(--radius-sm);font-size:0.82rem;font-family:var(--font-b);transition:var(--transition);}
+.pdf-btn.primary{background:var(--red);color:#fff;}
+.pdf-btn.primary:hover{background:var(--red-dark);}
+.pdf-btn.ghost{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;}
+.pdf-btn.ghost:hover{border-color:var(--red);}
+#pdf-iframe{flex:1;border:none;width:100%;background:#f0f0f0;}
+
+/* ═══════ TOAST ═══════ */
+#toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:11px 22px;font-size:0.83rem;z-index:3000;opacity:0;transition:all 0.3s;
+  pointer-events:none;white-space:nowrap;font-family:var(--font-l);box-shadow:var(--shadow-md);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:rgba(40,202,65,0.4);color:#1a7a2a;}
+#toast.error{border-color:rgba(230,0,0,0.3);color:var(--red);}
+
+/* ═══════ SHARE MODAL ═══════ */
+#share-modal{position:fixed;inset:0;z-index:2800;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);padding:20px;}
+#share-modal.open{display:flex;}
+.share-card{width:100%;max-width:400px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;animation:scaleIn 0.3s ease;box-shadow:0 20px 60px rgba(0,0,0,0.15);}
+.share-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.share-title{font-family:var(--font-h);font-size:1rem;color:var(--text);}
+.share-close{width:32px;height:32px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);cursor:pointer;transition:var(--transition);}
+.share-close:hover{border-color:var(--red);color:var(--red);}
+.share-body{padding:22px;}
+.share-label{font-family:var(--font-l);font-size:0.8rem;color:var(--text2);margin-bottom:8px;}
+.share-url-box{display:flex;gap:8px;align-items:center;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:18px;}
+.share-url-text{flex:1;font-family:monospace;font-size:0.78rem;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left;}
+.share-copy-btn{background:var(--red);color:#fff;padding:6px 14px;border-radius:8px;font-size:0.78rem;font-family:var(--font-h);white-space:nowrap;transition:var(--transition);}
+.share-copy-btn:hover{background:var(--red-dark);}
+.share-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.share-social{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:var(--radius-sm);font-size:0.82rem;font-family:var(--font-b);border:1.5px solid var(--border);color:var(--text2);transition:var(--transition);min-width:100px;}
+.share-social:hover{border-color:var(--red);color:var(--red);}
+
+/* ═══════ LIVE BADGE ═══════ */
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#15803d;font-size:0.7rem;padding:3px 10px;border-radius:50px;font-family:var(--font-l);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:livePulse 1.5s ease-in-out infinite;}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+
+/* ═══════ LOADING ═══════ */
+.loading-spinner{display:flex;align-items:center;justify-content:center;padding:60px;gap:8px;}
+.spinner-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:spinnerBounce 1.2s ease-in-out infinite;}
+.spinner-dot:nth-child(2){animation-delay:0.2s;}
+.spinner-dot:nth-child(3){animation-delay:0.4s;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text3);font-family:var(--font-l);font-size:0.9rem;}
+.empty-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--bg2);margin:0 auto 14px;color:var(--text3);}
+
+/* ═══════ FOOTER ═══════ */
+footer{border-top:2px solid var(--red);padding:40px 32px;text-align:center;background:#fff;}
+.footer-logo{margin:0 auto 14px;height:36px;object-fit:contain;}
+.footer-text{font-family:var(--font-l);font-size:0.8rem;color:var(--text3);}
+
+/* ═══════ KEYFRAMES ═══════ */
+@keyframes fadeSlideUp{to{opacity:1;transform:translateY(0);}}
+@keyframes bounceY{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
+@keyframes spinnerBounce{0%,80%,100%{transform:scale(0.8);opacity:0.5;}40%{transform:scale(1.2);opacity:1;}}
+@keyframes heroEntrance{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;text-align:center;}
+  .hero-btns{justify-content:center;}
+  .hero-sub{max-width:100%;}
+  .hero-visual{display:none;}
+  .skills-container{grid-template-columns:1fr;}
+  .cv-layout{grid-template-columns:1fr;}
+  .cv-download-card{position:static;}
+  .about-layout{grid-template-columns:1fr;}
+  .about-photo-wrap{display:none;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .section-header{flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .nav-menu-btn{display:flex;}
+  #nav{padding:0 16px;}
+  .section{padding:60px 16px;}
+  #terminal-panel{left:12px;right:12px;width:auto;}
+}
+@media(max-width:480px){
+  .books-grid{grid-template-columns:repeat(2,1fr);}
+  .projects-grid{grid-template-columns:1fr;}
+  .certs-grid{grid-template-columns:1fr;}
+  .about-highlights{grid-template-columns:1fr;}
+  .badges-grid{grid-template-columns:repeat(2,1fr);}
+  .testimonials-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<script>
+const manifest={name:"سَرْمَد | Sarmad",short_name:"سَرْمَد",description:"المنصة الشخصية لخالد أحمد",start_url:"/",display:"standalone",background_color:"#FFFFFF",theme_color:"#FFFFFF",icons:[{src:"https://i.ibb.co/2112xb11/icon.png",sizes:"192x192",type:"image/png"},{src:"https://i.ibb.co/2112xb11/icon.png",sizes:"512x512",type:"image/png"}]};
+const blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});
+document.getElementById('manifest-link').href=URL.createObjectURL(blob);
+</script>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <img src="https://i.ibb.co/vvJL83Hv/logo-red.png" alt="سَرْمَد"
+      style="pointer-events:none;-webkit-user-drag:none;"
+      onerror="this.style.display='none';document.getElementById('nav-logo-text').style.display='block'"/>
+    <span class="nav-logo-text" id="nav-logo-text" style="display:none;">سَرْمَد</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about">عني</a>
+    <a href="#books">المكتبة</a>
+    <a href="#projects">المشاريع</a>
+    <a href="#certs">الشهادات</a>
+    <a href="#badges">الإنجازات</a>
+    <a href="#tools">الأدوات</a>
+    <a href="#cv">السيرة</a>
+    <a href="https://melafmaqfoul.oneapp.dev/" target="_blank" class="nav-store-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      متجري
+    </a>
+    <button class="nav-auth-btn" id="nav-auth-btn" onclick="openAuth()">دخول</button>
+  </div>
+  <button class="nav-menu-btn" id="menu-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mobile-nav">
+  <button class="mobile-nav-close" onclick="closeMobileNav()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="#about" onclick="closeMobileNav()">نبذة عني</a>
+  <a href="#books" onclick="closeMobileNav()">المكتبة الرقمية</a>
+  <a href="#projects" onclick="closeMobileNav()">المشاريع</a>
+  <a href="#certs" onclick="closeMobileNav()">الشهادات</a>
+  <a href="#badges" onclick="closeMobileNav()">الإنجازات</a>
+  <a href="#tools" onclick="closeMobileNav()">الأدوات البرمجية</a>
+  <a href="#cv" onclick="closeMobileNav()">السيرة الذاتية</a>
+  <a href="https://melafmaqfoul.oneapp.dev/" target="_blank" style="color:var(--red);" onclick="closeMobileNav()">متجري</a>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-text" style="animation:heroEntrance 0.7s ease 0.1s both;">
+      <p class="section-eyebrow" style="margin-bottom:14px;">مطوّر برمجيات وأمن سيبراني</p>
+      <h1>مرحباً، أنا<br/><span class="name-red">خالد أحمد</span></h1>
+      <p class="hero-sub">طالب بكلية الحاسبات والمعلومات، مطوّر Backend شغوف بالأمن السيبراني وتحليل البيانات. أبني أنظمة آمنة وتجارب رقمية استثنائية.</p>
+      <div class="hero-btns">
+        <a href="#cv" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          السيرة الذاتية
+        </a>
+        <a href="https://melafmaqfoul.oneapp.dev/" target="_blank" class="btn-store">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          متجري
+        </a>
+        <a href="#projects" class="btn-secondary">المشاريع</a>
+      </div>
+      <div class="social-bar">
+        <a href="https://www.linkedin.com/in/khaled-ahmed-241002386" target="_blank" class="social-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="mailto:khaledahmedelbrbary80@gmail.com" class="social-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Gmail
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual" style="animation:heroEntrance 0.7s ease 0.25s both;">
+      <div class="hero-tags-float">
+        <div class="hero-tag-chip"><span class="dot"></span>Java Backend</div>
+        <div class="hero-tag-chip"><span class="dot"></span>Penetration Testing</div>
+        <div class="hero-tag-chip"><span class="dot"></span>AWS Cloud</div>
+        <div class="hero-tag-chip"><span class="dot"></span>Data Analysis</div>
+      </div>
+      <div class="hero-photo-wrap">
+        <img src="https://i.ibb.co/mVv9zRK8" alt="خالد أحمد" class="hero-photo"
+          onerror="this.src='https://via.placeholder.com/320x420/fff0f0/E60000?text=KA'"/>
+      </div>
+      <div class="hero-red-block"></div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>اكتشف</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══════════════ STATS ══════════════ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="stat-number" id="stat-books">0</span>
+      <span class="stat-label">كتاب متاح للتحميل</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="stat-projects">0</span>
+      <span class="stat-label">مشروع مكتمل</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="stat-certs">0</span>
+      <span class="stat-label">شهادة احترافية</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="stat-coffee">0</span>
+      <span class="stat-label">كوب قهوة أثناء البرمجة</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">About Me</p>
+        <h2 class="section-title">نبذة <span>عني</span></h2>
+      </div>
+    </div>
+    <div class="about-layout reveal">
+      <div class="about-text">
+        <p>طالب في الفرقة الثانية بكلية الحاسبات والمعلومات، ومطوّر برمجيات شغوف بالجانب الخلفي (Backend)، الأمن السيبراني، وتحليل البيانات.</p>
+        <p>أمتلك معرفة قوية في لغات برمجة متعددة تشمل Java وPython وJavaScript، مع اهتمام بتصميم المعماريات البرمجية، الحوسبة السحابية عبر خدمات AWS، وبناء خطوط CI/CD متكاملة.</p>
+        <p>أدمج في عملي بين بناء الأنظمة المتينة، وحمايتها عبر تطبيقات الأمن السيبراني واختبار الاختراق (Penetration Testing & Red Teaming)، واستخلاص الرؤى القيمة وتوظيفها من خلال تحليل البيانات.</p>
+        <p>أسعى دائماً لتحويل المنطق البرمجي والتحليلي إلى حلول تقنية آمنة وفعالة تلبي الاحتياجات الواقعية.</p>
+        <div class="about-highlights">
+          <div class="about-highlight">
+            <div class="about-highlight-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <span class="about-highlight-label">Backend Developer</span>
+          </div>
+          <div class="about-highlight">
+            <div class="about-highlight-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="about-highlight-label">Cybersecurity</span>
+          </div>
+          <div class="about-highlight">
+            <div class="about-highlight-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <span class="about-highlight-label">Data Analysis</span>
+          </div>
+          <div class="about-highlight">
+            <div class="about-highlight-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <span class="about-highlight-label">Cloud & DevOps</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-photo-wrap">
+        <img src="https://i.ibb.co/mVv9zRK8" alt="خالد أحمد" class="about-photo"
+          onerror="this.src='https://via.placeholder.com/340x440/fff0f0/E60000?text=KA'"/>
+        <div class="about-red-accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ BOOKS ══════════════ -->
+<section id="books" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Sarmad Vault</p>
+        <h2 class="section-title">المكتبة <span>الرقمية</span></h2>
+        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
+      </div>
+      <button class="btn-secondary" onclick="loadBooks(true)" style="padding:8px 16px;font-size:0.82rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        تحديث
+      </button>
+    </div>
+    <div class="filter-tabs reveal" id="book-filters">
+      <button class="filter-tab active" data-cat="all">الكل</button>
+      <button class="filter-tab" data-cat="برمجة">برمجة</button>
+      <button class="filter-tab" data-cat="أمن سيبراني">أمن سيبراني</button>
+      <button class="filter-tab" data-cat="تطوير ذات">تطوير ذات</button>
+      <button class="filter-tab" data-cat="شبكات">شبكات</button>
+    </div>
+    <div id="books-container" class="books-grid">
+      <div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PROJECTS ══════════════ -->
+<section id="projects" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Projects Showcase</p>
+        <h2 class="section-title">معرض <span>المشاريع</span></h2>
+        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
+      </div>
+      <button class="btn-secondary" onclick="loadProjects(true)" style="padding:8px 16px;font-size:0.82rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        تحديث
+      </button>
+    </div>
+    <div id="projects-container" class="projects-grid">
+      <div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CERTS ══════════════ -->
+<section id="certs" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Certifications Wall</p>
+        <h2 class="section-title">جدار <span>الشهادات</span></h2>
+        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
+      </div>
+      <button class="btn-secondary" onclick="loadCerts(true)" style="padding:8px 16px;font-size:0.82rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        تحديث
+      </button>
+    </div>
+    <div id="certs-container" class="certs-grid">
+      <div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SKILLS ══════════════ -->
+<section id="skills" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Tech Stack Radar</p>
+        <h2 class="section-title">مؤشر <span>المهارات</span></h2>
+      </div>
+    </div>
+    <div class="skills-container reveal">
+      <div class="card skill-category">
+        <h3 class="skill-cat-title">Backend &amp; Cloud</h3>
+        <div class="skill-item"><div class="skill-label"><span>Java</span><span>90%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="90"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Python</span><span>80%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="80"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>AWS</span><span>75%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="75"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>CI/CD &amp; DevOps</span><span>70%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="70"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>قواعد البيانات</span><span>85%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="85"></div></div></div>
+      </div>
+      <div class="card skill-category">
+        <h3 class="skill-cat-title">Cybersecurity</h3>
+        <div class="skill-item"><div class="skill-label"><span>Network Security</span><span>88%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="88"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Red Teaming</span><span>80%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="80"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Penetration Testing</span><span>82%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="82"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>OSINT</span><span>78%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="78"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Web Security</span><span>85%</span></div><div class="skill-bar-bg"><div class="skill-bar" data-width="85"></div></div></div>
+      </div>
+    </div>
+    <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:9px;" class="reveal">
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Java Spring</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Python FastAPI</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">AWS EC2 / S3</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Docker</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Linux</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Kali Linux</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Metasploit</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Burp Suite</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Wireshark</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Git &amp; GitHub</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">MySQL / PostgreSQL</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">React / PWA</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">Nmap / Nessus</span>
+      <span class="tech-tag" style="font-size:0.83rem;padding:7px 16px;">OSINT Tools</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ BADGES (NEW) ══════════════ -->
+<section id="badges" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Achievements Wall</p>
+        <h2 class="section-title">الإنجازات <span>والشارات</span></h2>
+        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
+      </div>
+      <button class="btn-secondary" onclick="loadBadges(true)" style="padding:8px 16px;font-size:0.82rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        تحديث
+      </button>
+    </div>
+    <div id="badges-container" class="badges-grid">
+      <div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TOOLS ══════════════ -->
+<section id="tools" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Developer Toolkit</p>
+        <h2 class="section-title">الأدوات <span>البرمجية</span></h2>
+      </div>
+      <button class="btn-secondary" onclick="loadTools(true)" style="padding:8px 16px;font-size:0.82rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        تحديث
+      </button>
+    </div>
+    <div id="tools-container" class="tools-grid">
+      <div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CV ══════════════ -->
+<section id="cv" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Resume / CV</p>
+        <h2 class="section-title">السيرة <span>الذاتية</span></h2>
+      </div>
+    </div>
+    <div class="cv-layout reveal">
+      <div class="timeline">
+        <h3 style="font-family:var(--font-h);font-size:0.92rem;color:var(--red);margin-bottom:24px;text-transform:uppercase;letter-spacing:0.1em;">التعليم</h3>
+        <div id="education-timeline">
+          <div class="loading-spinner" style="padding:30px;"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+        </div>
+        <h3 style="font-family:var(--font-h);font-size:0.92rem;color:var(--red);margin-bottom:24px;margin-top:40px;text-transform:uppercase;letter-spacing:0.1em;">الخبرات</h3>
+        <div id="experience-timeline">
+          <div class="loading-spinner" style="padding:30px;"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+        </div>
+      </div>
+      <div class="card cv-download-card">
+        <div class="cv-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>حمّل السيرة الذاتية</h3>
+        <p>النسخة الكاملة بصيغة PDF جاهزة للتحميل</p>
+        <a href="#" class="btn-primary" style="justify-content:center;" onclick="downloadCV(event)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          تحميل CV
+        </a>
+        <p style="font-family:var(--font-l);font-size:0.73rem;color:var(--text3);margin-top:12px;">آخر تحديث: ١٤٤٨هـ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TESTIMONIALS (NEW) ══════════════ -->
+<section id="testimonials" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">Testimonials</p>
+        <h2 class="section-title">ما قالوه <span>عني</span></h2>
+        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
+      </div>
+      <button class="btn-secondary" onclick="loadTestimonials(true)" style="padding:8px 16px;font-size:0.82rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        تحديث
+      </button>
+    </div>
+    <div id="testimonials-container" class="testimonials-grid">
+      <div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <img src="https://i.ibb.co/vvJL83Hv/logo-red.png" alt="سَرْمَد" class="footer-logo"
+    onerror="this.style.display='none'"/>
+  <p class="footer-text">جميع الحقوق محفوظة لدى سَرْمَد — خالد أحمد &nbsp;|&nbsp; ١٤٤٨هـ — ٢٠٢٦م</p>
+</footer>
+
+<!-- ══════════════ TERMINAL ══════════════ -->
+<button id="terminal-toggle" onclick="toggleTerminal()" title="Terminal">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+</button>
+<div id="terminal-panel">
+  <div class="terminal-header">
+    <div class="terminal-dots"><div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div></div>
+    <span class="terminal-title">sarmad@terminal ~</span>
+    <button onclick="toggleTerminal()" style="color:#666;font-size:0.78rem;">✕</button>
+  </div>
+  <div class="terminal-body" id="terminal-body">
+    <div class="terminal-line out">مرحباً في Terminal سَرْمَد</div>
+    <div class="terminal-line" style="color:#7ee787;">اكتب <span style="color:#e3b341;">help</span> لعرض الأوامر</div>
+  </div>
+  <div class="terminal-input-row">
+    <span class="terminal-prompt">sarmad@terminal:~$</span>
+    <input type="text" id="terminal-input" placeholder="أمر..." dir="ltr" onkeydown="handleTerminalInput(event)"/>
+  </div>
+</div>
+
+<!-- ══════════════ AUTH MODAL ══════════════ -->
+<div id="auth-modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeAuth()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-header">
+      <div class="modal-header-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <span class="modal-header-title">الدخول إلى سَرْمَد</span>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="login-tab" onclick="switchTab('login')">تسجيل الدخول</button>
+      <button class="modal-tab" id="register-tab" onclick="switchTab('register')">إنشاء حساب</button>
+    </div>
+    <div class="modal-body" id="login-form">
+      <div class="form-group">
+        <label class="form-label">البريد الإلكتروني أو الهاتف</label>
+        <input type="text" class="form-input" id="login-identifier" placeholder="example@email.com"/>
+        <p class="form-error" id="login-error"></p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">كلمة المرور</label>
+        <input type="password" class="form-input" id="login-password" placeholder="••••••••"/>
+      </div>
+      <button class="form-submit" onclick="handleLogin()">دخول</button>
+    </div>
+    <div class="modal-body" id="register-form" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">الاسم الرباعي</label>
+        <input type="text" class="form-input" id="reg-name" placeholder="الاسم الأول الثاني الثالث الرابع"/>
+        <p class="form-error" id="reg-name-error"></p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">البريد الإلكتروني</label>
+        <input type="email" class="form-input" id="reg-email" placeholder="example@email.com"/>
+        <p class="form-error" id="reg-email-error"></p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">رقم الهاتف</label>
+        <input type="tel" class="form-input" id="reg-phone" placeholder="01xxxxxxxxx"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">النوع</label>
+        <select class="form-input" id="reg-gender">
+          <option value="">اختر...</option>
+          <option value="ذكر">ذكر</option>
+          <option value="أنثى">أنثى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">كلمة المرور</label>
+        <input type="password" class="form-input" id="reg-password" placeholder="••••••••"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">تأكيد كلمة المرور</label>
+        <input type="password" class="form-input" id="reg-confirm" placeholder="••••••••"/>
+        <p class="form-error" id="reg-pass-error"></p>
+      </div>
+      <button class="form-submit" onclick="handleRegister()">إنشاء الحساب</button>
+    </div>
+  </div>
+</div>
+
+<!-- PDF MODAL -->
+<div id="pdf-modal">
+  <div class="pdf-header">
+    <span class="pdf-title" id="pdf-modal-title">عرض الملف</span>
+    <div class="pdf-actions">
+      <a href="#" id="pdf-download-link" class="pdf-btn primary" download>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:5px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        تحميل
+      </a>
+      <button class="pdf-btn ghost" onclick="closePdfModal()">إغلاق</button>
+    </div>
+  </div>
+  <iframe id="pdf-iframe" title="PDF Viewer"></iframe>
+</div>
+
+<!-- SHARE MODAL -->
+<div id="share-modal">
+  <div class="share-card">
+    <div class="share-header">
+      <span class="share-title" id="share-modal-title">مشاركة الرابط</span>
+      <button class="share-close" onclick="closeShareModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="share-body">
+      <p class="share-label">رابط المشاركة الفريد</p>
+      <div class="share-url-box">
+        <span class="share-url-text" id="share-url-display"></span>
+        <button class="share-copy-btn" onclick="copyShareUrl()">نسخ</button>
+      </div>
+      <div class="share-btns">
+        <a class="share-social" id="share-whatsapp" href="#" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          واتساب
+        </a>
+        <a class="share-social" id="share-twitter" href="#" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+          تويتر
+        </a>
+        <a class="share-social" id="share-telegram" href="#" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          تيليغرام
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ══════════════ SCRIPT ══════════════ -->
+<script>
+/* ─── CONFIG ─── */
+const SHEETSON_KEY='HlUZiTjLO1sp-Ou0JbsluuQNAWUoMP2XOYcVw5n6OxoroGNPfVpIDZq3fF0';
+const SHEET_ID='1vZdi8_q5pqw76YLrcGWvS2llqYOSIOV8WLuBPYe2rwE';
+const BASE_URL='https://api.sheetson.com/v2/sheets';
+let currentUser=JSON.parse(localStorage.getItem('sarmad_user')||'null');
+let allBooks=[];
+let currentShareUrl='';
+/* ─── stats cache ─── */
+let _statsCache=null;
+
+/* ─── API GET ─── */
+async function sheetGet(sheet){
+  try{
+    const url=`${BASE_URL}/${sheet}?apiKey=${SHEETSON_KEY}&spreadsheetId=${SHEET_ID}&limit=200`;
+    const r=await fetch(url);
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    const d=await r.json();
+    return d.results||[];
+  }catch(e){console.error(`Sheetson GET [${sheet}] error:`,e);return[];}
+}
+
+/* ─── API POST ─── */
+async function sheetPost(sheet,data){
+  try{
+    const r=await fetch(`${BASE_URL}/${sheet}`,{
+      method:'POST',
+      headers:{
+        'Authorization':`Bearer ${SHEETSON_KEY}`,
+        'X-Spreadsheet-Id':SHEET_ID,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(data)
+    });
+    return await r.json();
+  }catch(e){console.error(`Sheetson POST [${sheet}] error:`,e);return null;}
+}
+
+/* ─── STATS — مربوط بقاعدة البيانات ─── */
+async function loadStats(){
+  try{
+    const rows=await sheetGet('stats');
+    _statsCache=rows;
+    const coffee=rows.find(r=>r.key==='coffee_count');
+    if(coffee?.value){
+      updateStat('stat-coffee',parseInt(coffee.value)||0);
+    } else {
+      /* fallback إذا لم يُضف بعد في الشيت */
+      updateStat('stat-coffee',247);
+    }
+  }catch(e){
+    updateStat('stat-coffee',247);
+  }
+}
+
+/* ─── حماية المحتوى ─── */
+document.addEventListener('contextmenu',e=>{
+  if(e.target.tagName==='IMG'){e.preventDefault();return false;}
+});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&['s','u','p'].includes(e.key.toLowerCase())){
+    e.preventDefault();
+  }
+});
+document.addEventListener('dragstart',e=>{
+  if(e.target.tagName==='IMG'){e.preventDefault();return false;}
+});
+
+/* ─── NAV ─── */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+function toggleMobileNav(){
+  const m=document.getElementById('mobile-nav');
+  m.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMobileNav(){
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ─── REVEAL ─── */
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.skill-bar').forEach(b=>b.style.width=b.dataset.width+'%');
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* ─── TOAST ─── */
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`show ${type}`;
+  clearTimeout(t._t);t._t=setTimeout(()=>t.className='',3200);
+}
+
+/* ─── AUTH ─── */
+function updateAuthBtn(){
+  const btn=document.getElementById('nav-auth-btn');
+  if(currentUser){btn.textContent=currentUser.fullName?.split(' ')[0]||'حسابي';btn.onclick=handleLogout;}
+  else{btn.textContent='دخول';btn.onclick=openAuth;}
+}
+updateAuthBtn();
+function openAuth(){document.getElementById('auth-modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeAuth(){document.getElementById('auth-modal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target===document.getElementById('auth-modal'))closeAuth();});
+function switchTab(tab){
+  document.getElementById('login-tab').classList.toggle('active',tab==='login');
+  document.getElementById('register-tab').classList.toggle('active',tab==='register');
+  document.getElementById('login-form').style.display=tab==='login'?'':'none';
+  document.getElementById('register-form').style.display=tab==='register'?'':'none';
+}
+async function handleLogin(){
+  const id=document.getElementById('login-identifier').value.trim();
+  const pw=document.getElementById('login-password').value;
+  const err=document.getElementById('login-error');
+  err.className='form-error';
+  if(!id||!pw){err.textContent='يرجى ملء جميع الحقول';err.classList.add('show');return;}
+  try{
+    const users=await sheetGet('users');
+    const user=users.find(u=>(u.email===id||u.phone===id)&&u.password===pw);
+    if(user){
+      currentUser=user;localStorage.setItem('sarmad_user',JSON.stringify(user));
+      updateAuthBtn();closeAuth();showToast(`أهلاً بك، ${user.fullName?.split(' ')[0]}!`);
+      loadCerts();
+    }else{err.textContent='البريد أو كلمة المرور غير صحيحة';err.classList.add('show');}
+  }catch(e){err.textContent='حدث خطأ، حاول مرة أخرى';err.classList.add('show');}
+}
+async function handleRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const phone=document.getElementById('reg-phone').value.trim();
+  const gender=document.getElementById('reg-gender').value;
+  const pw=document.getElementById('reg-password').value;
+  const confirm=document.getElementById('reg-confirm').value;
+  const nameErr=document.getElementById('reg-name-error');
+  const emailErr=document.getElementById('reg-email-error');
+  const passErr=document.getElementById('reg-pass-error');
+  [nameErr,emailErr,passErr].forEach(e=>e.className='form-error');
+  if(name.split(' ').filter(w=>w).length<4){nameErr.textContent='الاسم الرباعي مطلوب (4 كلمات)';nameErr.classList.add('show');return;}
+  if(!email.includes('@')){emailErr.textContent='بريد إلكتروني غير صحيح';emailErr.classList.add('show');return;}
+  if(pw.length<6){passErr.textContent='كلمة المرور 6 أحرف على الأقل';passErr.classList.add('show');return;}
+  if(pw!==confirm){passErr.textContent='كلمتا المرور غير متطابقتين';passErr.classList.add('show');return;}
+  try{
+    const userData={fullName:name,email,phone,gender,password:pw,createdAt:new Date().toISOString()};
+    await sheetPost('users',userData);
+    currentUser=userData;localStorage.setItem('sarmad_user',JSON.stringify(userData));
+    updateAuthBtn();closeAuth();showToast('تم إنشاء الحساب بنجاح!');loadCerts();
+  }catch(e){passErr.textContent='حدث خطأ، حاول مرة أخرى';passErr.classList.add('show');}
+}
+function handleLogout(){
+  currentUser=null;localStorage.removeItem('sarmad_user');
+  updateAuthBtn();loadCerts();showToast('تم تسجيل الخروج');
+}
+function requireAuth(cb){if(currentUser)cb();else{openAuth();showToast('يجب تسجيل الدخول أولاً','error');}}
+
+/* ─── BOOKS ─── */
+async function loadBooks(force=false){
+  const c=document.getElementById('books-container');
+  c.innerHTML=spinner();
+  const books=await sheetGet('books');
+  allBooks=books;
+  updateStat('stat-books',books.length);
+  renderBooks(books,'all');
+}
+function renderBooks(books,cat){
+  const c=document.getElementById('books-container');
+  const filtered=cat==='all'?books:books.filter(b=>b.category===cat);
+  if(!filtered.length){c.innerHTML=emptyState('لا توجد كتب في هذا القسم','<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>');return;}
+  c.innerHTML=filtered.map((b,i)=>{
+    const bookId=b.rowIndex||b.id||encodeURIComponent(b.title||i);
+    const shareUrl=`${location.origin}${location.pathname}?book=${bookId}`;
+    const titleEsc=(b.title||'').replace(/'/g,"\\'");
+    const fileUrlEsc=(b.fileUrl||'').replace(/'/g,"\\'");
+    return`
+    <div class="card book-card" style="animation:heroEntrance 0.45s ease ${i*0.05}s both;">
+      <div class="book-cover">
+        ${b.coverUrl?`<img src="${b.coverUrl}" alt="${b.title||''}" class="book-cover-img" loading="lazy" draggable="false"/>`:`<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`}
+      </div>
+      ${b.category?`<span class="book-category">${b.category}</span>`:''}
+      <p class="book-title">${b.title||'بدون عنوان'}</p>
+      ${b.description?`<p class="book-desc">${b.description}</p>`:''}
+      <div class="book-actions">
+        ${b.fileUrl?`
+          <button class="btn-download" onclick="requireAuth(()=>downloadBook('${fileUrlEsc}','${titleEsc}'))">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            تحميل
+          </button>
+          <button class="btn-view-pdf" onclick="requireAuth(()=>openPdfModal('${fileUrlEsc}','${titleEsc}'))">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        `:`<span style="font-size:0.73rem;color:var(--text3);font-family:var(--font-l);">الملف غير متاح</span>`}
+        <button class="btn-share" onclick="openShareModal('${titleEsc}','${shareUrl}','book')" title="مشاركة">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+      </div>
+    </div>
+  `}).join('');
+}
+document.getElementById('book-filters').addEventListener('click',e=>{
+  if(e.target.classList.contains('filter-tab')){
+    document.querySelectorAll('#book-filters .filter-tab').forEach(t=>t.classList.remove('active'));
+    e.target.classList.add('active');
+    renderBooks(allBooks,e.target.dataset.cat);
+  }
+});
+function downloadBook(url,title){
+  const a=document.createElement('a');a.href=url;a.download=title+'.pdf';a.target='_blank';a.click();
+  showToast('جاري التحميل...');
+}
+
+/* ─── PROJECTS ─── */
+async function loadProjects(force=false){
+  const c=document.getElementById('projects-container');
+  c.innerHTML=spinner();
+  const projects=await sheetGet('projects');
+  updateStat('stat-projects',projects.length);
+  if(!projects.length){
+    renderProjects([
+      {title:'منصة سبيل التعليمية',description:'نظام LMS متكامل باللغة العربية مع إدارة كاملة للمقررات والاختبارات والشهادات.',tech:'Java,AWS,MySQL,React',link:''},
+      {title:'سند - متصفح الحديث',description:'تطبيق PWA عربي لاستعراض أحاديث صحيح البخاري مع إمكانية البحث والتصفية.',tech:'JavaScript,Sheetson,PWA',link:''},
+      {title:'BreachLock - كشف الثغرات',description:'منصة للكشف عن تسريبات البيانات مع طبقات استخدام محدودة ولوحة إدارة.',tech:'Python,OSINT,API,PWA',link:''},
+    ]);
+    return;
+  }
+  renderProjects(projects);
+}
+function renderProjects(projects){
+  updateStat('stat-projects',projects.length);
+  const c=document.getElementById('projects-container');
+  c.innerHTML=projects.map((p,i)=>{
+    const techs=(p.tech||'').split(',').filter(t=>t.trim());
+    const projId=p.rowIndex||p.id||encodeURIComponent(p.title||i);
+    const shareUrl=`${location.origin}${location.pathname}?project=${projId}`;
+    const titleEsc=(p.title||'').replace(/'/g,"\\'");
+    return `
+      <div class="card project-card" style="animation:heroEntrance 0.45s ease ${i*0.06}s both;">
+        <p class="project-num">0${i+1}</p>
+        <p class="project-title">${p.title||'مشروع'}</p>
+        <p class="project-desc">${p.description||''}</p>
+        <div class="project-tech">${techs.map(t=>`<span class="tech-tag">${t.trim()}</span>`).join('')}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:12px;">
+          ${p.link?`<a href="${p.link}" target="_blank" class="project-link">عرض المشروع <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>`:'<span></span>'}
+          <button class="btn-share" onclick="openShareModal('${titleEsc}','${shareUrl}','project')" title="مشاركة" style="padding:7px 10px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ─── CERTS ─── */
+async function loadCerts(force=false){
+  const c=document.getElementById('certs-container');
+  c.innerHTML=spinner();
+  const certs=await sheetGet('certificates');
+  updateStat('stat-certs',certs.length);
+  renderCerts(certs);
+}
+function renderCerts(certs){
+  const c=document.getElementById('certs-container');
+  if(!certs.length){
+    c.innerHTML=emptyState('لا توجد شهادات بعد','<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>');
+    return;
+  }
+  const isLoggedIn=!!currentUser;
+  c.innerHTML=certs.map((cert,i)=>`
+    <div class="card cert-card" style="animation:heroEntrance 0.45s ease ${i*0.05}s both;">
+      <div class="cert-image-wrap">
+        ${cert.imageUrl
+          ?`<img src="${cert.imageUrl}" alt="${cert.title||'شهادة'}" loading="lazy"/>`
+          :`<div style="padding:40px;background:var(--bg2);display:flex;align-items:center;justify-content:center;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>`}
+        <div class="cert-blur-overlay ${isLoggedIn?'hidden':''}">
+          <div class="cert-lock-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <p class="cert-unlock-msg">سجّل دخولك لعرض الشهادة</p>
+          <button class="btn-primary" style="padding:8px 18px;font-size:0.8rem;" onclick="openAuth()">دخول / تسجيل</button>
+        </div>
+      </div>
+      <div class="cert-info">
+        <p class="cert-title">${cert.title||'شهادة'}</p>
+        <p class="cert-issuer">${cert.issuer||''} ${cert.date?'— '+cert.date:''}</p>
+        ${cert.verifyUrl&&isLoggedIn?`<a href="${cert.verifyUrl}" target="_blank" class="cert-verify">التحقق <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ─── BADGES (NEW) ─── */
+const badgeIcons={
+  shield:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  star:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  code:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  lock:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`,
+  cloud:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>`,
+  award:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+};
+const defaultBadges=[
+  {title:'Penetration Tester',description:'شهادة اختبار اختراق معتمدة',icon:'shield',color:'E60000',date:'2024'},
+  {title:'AWS Certified',description:'معتمد من Amazon Web Services',icon:'cloud',color:'FF9900',date:'2024'},
+  {title:'Open Source Contributor',description:'مساهمة في مشاريع مفتوحة المصدر',icon:'code',color:'22C55E',date:'2023'},
+  {title:'Data Analyst',description:'تحليل بيانات متقدم',icon:'star',color:'8B5CF6',date:'2023'},
+  {title:'Security Champion',description:'أفضل طالب أمن سيبراني',icon:'award',color:'F59E0B',date:'2024'},
+];
+async function loadBadges(force=false){
+  const c=document.getElementById('badges-container');
+  c.innerHTML=spinner();
+  let badges=await sheetGet('badges');
+  if(!badges.length)badges=defaultBadges;
+  renderBadges(badges);
+}
+function renderBadges(badges){
+  const c=document.getElementById('badges-container');
+  if(!badges.length){c.innerHTML=emptyState('لا توجد شارات بعد','<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>');return;}
+  c.innerHTML=badges.map((b,i)=>{
+    const color=b.color||'E60000';
+    const iconKey=(b.icon||'star').toLowerCase();
+    const iconSvg=badgeIcons[iconKey]||badgeIcons.star;
+    return`
+    <div class="card badge-card" style="animation:heroEntrance 0.45s ease ${i*0.06}s both;">
+      <div class="badge-shimmer"></div>
+      <div class="badge-icon-wrap" style="background:rgba(${hexToRgb(color)},0.12);color:#${color};box-shadow:0 4px 16px rgba(${hexToRgb(color)},0.2);">
+        ${iconSvg}
+      </div>
+      <p class="badge-title">${b.title||''}</p>
+      <p class="badge-desc">${b.description||''}</p>
+      ${b.date?`<span class="badge-date">${b.date}</span>`:''}
+    </div>
+  `}).join('');
+}
+function hexToRgb(hex){
+  hex=hex.replace('#','');
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+  const n=parseInt(hex,16);
+  return`${(n>>16)&255},${(n>>8)&255},${n&255}`;
+}
+
+/* ─── TESTIMONIALS (NEW) ─── */
+const defaultTestimonials=[
+  {name:'د. محمد أحمد',role:'أستاذ الأمن السيبراني — كلية الحاسبات',text:'خالد متميز في تحليل الثغرات ولديه عقلية هجومية ودفاعية نادرة لطالب في هذه المرحلة.',avatarUrl:'',rating:'5'},
+  {name:'أحمد علي',role:'مطوّر أول — شركة تقنية',text:'أسلوبه في بناء الـ Backend احترافي وكوده نظيف وقابل للصيانة، يعمل بدقة وانضباط.',avatarUrl:'',rating:'5'},
+  {name:'سارة محمود',role:'زميلة دراسة',text:'تعاملت معه في مشاريع مشتركة، دائمًا يقدّم أفضل ما لديه ويساعد الفريق على تجاوز التحديات.',avatarUrl:'',rating:'5'},
+];
+async function loadTestimonials(force=false){
+  const c=document.getElementById('testimonials-container');
+  c.innerHTML=spinner();
+  let rows=await sheetGet('testimonials');
+  if(!rows.length)rows=defaultTestimonials;
+  renderTestimonials(rows);
+}
+function renderTestimonials(rows){
+  const c=document.getElementById('testimonials-container');
+  if(!rows.length){c.innerHTML=emptyState('لا توجد توصيات بعد','<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>');return;}
+  c.innerHTML=rows.map((t,i)=>{
+    const rating=parseInt(t.rating)||5;
+    const stars=Array.from({length:5},(_,s)=>`<span class="star${s<rating?'':' empty'}">★</span>`).join('');
+    const initials=(t.name||'؟').split(' ').map(w=>w[0]).slice(0,2).join('');
+    return`
+    <div class="card testimonial-card" style="animation:heroEntrance 0.45s ease ${i*0.06}s both;">
+      <div class="testimonial-stars">${stars}</div>
+      <p class="testimonial-text">${t.text||''}</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">
+          ${t.avatarUrl
+            ?`<img src="${t.avatarUrl}" alt="${t.name||''}" loading="lazy"/>`
+            :`<span style="font-family:var(--font-h);font-size:0.8rem;">${initials}</span>`}
+        </div>
+        <div>
+          <p class="testimonial-name">${t.name||''}</p>
+          <p class="testimonial-role">${t.role||''}</p>
+        </div>
+      </div>
+    </div>
+  `}).join('');
+}
+
+/* ─── TOOLS ─── */
+const defaultTools=[
+  {name:'Visual Studio Code',category:'محرر كود',description:'محرر الكود الأكثر استخداماً في العالم من Microsoft، سريع ومفتوح المصدر مع دعم آلاف الامتدادات.',logoUrl:'https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg',link:'https://code.visualstudio.com'},
+  {name:'Burp Suite',category:'أمن سيبراني',description:'المنصة الاحترافية لاختبار أمان تطبيقات الويب، تُستخدم في اكتشاف الثغرات واختبار الاختراق.',logoUrl:'https://www.kali.org/tools/burpsuite/images/burpsuite-logo.svg',link:'https://portswigger.net/burp'},
+  {name:'Kali Linux',category:'أمن سيبراني',description:'توزيعة Linux المخصصة لاختبار الاختراق والأمن السيبراني، تحتوي على مئات الأدوات الأمنية.',logoUrl:'https://www.kali.org/images/kali-logo.svg',link:'https://www.kali.org'},
+  {name:'Docker',category:'DevOps',description:'منصة الحاويات الأكثر شهرة لبناء وتشغيل ونشر التطبيقات في بيئات معزولة وقابلة للتكرار.',logoUrl:'https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic.png',link:'https://www.docker.com'},
+  {name:'Postman',category:'API',description:'أداة تطوير واختبار APIs الأشهر على مستوى العالم، تسهّل بناء وتوثيق ومشاركة الـ APIs.',logoUrl:'https://www.svgrepo.com/show/354202/postman-icon.svg',link:'https://www.postman.com'},
+  {name:'IntelliJ IDEA',category:'محرر كود',description:'بيئة التطوير المتكاملة الأفضل لـ Java وKotlin من JetBrains، مع ذكاء اصطناعي متقدم.',logoUrl:'https://resources.jetbrains.com/storage/products/intellij-idea/img/meta/intellij-idea_logo_300x300.png',link:'https://www.jetbrains.com/idea'},
+  {name:'Wireshark',category:'شبكات',description:'محلل بروتوكولات الشبكة الأبرز عالمياً، يُتيح رصد وتحليل حزم البيانات المارة عبر الشبكة.',logoUrl:'https://www.wireshark.org/assets/theme-2015/images/wireshark_logo.png',link:'https://www.wireshark.org'},
+  {name:'AWS Console',category:'سحابة',description:'واجهة إدارة خدمات Amazon Web Services السحابية، نقطة الانطلاق لبناء البنية التحتية السحابية.',logoUrl:'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',link:'https://aws.amazon.com/console'},
+  {name:'GitHub',category:'إدارة كود',description:'منصة استضافة المشاريع البرمجية الأشهر عالمياً، تعمل على Git وتدعم التعاون وسير العمل CI/CD.',logoUrl:'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',link:'https://github.com'},
+  {name:'Metasploit',category:'أمن سيبراني',description:'إطار عمل اختبار الاختراق الأقوى والأوسع انتشاراً، يُستخدم في تنفيذ واستغلال الثغرات الأمنية.',logoUrl:'https://www.metasploit.com/includes/css/images/metasploit-logo-inline-rp.svg',link:'https://www.metasploit.com'},
+  {name:'Nmap',category:'شبكات',description:'أداة استكشاف الشبكات وفحص المنافذ الأقوى، أساسية في تدقيق الأمان ومسح البنية التحتية.',logoUrl:'https://nmap.org/images/nmap-logo-256x256.png',link:'https://nmap.org'},
+  {name:'Python IDLE',category:'برمجة',description:'بيئة التطوير التفاعلية الرسمية للغة Python، مثالية للتجربة السريعة وتعلم البرمجة.',logoUrl:'https://www.python.org/static/favicon.ico',link:'https://www.python.org'},
+];
+async function loadTools(force=false){
+  const c=document.getElementById('tools-container');
+  c.innerHTML=spinner();
+  let tools=[];
+  try{tools=await sheetGet('tools');}catch(e){}
+  if(!tools.length)tools=defaultTools;
+  renderTools(tools);
+}
+function renderTools(tools){
+  const c=document.getElementById('tools-container');
+  if(!tools.length){c.innerHTML=emptyState('لا توجد أدوات بعد','<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>');return;}
+  c.innerHTML=tools.map((t,i)=>`
+    <div class="card tool-card" style="animation:heroEntrance 0.45s ease ${i*0.04}s both;">
+      ${t.logoUrl
+        ?`<img src="${t.logoUrl}" alt="${t.name}" class="tool-logo" onerror="this.style.display='none';this.nextSibling.style.display='flex';"/><div class="tool-logo-placeholder" style="display:none;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>`
+        :`<div class="tool-logo-placeholder"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>`
+      }
+      ${t.category?`<span class="tool-category-badge">${t.category}</span>`:''}
+      <p class="tool-name">${t.name||'أداة'}</p>
+      <p class="tool-desc">${t.description||''}</p>
+      ${t.link?`<a href="${t.link}" target="_blank" class="tool-link">زيارة الموقع <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`:''}
+    </div>
+  `).join('');
+}
+
+/* ─── TIMELINE ─── */
+const defaultEducation=[
+  {date:'2023 — الآن',title:'بكالوريوس علوم الحاسب والمعلومات',sub:'الفرقة الثانية — تخصص الأمن السيبراني'},
+  {date:'2019',title:'الثانوية العامة',sub:'القسم العلمي — ممتاز'},
+];
+const defaultExperience=[
+  {date:'2023 — الآن',title:'مطوّر برمجيات مستقل',sub:'بناء منصات PWA عربية متكاملة بقواعد بيانات سحابية'},
+  {date:'2022 — 2023',title:'متدرب أمن سيبراني',sub:'اختبار الاختراق وتحليل الثغرات الأمنية'},
+  {date:'2021 — 2022',title:'مطوّر واجهات أمامية',sub:'HTML, CSS, JavaScript — تطبيقات ويب تفاعلية'},
+];
+async function loadTimeline(){
+  let edu=[],exp=[];
+  try{
+    const rows=await sheetGet('timeline');
+    edu=rows.filter(r=>r.type==='education');
+    exp=rows.filter(r=>r.type==='experience');
+  }catch(e){}
+  if(!edu.length)edu=defaultEducation;
+  if(!exp.length)exp=defaultExperience;
+  renderTimeline('education-timeline',edu);
+  renderTimeline('experience-timeline',exp);
+}
+function renderTimeline(containerId,items){
+  const c=document.getElementById(containerId);
+  c.innerHTML=items.map((item,i)=>`
+    <div class="timeline-item" style="animation:heroEntrance 0.4s ease ${i*0.08}s both;">
+      <p class="timeline-date">${item.date||''}</p>
+      <p class="timeline-title">${item.title||''}</p>
+      <p class="timeline-sub">${item.sub||item.description||''}</p>
+    </div>
+  `).join('');
+}
+
+/* ─── CV DOWNLOAD — مربوط بـ stats ─── */
+async function downloadCV(e){
+  e.preventDefault();
+  /* جرّب الكاش أولاً */
+  let statsRows=_statsCache;
+  if(!statsRows){statsRows=await sheetGet('stats');_statsCache=statsRows;}
+  const cv=statsRows.find(s=>s.key==='cv_url');
+  if(cv?.value){
+    const a=document.createElement('a');a.href=cv.value;a.download='Khaled-Ahmed-CV.pdf';a.target='_blank';a.click();
+    showToast('جاري تحميل السيرة الذاتية...');
+  } else {
+    showToast('رابط السيرة الذاتية سيُضاف قريباً','error');
+  }
+}
+
+/* ─── PDF MODAL ─── */
+function openPdfModal(url,title){
+  document.getElementById('pdf-modal-title').textContent=title||'عرض الملف';
+  document.getElementById('pdf-iframe').src=url;
+  document.getElementById('pdf-download-link').href=url;
+  document.getElementById('pdf-download-link').download=title||'ملف';
+  document.getElementById('pdf-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePdfModal(){
+  document.getElementById('pdf-modal').classList.remove('open');
+  document.getElementById('pdf-iframe').src='';
+  document.body.style.overflow='';
+}
+
+/* ─── STATS COUNTER ─── */
+function updateStat(id,value){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const end=parseInt(value)||0;
+  const dur=700;const step=end/((dur/16));let cur=0;
+  const t=setInterval(()=>{cur+=step;if(cur>=end){cur=end;clearInterval(t);}el.textContent=Math.round(cur);},16);
+}
+
+/* ─── SKILL BARS ─── */
+document.querySelectorAll('.skill-bar').forEach(bar=>{
+  const o=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){bar.style.width=bar.dataset.width+'%';o.disconnect();}
+  },{threshold:0.4});
+  o.observe(bar);
+});
+
+/* ─── TERMINAL ─── */
+const termCmds={
+  help:()=>[
+    {t:'out',m:'الأوامر المتاحة:'},
+    {t:'',m:'  whoami        — معلومات عني'},
+    {t:'',m:'  skills        — المهارات التقنية'},
+    {t:'',m:'  contact       — بيانات التواصل'},
+    {t:'',m:'  projects      — المشاريع'},
+    {t:'',m:'  badges        — الإنجازات'},
+    {t:'',m:'  download_cv   — تحميل السيرة الذاتية'},
+    {t:'',m:'  store         — متجري'},
+    {t:'',m:'  clear         — مسح الشاشة'},
+    {t:'',m:'  exit          — إغلاق'},
+  ],
+  whoami:()=>[{t:'out',m:'خالد أحمد'},{t:'out',m:'مطوّر Backend وأمن سيبراني'},{t:'',m:'Cairo, Egypt'}],
+  skills:()=>[
+    {t:'out',m:'Backend: Java, Python, AWS, CI/CD'},
+    {t:'out',m:'Security: Red Teaming, Pentesting, OSINT'},
+    {t:'out',m:'DB: MySQL, PostgreSQL'},
+    {t:'out',m:'Frontend: PWA, JavaScript'},
+  ],
+  contact:()=>[
+    {t:'out',m:'khaledahmedelbrbary80@gmail.com'},
+    {t:'out',m:'linkedin.com/in/khaled-ahmed-241002386'},
+  ],
+  projects:()=>[
+    {t:'out',m:'1. سبيل التعليمية — Java, AWS'},
+    {t:'out',m:'2. سند — PWA, Sheetson'},
+    {t:'out',m:'3. BreachLock — Python, OSINT'},
+  ],
+  badges:async()=>{
+    const b=await sheetGet('badges');
+    if(!b.length)return[{t:'out',m:'لا توجد شارات بعد'}];
+    return b.map((x,i)=>({t:'out',m:`${i+1}. ${x.title||''} — ${x.description||''}`}));
+  },
+  store:()=>{window.open('https://melafmaqfoul.oneapp.dev/','_blank');return[{t:'out',m:'جاري فتح المتجر...'}];},
+  download_cv:async()=>{
+    let statsRows=_statsCache;
+    if(!statsRows){statsRows=await sheetGet('stats');_statsCache=statsRows;}
+    const cv=statsRows.find(s=>s.key==='cv_url');
+    if(cv?.value){const a=document.createElement('a');a.href=cv.value;a.download='CV.pdf';a.target='_blank';a.click();}
+    return[{t:'out',m:'جاري تحميل السيرة الذاتية...'}];
+  },
+  clear:()=>'CLEAR',
+  exit:()=>{toggleTerminal();return[];}
+};
+function toggleTerminal(){
+  document.getElementById('terminal-panel').classList.toggle('open');
+  if(document.getElementById('terminal-panel').classList.contains('open'))
+    document.getElementById('terminal-input').focus();
+}
+async function handleTerminalInput(e){
+  if(e.key!=='Enter')return;
+  const inp=document.getElementById('terminal-input');
+  const cmd=inp.value.trim().toLowerCase();inp.value='';
+  if(!cmd)return;
+  const body=document.getElementById('terminal-body');
+  const cl=document.createElement('div');cl.className='terminal-line cmd';cl.textContent=`$ ${cmd}`;body.appendChild(cl);
+  const handler=termCmds[cmd];
+  if(handler){
+    const res=await handler();
+    if(res==='CLEAR'){body.innerHTML='';return;}
+    if(Array.isArray(res))res.forEach(r=>{const l=document.createElement('div');l.className=`terminal-line ${r.t||''}`;l.textContent=r.m;body.appendChild(l);});
+  }else{
+    const er=document.createElement('div');er.className='terminal-line err';er.textContent=`'${cmd}': غير معروف. اكتب help.`;body.appendChild(er);
+  }
+  body.scrollTop=body.scrollHeight;
+}
+
+/* ─── HELPERS ─── */
+function spinner(){return'<div class="loading-spinner"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div>';}
+function emptyState(msg,icon){return`<div class="empty-state"><div class="empty-icon">${icon}</div><p>${msg}</p></div>`;}
+
+/* ─── SHARE MODAL ─── */
+function openShareModal(title,url,type){
+  currentShareUrl=url;
+  document.getElementById('share-modal-title').textContent=
+    type==='book'?`مشاركة: ${title}`:type==='project'?`مشاركة المشروع: ${title}`:`مشاركة الشهادة: ${title}`;
+  document.getElementById('share-url-display').textContent=url;
+  const txt=encodeURIComponent(`${title} — سَرْمَد | خالد أحمد\n${url}`);
+  document.getElementById('share-whatsapp').href=`https://wa.me/?text=${txt}`;
+  document.getElementById('share-twitter').href=`https://twitter.com/intent/tweet?text=${txt}`;
+  document.getElementById('share-telegram').href=`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title+' — سَرْمَد')}`;
+  document.getElementById('share-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeShareModal(){
+  document.getElementById('share-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function copyShareUrl(){
+  navigator.clipboard.writeText(currentShareUrl).then(()=>{
+    showToast('تم نسخ الرابط!','success');closeShareModal();
+  }).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=currentShareUrl;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    showToast('تم نسخ الرابط!','success');closeShareModal();
+  });
+}
+document.getElementById('share-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('share-modal'))closeShareModal();
+});
+
+/* ─── URL ROUTING ─── */
+function handleDeepLink(){
+  const params=new URLSearchParams(location.search);
+  const bookId=params.get('book');
+  const projectId=params.get('project');
+  if(bookId){
+    setTimeout(()=>{
+      document.getElementById('books')?.scrollIntoView({behavior:'smooth'});
+      const book=allBooks.find(b=>(b.rowIndex||b.id||encodeURIComponent(b.title||''))===bookId);
+      if(book&&book.fileUrl)openPdfModal(book.fileUrl,book.title||'');
+    },1500);
+  }
+  if(projectId){
+    setTimeout(()=>document.getElementById('projects')?.scrollIntoView({behavior:'smooth'}),800);
+  }
+}
+
+/* ─── POLLING — كل 30 ثانية ─── */
+let pollTimer=null;
+function startPolling(){
+  if(pollTimer)clearInterval(pollTimer);
+  pollTimer=setInterval(async()=>{
+    const [books,projects,certs,statsRows]=await Promise.all([
+      sheetGet('books'),sheetGet('projects'),sheetGet('certificates'),sheetGet('stats')
+    ]);
+    _statsCache=statsRows;
+    /* تحديث القهوة */
+    const coffee=statsRows.find(r=>r.key==='coffee_count');
+    if(coffee?.value){
+      const el=document.getElementById('stat-coffee');
+      if(el&&el.textContent!==String(parseInt(coffee.value)||0))
+        updateStat('stat-coffee',parseInt(coffee.value)||0);
+    }
+    /* تحديث الكتب */
+    if(books.length!==allBooks.length){
+      allBooks=books;updateStat('stat-books',books.length);
+      const activeCat=document.querySelector('#book-filters .filter-tab.active')?.dataset.cat||'all';
+      renderBooks(books,activeCat);
+    }
+    /* تحديث المشاريع */
+    if(projects.length){
+      const old=document.querySelectorAll('#projects-container .project-card').length;
+      if(projects.length!==old){updateStat('stat-projects',projects.length);renderProjects(projects);}
+    }
+    /* تحديث الشهادات */
+    if(certs.length){
+      const old=document.querySelectorAll('#certs-container .cert-card').length;
+      if(certs.length!==old){updateStat('stat-certs',certs.length);renderCerts(certs);}
+    }
+  },30*1000);
+}
+
+/* ─── INIT ─── */
+(async function init(){
+  await Promise.all([
+    loadStats(),
+    loadBooks(),
+    loadProjects(),
+    loadCerts(),
+    loadBadges(),
+    loadTools(),
+    loadTimeline(),
+    loadTestimonials(),
+  ]);
+  handleDeepLink();
+  startPolling();
+})();
+</script>
+</body>
+</html>
