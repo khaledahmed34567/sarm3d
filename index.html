@@ -227,7 +227,7 @@ img{-webkit-touch-callout:none;}
 #stats{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg);}
 .stats-grid{
   max-width:1100px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);
   border-right:1px solid var(--border);
 }
 .stat-item{
@@ -561,6 +561,28 @@ footer{border-top:2px solid var(--red);padding:40px 32px;text-align:center;backg
 .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease;}
 .reveal.visible{opacity:1;transform:none;}
 
+/* ═══════ ADMIN PANEL (NEW) ═══════ */
+#admin-toggle{
+  position:fixed;bottom:24px;left:82px;width:46px;height:46px;
+  background:var(--text);border-radius:var(--radius-sm);display:none;align-items:center;justify-content:center;
+  z-index:500;transition:var(--transition);box-shadow:0 4px 20px rgba(0,0,0,0.2);color:#fff;
+}
+#admin-toggle.visible{display:flex;}
+#admin-toggle:hover{background:var(--red);transform:scale(1.05);}
+#admin-modal{position:fixed;inset:0;z-index:2600;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);padding:16px;}
+#admin-modal.open{display:flex;}
+.admin-card{width:100%;max-width:640px;max-height:88vh;overflow-y:auto;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,0.2);position:relative;animation:scaleIn 0.3s ease;}
+.admin-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;position:sticky;top:0;background:#fff;z-index:2;}
+.admin-body{padding:24px;}
+.admin-section-select{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;color:var(--text);font-size:0.9rem;outline:none;margin-bottom:20px;direction:rtl;}
+.admin-field{margin-bottom:14px;}
+.admin-upload-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.admin-upload-btn{background:var(--bg2);border:1.5px dashed var(--border-strong);border-radius:var(--radius-sm);padding:10px 16px;font-size:0.82rem;color:var(--text2);display:flex;align-items:center;gap:8px;transition:var(--transition);}
+.admin-upload-btn:hover{border-color:var(--red);color:var(--red);}
+.admin-upload-preview{width:52px;height:52px;border-radius:10px;object-fit:cover;border:1px solid var(--border);display:none;}
+.admin-note{font-family:var(--font-l);font-size:0.76rem;color:var(--text3);margin-top:10px;line-height:1.6;}
+.admin-settings-toggle{font-family:var(--font-l);font-size:0.78rem;color:var(--red);margin-bottom:16px;display:inline-block;}
+
 /* ═══════ RESPONSIVE ═══════ */
 @media(max-width:900px){
   .hero-content{grid-template-columns:1fr;text-align:center;}
@@ -626,6 +648,9 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+<!-- شريط تنبيه عند فشل الاتصال بقاعدة البيانات -->
+<div id="connection-banner" style="display:none;position:fixed;top:64px;right:0;left:0;z-index:998;background:#fff4f4;border-bottom:1px solid rgba(230,0,0,0.3);color:var(--red);font-family:var(--font-l);font-size:0.8rem;padding:8px 16px;text-align:center;"></div>
 
 <!-- MOBILE NAV -->
 <div id="mobile-nav">
@@ -710,6 +735,10 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
       <span class="stat-number" id="stat-coffee">0</span>
       <span class="stat-label">كوب قهوة أثناء البرمجة</span>
     </div>
+    <div class="stat-item">
+      <span class="stat-number" id="stat-visitors">0</span>
+      <span class="stat-label">زائر للموقع</span>
+    </div>
   </div>
 </section>
 
@@ -771,7 +800,6 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
       <div>
         <p class="section-eyebrow">Sarmad Vault</p>
         <h2 class="section-title">المكتبة <span>الرقمية</span></h2>
-        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
       </div>
       <button class="btn-secondary" onclick="loadBooks(true)" style="padding:8px 16px;font-size:0.82rem;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
@@ -798,7 +826,6 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
       <div>
         <p class="section-eyebrow">Projects Showcase</p>
         <h2 class="section-title">معرض <span>المشاريع</span></h2>
-        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
       </div>
       <button class="btn-secondary" onclick="loadProjects(true)" style="padding:8px 16px;font-size:0.82rem;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
@@ -818,7 +845,6 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
       <div>
         <p class="section-eyebrow">Certifications Wall</p>
         <h2 class="section-title">جدار <span>الشهادات</span></h2>
-        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
       </div>
       <button class="btn-secondary" onclick="loadCerts(true)" style="padding:8px 16px;font-size:0.82rem;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
@@ -884,7 +910,6 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
       <div>
         <p class="section-eyebrow">Achievements Wall</p>
         <h2 class="section-title">الإنجازات <span>والشارات</span></h2>
-        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
       </div>
       <button class="btn-secondary" onclick="loadBadges(true)" style="padding:8px 16px;font-size:0.82rem;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
@@ -940,13 +965,13 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
         <div class="cv-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         </div>
-        <h3>حمّل السيرة الذاتية</h3>
-        <p>النسخة الكاملة بصيغة PDF جاهزة للتحميل</p>
-        <a href="#" class="btn-primary" style="justify-content:center;" onclick="downloadCV(event)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          تحميل CV
+        <h3>السيرة الذاتية</h3>
+        <p>تُعرض داخل التطبيق فقط بعد موافقة الإدارة — غير قابلة للتحميل</p>
+        <a href="#" id="cv-action-btn" class="btn-primary" style="justify-content:center;" onclick="handleCvButtonClick(event)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span id="cv-action-label">طلب الاطلاع على السيرة الذاتية</span>
         </a>
-        <p style="font-family:var(--font-l);font-size:0.73rem;color:var(--text3);margin-top:12px;">آخر تحديث: ١٤٤٨هـ</p>
+        <p style="font-family:var(--font-l);font-size:0.73rem;color:var(--text3);margin-top:12px;" id="cv-status-text"></p>
       </div>
     </div>
   </div>
@@ -959,7 +984,6 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
       <div>
         <p class="section-eyebrow">Testimonials</p>
         <h2 class="section-title">ما قالوه <span>عني</span></h2>
-        <div style="margin-top:8px;"><span class="live-badge"><span class="live-dot"></span>مباشر من قاعدة البيانات</span></div>
       </div>
       <button class="btn-secondary" onclick="loadTestimonials(true)" style="padding:8px 16px;font-size:0.82rem;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
@@ -1117,58 +1141,153 @@ document.getElementById('manifest-link').href=URL.createObjectURL(blob);
 
 <!-- ══════════════ SCRIPT ══════════════ -->
 <script>
-/* ─── CONFIG ─── */
-const SHEETSON_KEY='HlUZiTjLO1sp-Ou0JbsluuQNAWUoMP2XOYcVw5n6OxoroGNPfVpIDZq3fF0';
-const SHEET_ID='1vZdi8_q5pqw76YLrcGWvS2llqYOSIOV8WLuBPYe2rwE';
+/* ─── CONFIG ───
+   ملاحظة صراحةً: هذا ملف واحد يعمل بالكامل في المتصفح (بدون سيرفر خاص بك)،
+   لذلك أي مفتاح API أو معرّف قاعدة بيانات موجود هنا يبقى قابلاً للقراءة
+   من أي شخص يفتح "عرض المصدر" على المتصفح — هذا قيد تقني ولا توجد طريقة
+   لإخفائه بشكل حقيقي بدون بناء سيرفر خلفي (backend) وسيط. أدناه تم على الأقل
+   عدم كتابته بشكل مباشر وواضح في متن الكود لتقليل وضوحه للمستخدم العادي،
+   لكنه ليس حماية فعلية — لا تعتمد على هذا كأمان. أفضل حماية حقيقية هي جعل
+   مفتاح الـ API الخاص بجوجل شيت "للقراءة فقط" من لوحة Sheetson لو أمكن،
+   واستخدام كلمة مرور الأدمن + الدور لحماية الإضافة/التعديل/الحذف فقط. */
+const _p1='HlUZiTjLO1sp-Ou0JbsluuQNAWUoMP2XOYcVw5n6OxoroGNPfVpIDZq3fF0';
+const _p2='1vZdi8_q5pqw76YLrcGWvS2llqYOSIOV8WLuBPYe2rwE';
+const SHEETSON_KEY=_p1;
+const SHEET_ID=_p2;
 const BASE_URL='https://api.sheetson.com/v2/sheets';
+const IMGBB_DEFAULT_KEY='36b0e2658ed6fad2ca48081442f1539b';
 let currentUser=JSON.parse(localStorage.getItem('sarmad_user')||'null');
 let allBooks=[];
 let currentShareUrl='';
 /* ─── stats cache ─── */
 let _statsCache=null;
+/* ─── حالة الاتصال بقاعدة البيانات — لتشخيص المشاكل من لوحة التحكم ─── */
+let _lastConnectionError=null;
+
+function _sheetUrl(pathPart,extraQuery){
+  return `${BASE_URL}/${pathPart}?spreadsheetId=${SHEET_ID}${extraQuery||''}`;
+}
+function _sheetHeaders(withJson){
+  const h={'Authorization':`Bearer ${SHEETSON_KEY}`};
+  if(withJson)h['Content-Type']='application/json';
+  return h;
+}
 
 /* ─── API GET ─── */
 async function sheetGet(sheet){
   try{
-    const url=`${BASE_URL}/${sheet}?apiKey=${SHEETSON_KEY}&spreadsheetId=${SHEET_ID}&limit=200`;
-    const r=await fetch(url);
-    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    const url=_sheetUrl(sheet,'&limit=200');
+    const r=await fetch(url,{headers:_sheetHeaders(false)});
+    if(!r.ok){
+      const bodyText=await r.text().catch(()=>'');
+      throw new Error(`HTTP ${r.status} — ${bodyText.slice(0,200)}`);
+    }
     const d=await r.json();
+    _lastConnectionError=null;
     return d.results||[];
-  }catch(e){console.error(`Sheetson GET [${sheet}] error:`,e);return[];}
+  }catch(e){
+    console.error(`Sheetson GET [${sheet}] error:`,e);
+    _lastConnectionError=`تعذر جلب "${sheet}": ${e.message}`;
+    return[];
+  }
 }
 
-/* ─── API POST ─── */
+/* ─── API POST (إضافة صف) ─── */
 async function sheetPost(sheet,data){
   try{
-    const r=await fetch(`${BASE_URL}/${sheet}`,{
+    const r=await fetch(_sheetUrl(sheet),{
       method:'POST',
-      headers:{
-        'Authorization':`Bearer ${SHEETSON_KEY}`,
-        'X-Spreadsheet-Id':SHEET_ID,
-        'Content-Type':'application/json'
-      },
+      headers:_sheetHeaders(true),
       body:JSON.stringify(data)
     });
+    if(!r.ok){
+      const bodyText=await r.text().catch(()=>'');
+      throw new Error(`HTTP ${r.status} — ${bodyText.slice(0,200)}`);
+    }
+    _lastConnectionError=null;
     return await r.json();
-  }catch(e){console.error(`Sheetson POST [${sheet}] error:`,e);return null;}
+  }catch(e){
+    console.error(`Sheetson POST [${sheet}] error:`,e);
+    _lastConnectionError=`تعذر الإضافة إلى "${sheet}": ${e.message}`;
+    return null;
+  }
+}
+
+/* ─── API PATCH (تعديل صف عن طريق rowIndex) ─── */
+async function sheetPatch(sheet,rowIndex,data){
+  try{
+    const r=await fetch(_sheetUrl(`${sheet}/${rowIndex}`),{
+      method:'PATCH',
+      headers:_sheetHeaders(true),
+      body:JSON.stringify(data)
+    });
+    if(!r.ok){
+      const bodyText=await r.text().catch(()=>'');
+      throw new Error(`HTTP ${r.status} — ${bodyText.slice(0,200)}`);
+    }
+    _lastConnectionError=null;
+    return await r.json();
+  }catch(e){
+    console.error(`Sheetson PATCH [${sheet}/${rowIndex}] error:`,e);
+    _lastConnectionError=`تعذر تعديل الصف في "${sheet}": ${e.message}`;
+    return null;
+  }
+}
+
+/* ─── API DELETE (حذف صف عن طريق rowIndex) ─── */
+async function sheetDelete(sheet,rowIndex){
+  try{
+    const r=await fetch(_sheetUrl(`${sheet}/${rowIndex}`),{
+      method:'DELETE',
+      headers:_sheetHeaders(false)
+    });
+    if(!r.ok){
+      const bodyText=await r.text().catch(()=>'');
+      throw new Error(`HTTP ${r.status} — ${bodyText.slice(0,200)}`);
+    }
+    _lastConnectionError=null;
+    return true;
+  }catch(e){
+    console.error(`Sheetson DELETE [${sheet}/${rowIndex}] error:`,e);
+    _lastConnectionError=`تعذر حذف الصف من "${sheet}": ${e.message}`;
+    return false;
+  }
+}
+
+/* ─── شريط تنبيه الاتصال ─── */
+function updateConnectionBanner(msg){
+  const el=document.getElementById('connection-banner');
+  if(!el)return;
+  if(msg){el.textContent=`⚠ تعذر الاتصال بقاعدة البيانات — ${msg}`;el.style.display='block';}
+  else{el.style.display='none';}
 }
 
 /* ─── STATS — مربوط بقاعدة البيانات ─── */
 async function loadStats(){
+  const rows=await sheetGet('stats');
+  _statsCache=rows;
+  const coffee=rows.find(r=>r.key==='coffee_count');
+  if(coffee?.value){
+    updateStat('stat-coffee',parseInt(coffee.value)||0);
+  }
+  /* لا توجد بيانات تجريبية — إن لم تُضف قيمة في قاعدة البيانات يبقى العداد 0 */
+}
+
+/* ─── عدّاد الزوار — يزيد تلقائياً ويتحدّث لحظياً على كل الأجهزة ─── */
+async function trackVisitor(){
   try{
     const rows=await sheetGet('stats');
     _statsCache=rows;
-    const coffee=rows.find(r=>r.key==='coffee_count');
-    if(coffee?.value){
-      updateStat('stat-coffee',parseInt(coffee.value)||0);
-    } else {
-      /* fallback إذا لم يُضف بعد في الشيت */
-      updateStat('stat-coffee',247);
+    const row=rows.find(r=>r.key==='visitor_count');
+    if(row){
+      const newVal=(parseInt(row.value)||0)+1;
+      updateStat('stat-visitors',newVal);
+      if(row.rowIndex!=null)await sheetPatch('stats',row.rowIndex,{value:String(newVal)});
+    }else{
+      updateStat('stat-visitors',1);
+      await sheetPost('stats',{key:'visitor_count',value:'1'});
     }
-  }catch(e){
-    updateStat('stat-coffee',247);
-  }
+  }catch(e){console.error('visitor tracking error:',e);}
 }
 
 /* ─── حماية المحتوى ─── */
@@ -1220,7 +1339,17 @@ function updateAuthBtn(){
   if(currentUser){btn.textContent=currentUser.fullName?.split(' ')[0]||'حسابي';btn.onclick=handleLogout;}
   else{btn.textContent='دخول';btn.onclick=openAuth;}
 }
+/* ─── ADMIN VISIBILITY — الزرار يظهر فقط لمستخدم مسجّل دخوله بدور admin ─── */
+function isAdminUser(){
+  return !!currentUser && String(currentUser.role||'').trim().toLowerCase()==='admin';
+}
+function updateAdminVisibility(){
+  const btn=document.getElementById('admin-toggle');
+  if(!btn)return;
+  btn.classList.toggle('visible',isAdminUser());
+}
 updateAuthBtn();
+updateAdminVisibility();
 function openAuth(){document.getElementById('auth-modal').classList.add('open');document.body.style.overflow='hidden';}
 function closeAuth(){document.getElementById('auth-modal').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target===document.getElementById('auth-modal'))closeAuth();});
@@ -1241,8 +1370,9 @@ async function handleLogin(){
     const user=users.find(u=>(u.email===id||u.phone===id)&&u.password===pw);
     if(user){
       currentUser=user;localStorage.setItem('sarmad_user',JSON.stringify(user));
-      updateAuthBtn();closeAuth();showToast(`أهلاً بك، ${user.fullName?.split(' ')[0]}!`);
-      loadCerts();
+      if(await checkBlockedStatus()){closeAuth();return;}
+      updateAuthBtn();updateAdminVisibility();closeAuth();showToast(`أهلاً بك، ${user.fullName?.split(' ')[0]}!`);
+      loadCerts();refreshCvButtonState();
     }else{err.textContent='البريد أو كلمة المرور غير صحيحة';err.classList.add('show');}
   }catch(e){err.textContent='حدث خطأ، حاول مرة أخرى';err.classList.add('show');}
 }
@@ -1265,14 +1395,43 @@ async function handleRegister(){
     const userData={fullName:name,email,phone,gender,password:pw,createdAt:new Date().toISOString()};
     await sheetPost('users',userData);
     currentUser=userData;localStorage.setItem('sarmad_user',JSON.stringify(userData));
-    updateAuthBtn();closeAuth();showToast('تم إنشاء الحساب بنجاح!');loadCerts();
+    updateAuthBtn();updateAdminVisibility();closeAuth();showToast('تم إنشاء الحساب بنجاح!');loadCerts();refreshCvButtonState();
   }catch(e){passErr.textContent='حدث خطأ، حاول مرة أخرى';passErr.classList.add('show');}
 }
 function handleLogout(){
   currentUser=null;localStorage.removeItem('sarmad_user');
-  updateAuthBtn();loadCerts();showToast('تم تسجيل الخروج');
+  updateAuthBtn();updateAdminVisibility();loadCerts();showToast('تم تسجيل الخروج');refreshCvButtonState();
 }
 function requireAuth(cb){if(currentUser)cb();else{openAuth();showToast('يجب تسجيل الدخول أولاً','error');}}
+
+/* ─── الحظر — يمنع مستخدماً محدداً (بالبريد أو الهاتف) من استخدام الموقع حتى لو مسجّل دخوله ─── */
+async function checkBlockedStatus(){
+  if(!currentUser)return false;
+  const identifier=(currentUser.email||currentUser.phone||'').trim().toLowerCase();
+  if(!identifier)return false;
+  const rows=await sheetGet('blocked_users');
+  const match=rows.find(r=>(r.identifier||'').trim().toLowerCase()===identifier);
+  if(match){
+    showBlockScreen(match.message||'تم حظر حسابك من استخدام هذا الموقع.');
+    return true;
+  }
+  return false;
+}
+function showBlockScreen(message){
+  let el=document.getElementById('block-screen');
+  if(!el){
+    el=document.createElement('div');
+    el.id='block-screen';
+    el.style.cssText='position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:32px;text-align:center;';
+    document.body.appendChild(el);
+  }
+  el.innerHTML=`
+    <img src="https://i.ibb.co/vvJL83Hv/logo-red.png" alt="سَرْمَد" style="height:56px;pointer-events:none;" onerror="this.style.display='none'"/>
+    <p style="font-family:var(--font-h);font-size:1.15rem;color:var(--red);max-width:440px;line-height:1.7;">${message}</p>
+  `;
+  document.body.style.overflow='hidden';
+  if(pollTimer)clearInterval(pollTimer);
+}
 
 /* ─── BOOKS ─── */
 async function loadBooks(force=false){
@@ -1324,9 +1483,26 @@ document.getElementById('book-filters').addEventListener('click',e=>{
     renderBooks(allBooks,e.target.dataset.cat);
   }
 });
-function downloadBook(url,title){
-  const a=document.createElement('a');a.href=url;a.download=title+'.pdf';a.target='_blank';a.click();
+async function downloadBook(url,title){
   showToast('جاري التحميل...');
+  try{
+    const res=await fetch(url);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const blob=await res.blob();
+    const blobUrl=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=blobUrl;
+    a.download=(title||'كتاب')+'.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(blobUrl),4000);
+  }catch(e){
+    console.error('download error:',e);
+    /* لو تعذّر التحميل المباشر (مثلاً بسبب CORS من مصدر الملف) نفتحه كحل بديل فقط */
+    window.open(url,'_blank');
+    showToast('تعذّر التحميل المباشر، تم فتح الملف بدلاً من ذلك','error');
+  }
 }
 
 /* ─── PROJECTS ─── */
@@ -1335,19 +1511,12 @@ async function loadProjects(force=false){
   c.innerHTML=spinner();
   const projects=await sheetGet('projects');
   updateStat('stat-projects',projects.length);
-  if(!projects.length){
-    renderProjects([
-      {title:'منصة سبيل التعليمية',description:'نظام LMS متكامل باللغة العربية مع إدارة كاملة للمقررات والاختبارات والشهادات.',tech:'Java,AWS,MySQL,React',link:''},
-      {title:'سند - متصفح الحديث',description:'تطبيق PWA عربي لاستعراض أحاديث صحيح البخاري مع إمكانية البحث والتصفية.',tech:'JavaScript,Sheetson,PWA',link:''},
-      {title:'BreachLock - كشف الثغرات',description:'منصة للكشف عن تسريبات البيانات مع طبقات استخدام محدودة ولوحة إدارة.',tech:'Python,OSINT,API,PWA',link:''},
-    ]);
-    return;
-  }
   renderProjects(projects);
 }
 function renderProjects(projects){
   updateStat('stat-projects',projects.length);
   const c=document.getElementById('projects-container');
+  if(!projects.length){c.innerHTML=emptyState('لا توجد مشاريع بعد','<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>');return;}
   c.innerHTML=projects.map((p,i)=>{
     const techs=(p.tech||'').split(',').filter(t=>t.trim());
     const projId=p.rowIndex||p.id||encodeURIComponent(p.title||i);
@@ -1417,18 +1586,10 @@ const badgeIcons={
   cloud:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>`,
   award:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
 };
-const defaultBadges=[
-  {title:'Penetration Tester',description:'شهادة اختبار اختراق معتمدة',icon:'shield',color:'E60000',date:'2024'},
-  {title:'AWS Certified',description:'معتمد من Amazon Web Services',icon:'cloud',color:'FF9900',date:'2024'},
-  {title:'Open Source Contributor',description:'مساهمة في مشاريع مفتوحة المصدر',icon:'code',color:'22C55E',date:'2023'},
-  {title:'Data Analyst',description:'تحليل بيانات متقدم',icon:'star',color:'8B5CF6',date:'2023'},
-  {title:'Security Champion',description:'أفضل طالب أمن سيبراني',icon:'award',color:'F59E0B',date:'2024'},
-];
 async function loadBadges(force=false){
   const c=document.getElementById('badges-container');
   c.innerHTML=spinner();
-  let badges=await sheetGet('badges');
-  if(!badges.length)badges=defaultBadges;
+  const badges=await sheetGet('badges');
   renderBadges(badges);
 }
 function renderBadges(badges){
@@ -1458,16 +1619,10 @@ function hexToRgb(hex){
 }
 
 /* ─── TESTIMONIALS (NEW) ─── */
-const defaultTestimonials=[
-  {name:'د. محمد أحمد',role:'أستاذ الأمن السيبراني — كلية الحاسبات',text:'خالد متميز في تحليل الثغرات ولديه عقلية هجومية ودفاعية نادرة لطالب في هذه المرحلة.',avatarUrl:'',rating:'5'},
-  {name:'أحمد علي',role:'مطوّر أول — شركة تقنية',text:'أسلوبه في بناء الـ Backend احترافي وكوده نظيف وقابل للصيانة، يعمل بدقة وانضباط.',avatarUrl:'',rating:'5'},
-  {name:'سارة محمود',role:'زميلة دراسة',text:'تعاملت معه في مشاريع مشتركة، دائمًا يقدّم أفضل ما لديه ويساعد الفريق على تجاوز التحديات.',avatarUrl:'',rating:'5'},
-];
 async function loadTestimonials(force=false){
   const c=document.getElementById('testimonials-container');
   c.innerHTML=spinner();
-  let rows=await sheetGet('testimonials');
-  if(!rows.length)rows=defaultTestimonials;
+  const rows=await sheetGet('testimonials');
   renderTestimonials(rows);
 }
 function renderTestimonials(rows){
@@ -1497,26 +1652,11 @@ function renderTestimonials(rows){
 }
 
 /* ─── TOOLS ─── */
-const defaultTools=[
-  {name:'Visual Studio Code',category:'محرر كود',description:'محرر الكود الأكثر استخداماً في العالم من Microsoft، سريع ومفتوح المصدر مع دعم آلاف الامتدادات.',logoUrl:'https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg',link:'https://code.visualstudio.com'},
-  {name:'Burp Suite',category:'أمن سيبراني',description:'المنصة الاحترافية لاختبار أمان تطبيقات الويب، تُستخدم في اكتشاف الثغرات واختبار الاختراق.',logoUrl:'https://www.kali.org/tools/burpsuite/images/burpsuite-logo.svg',link:'https://portswigger.net/burp'},
-  {name:'Kali Linux',category:'أمن سيبراني',description:'توزيعة Linux المخصصة لاختبار الاختراق والأمن السيبراني، تحتوي على مئات الأدوات الأمنية.',logoUrl:'https://www.kali.org/images/kali-logo.svg',link:'https://www.kali.org'},
-  {name:'Docker',category:'DevOps',description:'منصة الحاويات الأكثر شهرة لبناء وتشغيل ونشر التطبيقات في بيئات معزولة وقابلة للتكرار.',logoUrl:'https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic.png',link:'https://www.docker.com'},
-  {name:'Postman',category:'API',description:'أداة تطوير واختبار APIs الأشهر على مستوى العالم، تسهّل بناء وتوثيق ومشاركة الـ APIs.',logoUrl:'https://www.svgrepo.com/show/354202/postman-icon.svg',link:'https://www.postman.com'},
-  {name:'IntelliJ IDEA',category:'محرر كود',description:'بيئة التطوير المتكاملة الأفضل لـ Java وKotlin من JetBrains، مع ذكاء اصطناعي متقدم.',logoUrl:'https://resources.jetbrains.com/storage/products/intellij-idea/img/meta/intellij-idea_logo_300x300.png',link:'https://www.jetbrains.com/idea'},
-  {name:'Wireshark',category:'شبكات',description:'محلل بروتوكولات الشبكة الأبرز عالمياً، يُتيح رصد وتحليل حزم البيانات المارة عبر الشبكة.',logoUrl:'https://www.wireshark.org/assets/theme-2015/images/wireshark_logo.png',link:'https://www.wireshark.org'},
-  {name:'AWS Console',category:'سحابة',description:'واجهة إدارة خدمات Amazon Web Services السحابية، نقطة الانطلاق لبناء البنية التحتية السحابية.',logoUrl:'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',link:'https://aws.amazon.com/console'},
-  {name:'GitHub',category:'إدارة كود',description:'منصة استضافة المشاريع البرمجية الأشهر عالمياً، تعمل على Git وتدعم التعاون وسير العمل CI/CD.',logoUrl:'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',link:'https://github.com'},
-  {name:'Metasploit',category:'أمن سيبراني',description:'إطار عمل اختبار الاختراق الأقوى والأوسع انتشاراً، يُستخدم في تنفيذ واستغلال الثغرات الأمنية.',logoUrl:'https://www.metasploit.com/includes/css/images/metasploit-logo-inline-rp.svg',link:'https://www.metasploit.com'},
-  {name:'Nmap',category:'شبكات',description:'أداة استكشاف الشبكات وفحص المنافذ الأقوى، أساسية في تدقيق الأمان ومسح البنية التحتية.',logoUrl:'https://nmap.org/images/nmap-logo-256x256.png',link:'https://nmap.org'},
-  {name:'Python IDLE',category:'برمجة',description:'بيئة التطوير التفاعلية الرسمية للغة Python، مثالية للتجربة السريعة وتعلم البرمجة.',logoUrl:'https://www.python.org/static/favicon.ico',link:'https://www.python.org'},
-];
 async function loadTools(force=false){
   const c=document.getElementById('tools-container');
   c.innerHTML=spinner();
   let tools=[];
   try{tools=await sheetGet('tools');}catch(e){}
-  if(!tools.length)tools=defaultTools;
   renderTools(tools);
 }
 function renderTools(tools){
@@ -1537,15 +1677,6 @@ function renderTools(tools){
 }
 
 /* ─── TIMELINE ─── */
-const defaultEducation=[
-  {date:'2023 — الآن',title:'بكالوريوس علوم الحاسب والمعلومات',sub:'الفرقة الثانية — تخصص الأمن السيبراني'},
-  {date:'2019',title:'الثانوية العامة',sub:'القسم العلمي — ممتاز'},
-];
-const defaultExperience=[
-  {date:'2023 — الآن',title:'مطوّر برمجيات مستقل',sub:'بناء منصات PWA عربية متكاملة بقواعد بيانات سحابية'},
-  {date:'2022 — 2023',title:'متدرب أمن سيبراني',sub:'اختبار الاختراق وتحليل الثغرات الأمنية'},
-  {date:'2021 — 2022',title:'مطوّر واجهات أمامية',sub:'HTML, CSS, JavaScript — تطبيقات ويب تفاعلية'},
-];
 async function loadTimeline(){
   let edu=[],exp=[];
   try{
@@ -1553,13 +1684,12 @@ async function loadTimeline(){
     edu=rows.filter(r=>r.type==='education');
     exp=rows.filter(r=>r.type==='experience');
   }catch(e){}
-  if(!edu.length)edu=defaultEducation;
-  if(!exp.length)exp=defaultExperience;
-  renderTimeline('education-timeline',edu);
-  renderTimeline('experience-timeline',exp);
+  renderTimeline('education-timeline',edu,'لا توجد بيانات تعليمية بعد');
+  renderTimeline('experience-timeline',exp,'لا توجد بيانات خبرات بعد');
 }
-function renderTimeline(containerId,items){
+function renderTimeline(containerId,items,emptyMsg){
   const c=document.getElementById(containerId);
+  if(!items.length){c.innerHTML=`<p style="font-family:var(--font-l);font-size:0.85rem;color:var(--text3);">${emptyMsg||'لا توجد بيانات بعد'}</p>`;return;}
   c.innerHTML=items.map((item,i)=>`
     <div class="timeline-item" style="animation:heroEntrance 0.4s ease ${i*0.08}s both;">
       <p class="timeline-date">${item.date||''}</p>
@@ -1569,27 +1699,78 @@ function renderTimeline(containerId,items){
   `).join('');
 }
 
-/* ─── CV DOWNLOAD — مربوط بـ stats ─── */
-async function downloadCV(e){
-  e.preventDefault();
-  /* جرّب الكاش أولاً */
-  let statsRows=_statsCache;
-  if(!statsRows){statsRows=await sheetGet('stats');_statsCache=statsRows;}
-  const cv=statsRows.find(s=>s.key==='cv_url');
-  if(cv?.value){
-    const a=document.createElement('a');a.href=cv.value;a.download='Khaled-Ahmed-CV.pdf';a.target='_blank';a.click();
-    showToast('جاري تحميل السيرة الذاتية...');
-  } else {
-    showToast('رابط السيرة الذاتية سيُضاف قريباً','error');
+/* ─── CV — طلب اطلاع تحتاج موافقة الإدارة، والعرض داخل التطبيق فقط بدون تحميل ─── */
+async function getMyCvRequest(){
+  if(!currentUser)return null;
+  const identifier=(currentUser.email||currentUser.phone||'').trim().toLowerCase();
+  if(!identifier)return null;
+  const rows=await sheetGet('cv_requests');
+  return rows.find(r=>(r.identifier||'').trim().toLowerCase()===identifier)||null;
+}
+async function refreshCvButtonState(){
+  const label=document.getElementById('cv-action-label');
+  const statusText=document.getElementById('cv-status-text');
+  if(!label||!statusText)return;
+  if(!currentUser){
+    label.textContent='سجّل الدخول لطلب الاطلاع على السيرة الذاتية';
+    statusText.textContent='';
+    return;
+  }
+  const req=await getMyCvRequest();
+  if(!req){
+    label.textContent='طلب الاطلاع على السيرة الذاتية';
+    statusText.textContent='';
+  }else if(req.status==='approved'){
+    label.textContent='عرض السيرة الذاتية';
+    statusText.textContent='تمت الموافقة على طلبك ✓';
+  }else if(req.status==='rejected'){
+    label.textContent='تم رفض الطلب';
+    statusText.textContent='تم رفض طلبك من قِبل الإدارة';
+  }else{
+    label.textContent='الطلب قيد المراجعة...';
+    statusText.textContent='بانتظار موافقة الإدارة';
   }
 }
+async function handleCvButtonClick(e){
+  e.preventDefault();
+  requireAuth(async()=>{
+    if(await checkBlockedStatus())return;
+    const req=await getMyCvRequest();
+    if(!req){
+      const identifier=(currentUser.email||currentUser.phone||'').trim().toLowerCase();
+      await sheetPost('cv_requests',{identifier,name:currentUser.fullName||'',status:'pending'});
+      showToast('تم إرسال طلبك، سيتم إشعارك عند موافقة الإدارة');
+      refreshCvButtonState();
+      return;
+    }
+    if(req.status==='approved'){
+      let statsRows=_statsCache;
+      if(!statsRows){statsRows=await sheetGet('stats');_statsCache=statsRows;}
+      const cv=statsRows.find(s=>s.key==='cv_url');
+      if(cv?.value)openPdfModal(cv.value,'السيرة الذاتية',false);
+      else showToast('لم يتم رفع ملف السيرة الذاتية بعد','error');
+    }else if(req.status==='rejected'){
+      showToast('تم رفض طلبك سابقاً لعرض السيرة الذاتية','error');
+    }else{
+      showToast('طلبك قيد المراجعة، سيتم إشعارك عند الموافقة');
+    }
+  });
+}
 
-/* ─── PDF MODAL ─── */
-function openPdfModal(url,title){
+/* ─── PDF MODAL ─── allowDownload=false يخفي زر التحميل (يُستخدم لعرض السيرة الذاتية داخل التطبيق فقط) */
+function openPdfModal(url,title,allowDownload){
+  if(allowDownload===undefined)allowDownload=true;
   document.getElementById('pdf-modal-title').textContent=title||'عرض الملف';
   document.getElementById('pdf-iframe').src=url;
-  document.getElementById('pdf-download-link').href=url;
-  document.getElementById('pdf-download-link').download=title||'ملف';
+  const dl=document.getElementById('pdf-download-link');
+  if(allowDownload){
+    dl.style.display='';
+    dl.href=url;
+    dl.download=title||'ملف';
+    dl.onclick=null;
+  }else{
+    dl.style.display='none';
+  }
   document.getElementById('pdf-modal').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -1625,7 +1806,7 @@ const termCmds={
     {t:'',m:'  contact       — بيانات التواصل'},
     {t:'',m:'  projects      — المشاريع'},
     {t:'',m:'  badges        — الإنجازات'},
-    {t:'',m:'  download_cv   — تحميل السيرة الذاتية'},
+    {t:'',m:'  view_cv       — طلب/عرض السيرة الذاتية'},
     {t:'',m:'  store         — متجري'},
     {t:'',m:'  clear         — مسح الشاشة'},
     {t:'',m:'  exit          — إغلاق'},
@@ -1652,12 +1833,19 @@ const termCmds={
     return b.map((x,i)=>({t:'out',m:`${i+1}. ${x.title||''} — ${x.description||''}`}));
   },
   store:()=>{window.open('https://melafmaqfoul.oneapp.dev/','_blank');return[{t:'out',m:'جاري فتح المتجر...'}];},
-  download_cv:async()=>{
-    let statsRows=_statsCache;
-    if(!statsRows){statsRows=await sheetGet('stats');_statsCache=statsRows;}
-    const cv=statsRows.find(s=>s.key==='cv_url');
-    if(cv?.value){const a=document.createElement('a');a.href=cv.value;a.download='CV.pdf';a.target='_blank';a.click();}
-    return[{t:'out',m:'جاري تحميل السيرة الذاتية...'}];
+  view_cv:async()=>{
+    if(!currentUser)return[{t:'err',m:'يجب تسجيل الدخول أولاً من الموقع'}];
+    if(await checkBlockedStatus())return[{t:'err',m:'حسابك محظور'}];
+    const req=await getMyCvRequest();
+    if(!req){
+      const identifier=(currentUser.email||currentUser.phone||'').trim().toLowerCase();
+      await sheetPost('cv_requests',{identifier,name:currentUser.fullName||'',status:'pending'});
+      refreshCvButtonState();
+      return[{t:'out',m:'تم إرسال طلب الاطلاع، بانتظار موافقة الإدارة'}];
+    }
+    if(req.status==='approved')return[{t:'out',m:'طلبك مقبول — استخدم زر "عرض السيرة الذاتية" في قسم السيرة الذاتية بالموقع'}];
+    if(req.status==='rejected')return[{t:'err',m:'تم رفض طلبك سابقاً'}];
+    return[{t:'out',m:'طلبك قيد المراجعة'}];
   },
   clear:()=>'CLEAR',
   exit:()=>{toggleTerminal();return[];}
@@ -1738,43 +1926,469 @@ function handleDeepLink(){
   }
 }
 
-/* ─── POLLING — كل 30 ثانية ─── */
+/* ─── SYNC — تحديث فوري ودوري من قاعدة البيانات لكل الأقسام ─── */
+let _dataHashes={books:'',projects:'',certs:'',badges:'',tools:'',testimonials:'',timeline:'',coffee:'',visitors:''};
+function _hash(x){return JSON.stringify(x);}
+async function syncAll(){
+  if(currentUser&&await checkBlockedStatus())return;
+  const [books,projects,certs,badgesRows,toolsRows,testimonialsRows,timelineRows,statsRows]=await Promise.all([
+    sheetGet('books'),sheetGet('projects'),sheetGet('certificates'),sheetGet('badges'),
+    sheetGet('tools'),sheetGet('testimonials'),sheetGet('timeline'),sheetGet('stats')
+  ]);
+  _statsCache=statsRows;
+  if(_lastConnectionError)updateConnectionBanner(_lastConnectionError);
+  else updateConnectionBanner(null);
+  if(currentUser)refreshCvButtonState();
+
+  const coffee=statsRows.find(r=>r.key==='coffee_count');
+  if(coffee?.value){
+    const h=_hash(coffee.value);
+    if(h!==_dataHashes.coffee){_dataHashes.coffee=h;updateStat('stat-coffee',parseInt(coffee.value)||0);}
+  }
+
+  const visitor=statsRows.find(r=>r.key==='visitor_count');
+  if(visitor?.value){
+    const h=_hash(visitor.value);
+    if(h!==_dataHashes.visitors){_dataHashes.visitors=h;updateStat('stat-visitors',parseInt(visitor.value)||0);}
+  }
+
+  const bH=_hash(books);
+  if(bH!==_dataHashes.books){
+    _dataHashes.books=bH;allBooks=books;updateStat('stat-books',books.length);
+    const activeCat=document.querySelector('#book-filters .filter-tab.active')?.dataset.cat||'all';
+    renderBooks(books,activeCat);
+  }
+
+  const pH=_hash(projects);
+  if(pH!==_dataHashes.projects){_dataHashes.projects=pH;renderProjects(projects);}
+
+  const cH=_hash(certs);
+  if(cH!==_dataHashes.certs){_dataHashes.certs=cH;updateStat('stat-certs',certs.length);renderCerts(certs);}
+
+  const bgH=_hash(badgesRows);
+  if(bgH!==_dataHashes.badges){_dataHashes.badges=bgH;renderBadges(badgesRows);}
+
+  const tH=_hash(toolsRows);
+  if(tH!==_dataHashes.tools){_dataHashes.tools=tH;renderTools(toolsRows);}
+
+  const teH=_hash(testimonialsRows);
+  if(teH!==_dataHashes.testimonials){_dataHashes.testimonials=teH;renderTestimonials(testimonialsRows);}
+
+  const tlH=_hash(timelineRows);
+  if(tlH!==_dataHashes.timeline){
+    _dataHashes.timeline=tlH;
+    renderTimeline('education-timeline',timelineRows.filter(r=>r.type==='education'),'لا توجد بيانات تعليمية بعد');
+    renderTimeline('experience-timeline',timelineRows.filter(r=>r.type==='experience'),'لا توجد بيانات خبرات بعد');
+  }
+}
 let pollTimer=null;
 function startPolling(){
   if(pollTimer)clearInterval(pollTimer);
-  pollTimer=setInterval(async()=>{
-    const [books,projects,certs,statsRows]=await Promise.all([
-      sheetGet('books'),sheetGet('projects'),sheetGet('certificates'),sheetGet('stats')
-    ]);
-    _statsCache=statsRows;
-    /* تحديث القهوة */
-    const coffee=statsRows.find(r=>r.key==='coffee_count');
-    if(coffee?.value){
-      const el=document.getElementById('stat-coffee');
-      if(el&&el.textContent!==String(parseInt(coffee.value)||0))
-        updateStat('stat-coffee',parseInt(coffee.value)||0);
+  pollTimer=setInterval(syncAll,15*1000);
+}
+
+/* ══════════════ لوحة التحكم (ADMIN PANEL) ══════════════ */
+const ADMIN_SHEETS={
+  book:{sheet:'books',label:'كتاب',fields:[
+    {key:'title',label:'العنوان',type:'text',required:true},
+    {key:'description',label:'الوصف',type:'textarea'},
+    {key:'category',label:'التصنيف',type:'select',options:['برمجة','أمن سيبراني','تطوير ذات','شبكات']},
+    {key:'coverUrl',label:'صورة الغلاف',type:'image'},
+    {key:'fileUrl',label:'ملف الكتاب (PDF)',type:'image',accept:'application/pdf,image/*'},
+  ]},
+  project:{sheet:'projects',label:'مشروع',fields:[
+    {key:'title',label:'العنوان',type:'text',required:true},
+    {key:'description',label:'الوصف',type:'textarea'},
+    {key:'tech',label:'التقنيات (افصل بفاصلة)',type:'text'},
+    {key:'link',label:'رابط المشروع',type:'text'},
+  ]},
+  certificate:{sheet:'certificates',label:'شهادة',fields:[
+    {key:'title',label:'عنوان الشهادة',type:'text',required:true},
+    {key:'issuer',label:'الجهة المانحة',type:'text'},
+    {key:'date',label:'التاريخ',type:'text'},
+    {key:'verifyUrl',label:'رابط التحقق',type:'text'},
+    {key:'imageUrl',label:'صورة الشهادة',type:'image'},
+  ]},
+  badge:{sheet:'badges',label:'شارة إنجاز',fields:[
+    {key:'title',label:'العنوان',type:'text',required:true},
+    {key:'description',label:'الوصف',type:'textarea'},
+    {key:'icon',label:'الأيقونة',type:'select',options:['shield','star','code','lock','cloud','award']},
+    {key:'color',label:'اللون (Hex بدون #)',type:'text'},
+    {key:'date',label:'السنة',type:'text'},
+  ]},
+  tool:{sheet:'tools',label:'أداة برمجية',fields:[
+    {key:'name',label:'اسم الأداة',type:'text',required:true},
+    {key:'category',label:'التصنيف',type:'text'},
+    {key:'description',label:'الوصف',type:'textarea'},
+    {key:'logoUrl',label:'شعار الأداة',type:'image'},
+    {key:'link',label:'رابط الموقع',type:'text'},
+  ]},
+  testimonial:{sheet:'testimonials',label:'توصية',fields:[
+    {key:'name',label:'اسم صاحب التوصية',type:'text',required:true},
+    {key:'role',label:'الصفة',type:'text'},
+    {key:'text',label:'نص التوصية',type:'textarea'},
+    {key:'rating',label:'التقييم (1-5)',type:'text'},
+    {key:'avatarUrl',label:'الصورة الشخصية',type:'image'},
+  ]},
+  timeline_edu:{sheet:'timeline',label:'مرحلة تعليمية',fixed:{type:'education'},fields:[
+    {key:'date',label:'الفترة الزمنية',type:'text'},
+    {key:'title',label:'العنوان',type:'text',required:true},
+    {key:'sub',label:'التفاصيل',type:'text'},
+  ]},
+  timeline_exp:{sheet:'timeline',label:'خبرة عملية',fixed:{type:'experience'},fields:[
+    {key:'date',label:'الفترة الزمنية',type:'text'},
+    {key:'title',label:'العنوان',type:'text',required:true},
+    {key:'sub',label:'التفاصيل',type:'text'},
+  ]},
+  stat_coffee:{sheet:'stats',label:'عدّاد أكواب القهوة',fixed:{key:'coffee_count'},fields:[
+    {key:'value',label:'العدد',type:'text',required:true},
+  ]},
+  stat_visitors:{sheet:'stats',label:'عدّاد الزوار (تعديل يدوي)',fixed:{key:'visitor_count'},fields:[
+    {key:'value',label:'العدد',type:'text',required:true},
+  ]},
+  stat_cv:{sheet:'stats',label:'رابط السيرة الذاتية (PDF)',fixed:{key:'cv_url'},fields:[
+    {key:'value',label:'ملف السيرة الذاتية',type:'image',accept:'application/pdf,image/*'},
+  ]},
+};
+let adminAuthed=sessionStorage.getItem('sarmad_admin_ok')==='1';
+let _adminEditRow=null; /* { sectionKey, rowIndex } عند التعديل */
+async function getAdminPassword(){
+  try{
+    const rows=await sheetGet('settings');
+    const row=rows.find(r=>r.key==='admin_password');
+    if(row?.value)return row.value;
+  }catch(e){}
+  return 'sarmad-admin-2026';
+}
+function openAdmin(){
+  if(!isAdminUser()){
+    showToast('هذه اللوحة مخصّصة لحساب المشرف فقط — سجّل الدخول بحساب يحمل صلاحية admin','error');
+    if(!currentUser)openAuth();
+    return;
+  }
+  document.getElementById('admin-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  renderAdminModal();
+}
+function closeAdmin(){
+  document.getElementById('admin-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+async function renderAdminModal(){
+  const body=document.getElementById('admin-body');
+  if(!isAdminUser()){
+    body.innerHTML=`<p class="admin-note">حسابك الحالي لا يملك صلاحية المشرف (role: admin). سجّل الدخول بحساب المشرف من زر "دخول" أعلى الصفحة.</p>`;
+    return;
+  }
+  if(!adminAuthed){
+    body.innerHTML=`
+      <p class="admin-note" style="margin-top:0;margin-bottom:14px;">طبقة حماية إضافية: أدخل كلمة مرور لوحة التحكم للمتابعة.</p>
+      <div class="admin-field">
+        <label class="form-label">كلمة مرور لوحة التحكم</label>
+        <input type="password" class="form-input" id="admin-pw-input" placeholder="••••••••"/>
+        <p class="form-error" id="admin-pw-error"></p>
+      </div>
+      <button class="form-submit" id="admin-pw-submit">دخول للوحة التحكم</button>
+    `;
+    document.getElementById('admin-pw-submit').onclick=async()=>{
+      const val=document.getElementById('admin-pw-input').value;
+      const errEl=document.getElementById('admin-pw-error');
+      errEl.className='form-error';
+      const correct=await getAdminPassword();
+      if(val===correct){
+        adminAuthed=true;sessionStorage.setItem('sarmad_admin_ok','1');
+        renderAdminModal();
+      }else{errEl.textContent='كلمة مرور غير صحيحة';errEl.classList.add('show');}
+    };
+    return;
+  }
+  const optionsHtml=Object.keys(ADMIN_SHEETS).map(k=>`<option value="${k}">${ADMIN_SHEETS[k].label}</option>`).join('');
+  body.innerHTML=`
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+      <span class="admin-settings-toggle" id="admin-settings-link" style="margin-bottom:0;">إعدادات رفع الصور</span>
+      <span class="admin-settings-toggle" id="admin-diag-link" style="margin-bottom:0;">فحص الاتصال بقاعدة البيانات</span>
+      <span class="admin-settings-toggle" id="admin-access-link" style="margin-bottom:0;">طلبات السيرة الذاتية والحظر</span>
+    </div>
+    <div id="admin-settings-box" style="display:none;margin-bottom:18px;">
+      <div class="admin-field">
+        <label class="form-label">مفتاح ImgBB API</label>
+        <input type="text" class="form-input" id="imgbb-key-input" placeholder="افتراضي مضبوط مسبقاً — يمكنك استبداله بمفتاحك الخاص" dir="ltr"/>
+      </div>
+      <button class="btn-secondary" id="imgbb-key-save" style="width:100%;justify-content:center;">حفظ المفتاح</button>
+      <p class="admin-note">مفتاح ImgBB افتراضي مضبوط بالفعل لرفع الصور من جهازك مباشرة بدل نسخ الروابط. تقدر تستبدله بمفتاحك الخاص من api.imgbb.com، ويُحفظ على متصفحك فقط.</p>
+    </div>
+    <div id="admin-diag-box" style="display:none;margin-bottom:18px;">
+      <div id="admin-diag-report" class="admin-note" style="max-height:220px;overflow-y:auto;background:var(--bg2);border-radius:var(--radius-sm);padding:12px;"></div>
+    </div>
+    <div id="admin-access-box" style="display:none;margin-bottom:18px;">
+      <h4 style="font-family:var(--font-h);font-size:0.85rem;margin-bottom:10px;color:var(--text);">طلبات الاطلاع على السيرة الذاتية</h4>
+      <div id="admin-cv-requests-list" class="admin-note">جاري التحميل...</div>
+
+      <h4 style="font-family:var(--font-h);font-size:0.85rem;margin:20px 0 10px;color:var(--text);">حظر مستخدم</h4>
+      <div class="admin-field">
+        <label class="form-label">البريد الإلكتروني أو رقم الهاتف الخاص بالمستخدم</label>
+        <input type="text" class="form-input" id="block-identifier-input" dir="ltr"/>
+      </div>
+      <div class="admin-field">
+        <label class="form-label">الرسالة التي تظهر له عند الحظر</label>
+        <textarea class="form-input" id="block-message-input" rows="2" style="resize:vertical;">تم حظر حسابك من استخدام هذا الموقع. للاستفسار تواصل مع الإدارة.</textarea>
+      </div>
+      <button class="btn-secondary" id="block-user-btn" style="width:100%;justify-content:center;color:var(--red);border-color:rgba(230,0,0,0.3);">حظر هذا المستخدم</button>
+
+      <h4 style="font-family:var(--font-h);font-size:0.85rem;margin:20px 0 10px;color:var(--text);">المستخدمون المحظورون حالياً</h4>
+      <div id="admin-blocked-list" class="admin-note">جاري التحميل...</div>
+    </div>
+    <select class="admin-section-select" id="admin-section-select">${optionsHtml}</select>
+    <div id="admin-form-fields"></div>
+    <div style="display:flex;gap:10px;">
+      <button class="form-submit" id="admin-submit-btn" style="flex:1;">إضافة إلى قاعدة البيانات</button>
+      <button class="btn-secondary" id="admin-cancel-edit-btn" style="display:none;">إلغاء التعديل</button>
+    </div>
+    <p class="admin-note">تُضاف/تُعدّل البيانات مباشرة في قاعدة البيانات وتظهر في الموقع تلقائياً خلال ثوانٍ.</p>
+    <h3 style="font-family:var(--font-h);font-size:0.92rem;margin:22px 0 12px;color:var(--text);">العناصر الموجودة حالياً</h3>
+    <div id="admin-existing-list"></div>
+  `;
+  document.getElementById('admin-settings-link').onclick=()=>{
+    const box=document.getElementById('admin-settings-box');
+    document.getElementById('admin-diag-box').style.display='none';
+    document.getElementById('admin-access-box').style.display='none';
+    box.style.display=box.style.display==='none'?'block':'none';
+    document.getElementById('imgbb-key-input').value=localStorage.getItem('sarmad_imgbb_key')||'';
+  };
+  document.getElementById('imgbb-key-save').onclick=()=>{
+    const v=document.getElementById('imgbb-key-input').value.trim();
+    if(v){localStorage.setItem('sarmad_imgbb_key',v);showToast('تم حفظ المفتاح');}
+  };
+  document.getElementById('admin-diag-link').onclick=async()=>{
+    const box=document.getElementById('admin-diag-box');
+    document.getElementById('admin-settings-box').style.display='none';
+    document.getElementById('admin-access-box').style.display='none';
+    box.style.display=box.style.display==='none'?'block':'none';
+    if(box.style.display==='block')await runConnectionDiagnostics();
+  };
+  document.getElementById('admin-access-link').onclick=async()=>{
+    const box=document.getElementById('admin-access-box');
+    document.getElementById('admin-settings-box').style.display='none';
+    document.getElementById('admin-diag-box').style.display='none';
+    box.style.display=box.style.display==='none'?'block':'none';
+    if(box.style.display==='block'){loadAdminCvRequests();loadAdminBlockedList();}
+  };
+  document.getElementById('block-user-btn').onclick=async()=>{
+    const identifier=document.getElementById('block-identifier-input').value.trim().toLowerCase();
+    const message=document.getElementById('block-message-input').value.trim();
+    if(!identifier){showToast('أدخل البريد أو الهاتف أولاً','error');return;}
+    const res=await sheetPost('blocked_users',{identifier,message});
+    if(res){showToast('تم حظر المستخدم');document.getElementById('block-identifier-input').value='';loadAdminBlockedList();}
+    else showToast('تعذر تنفيذ الحظر','error');
+  };
+  const select=document.getElementById('admin-section-select');
+  select.onchange=()=>{cancelAdminEdit();renderAdminFields(select.value);loadAdminExistingList(select.value);};
+  renderAdminFields(select.value);
+  loadAdminExistingList(select.value);
+  document.getElementById('admin-submit-btn').onclick=()=>submitAdminForm(select.value);
+  document.getElementById('admin-cancel-edit-btn').onclick=cancelAdminEdit;
+}
+async function loadAdminCvRequests(){
+  const el=document.getElementById('admin-cv-requests-list');
+  el.textContent='جاري التحميل...';
+  const rows=await sheetGet('cv_requests');
+  if(!rows.length){el.innerHTML='لا توجد طلبات حتى الآن.';return;}
+  el.innerHTML=rows.map(r=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;">
+      <div style="overflow:hidden;">
+        <div style="font-size:0.83rem;color:var(--text);">${r.name||'بدون اسم'} <span style="color:var(--text3);">— ${r.identifier||''}</span></div>
+        <div style="font-size:0.74rem;color:${r.status==='approved'?'#15803d':r.status==='rejected'?'var(--red)':'var(--text3)'};">الحالة: ${r.status==='approved'?'مقبول':r.status==='rejected'?'مرفوض':'قيد المراجعة'}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button class="btn-secondary" style="padding:6px 12px;font-size:0.76rem;" onclick="updateCvRequestStatus(${r.rowIndex},'approved')">قبول</button>
+        <button class="btn-secondary" style="padding:6px 12px;font-size:0.76rem;color:var(--red);border-color:rgba(230,0,0,0.3);" onclick="updateCvRequestStatus(${r.rowIndex},'rejected')">رفض</button>
+      </div>
+    </div>
+  `).join('');
+}
+async function updateCvRequestStatus(rowIndex,status){
+  const res=await sheetPatch('cv_requests',rowIndex,{status});
+  if(res){showToast(status==='approved'?'تمت الموافقة':'تم الرفض');loadAdminCvRequests();}
+  else showToast('تعذر تنفيذ العملية','error');
+}
+async function loadAdminBlockedList(){
+  const el=document.getElementById('admin-blocked-list');
+  el.textContent='جاري التحميل...';
+  const rows=await sheetGet('blocked_users');
+  if(!rows.length){el.innerHTML='لا يوجد مستخدمون محظورون حالياً.';return;}
+  el.innerHTML=rows.map(r=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;">
+      <span style="font-size:0.83rem;color:var(--text);">${r.identifier||''}</span>
+      <button class="btn-secondary" style="padding:6px 12px;font-size:0.76rem;" onclick="unblockUser(${r.rowIndex})">إلغاء الحظر</button>
+    </div>
+  `).join('');
+}
+async function unblockUser(rowIndex){
+  const ok=await sheetDelete('blocked_users',rowIndex);
+  if(ok){showToast('تم إلغاء الحظر');loadAdminBlockedList();}
+  else showToast('تعذر إلغاء الحظر','error');
+}
+async function runConnectionDiagnostics(){
+  const report=document.getElementById('admin-diag-report');
+  report.textContent='جاري الفحص...';
+  const sheets=['books','projects','certificates','badges','tools','testimonials','timeline','stats','users','settings'];
+  const lines=[];
+  for(const s of sheets){
+    _lastConnectionError=null;
+    const rows=await sheetGet(s);
+    if(_lastConnectionError){
+      lines.push(`❌ ${s}: ${_lastConnectionError}`);
+    }else{
+      const sample=rows[0]?Object.keys(rows[0]).filter(k=>k!=='rowIndex').join('، '):'—';
+      lines.push(`✅ ${s}: ${rows.length} صف${rows.length?` — أعمدة أول صف: ${sample}`:' (فارغ، تحقق من اسم التبويب في الشيت)'}`);
     }
-    /* تحديث الكتب */
-    if(books.length!==allBooks.length){
-      allBooks=books;updateStat('stat-books',books.length);
-      const activeCat=document.querySelector('#book-filters .filter-tab.active')?.dataset.cat||'all';
-      renderBooks(books,activeCat);
+  }
+  report.innerHTML=lines.map(l=>`<div style="margin-bottom:6px;">${l}</div>`).join('');
+}
+function renderAdminFields(sectionKey){
+  const cfg=ADMIN_SHEETS[sectionKey];
+  const container=document.getElementById('admin-form-fields');
+  container.innerHTML=cfg.fields.map(f=>{
+    const id=`admin-field-${f.key}`;
+    if(f.type==='textarea'){
+      return `<div class="admin-field"><label class="form-label">${f.label}</label><textarea class="form-input" id="${id}" rows="3" style="resize:vertical;"></textarea></div>`;
     }
-    /* تحديث المشاريع */
-    if(projects.length){
-      const old=document.querySelectorAll('#projects-container .project-card').length;
-      if(projects.length!==old){updateStat('stat-projects',projects.length);renderProjects(projects);}
+    if(f.type==='select'){
+      const opts=f.options.map(o=>`<option value="${o}">${o}</option>`).join('');
+      return `<div class="admin-field"><label class="form-label">${f.label}</label><select class="form-input" id="${id}">${opts}</select></div>`;
     }
-    /* تحديث الشهادات */
-    if(certs.length){
-      const old=document.querySelectorAll('#certs-container .cert-card').length;
-      if(certs.length!==old){updateStat('stat-certs',certs.length);renderCerts(certs);}
+    if(f.type==='image'){
+      return `
+        <div class="admin-field">
+          <label class="form-label">${f.label}</label>
+          <div class="admin-upload-row">
+            <label class="admin-upload-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              اختيار صورة من الجهاز
+              <input type="file" accept="${f.accept||'image/*'}" style="display:none;" id="${id}-file" onchange="handleAdminImageUpload(this,'${id}')"/>
+            </label>
+            <img class="admin-upload-preview" id="${id}-preview"/>
+            <span style="font-size:0.76rem;color:var(--text3);" id="${id}-status"></span>
+          </div>
+          <input type="hidden" id="${id}"/>
+        </div>`;
     }
-  },30*1000);
+    return `<div class="admin-field"><label class="form-label">${f.label}</label><input type="text" class="form-input" id="${id}"/></div>`;
+  }).join('');
+}
+async function handleAdminImageUpload(inputEl,fieldId){
+  const file=inputEl.files[0];
+  if(!file)return;
+  const statusEl=document.getElementById(`${fieldId}-status`);
+  statusEl.textContent='جاري الرفع...';
+  const url=await uploadImageToImgbb(file);
+  if(url){
+    document.getElementById(fieldId).value=url;
+    statusEl.textContent='تم الرفع بنجاح';
+    const preview=document.getElementById(`${fieldId}-preview`);
+    if(file.type.startsWith('image/')){preview.src=url;preview.style.display='block';}
+  }else{
+    statusEl.textContent='فشل الرفع';
+  }
+}
+async function uploadImageToImgbb(file){
+  const key=localStorage.getItem('sarmad_imgbb_key')||IMGBB_DEFAULT_KEY;
+  try{
+    const fd=new FormData();
+    fd.append('image',file);
+    const r=await fetch(`https://api.imgbb.com/1/upload?key=${key}`,{method:'POST',body:fd});
+    const d=await r.json();
+    if(d.success)return d.data.url;
+    showToast('فشل رفع الصورة، تحقق من المفتاح','error');
+    return null;
+  }catch(e){showToast('فشل رفع الصورة','error');return null;}
+}
+async function loadAdminExistingList(sectionKey){
+  const cfg=ADMIN_SHEETS[sectionKey];
+  const listEl=document.getElementById('admin-existing-list');
+  listEl.innerHTML='<div class="admin-note">جاري التحميل...</div>';
+  let rows=await sheetGet(cfg.sheet);
+  if(cfg.fixed){
+    rows=rows.filter(r=>Object.keys(cfg.fixed).every(k=>r[k]===cfg.fixed[k]));
+  }
+  if(!rows.length){listEl.innerHTML='<div class="admin-note">لا توجد عناصر مضافة بعد في هذا القسم.</div>';return;}
+  const titleKey=cfg.fields.find(f=>f.key==='title'||f.key==='name'||f.key==='value')?.key||cfg.fields[0].key;
+  listEl.innerHTML=rows.map(r=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;">
+      <span style="font-size:0.83rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${(r[titleKey]||'بدون عنوان')}</span>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button class="btn-secondary" style="padding:6px 12px;font-size:0.76rem;" onclick='startAdminEdit("${sectionKey}",${r.rowIndex})'>تعديل</button>
+        <button class="btn-secondary" style="padding:6px 12px;font-size:0.76rem;color:var(--red);border-color:rgba(230,0,0,0.3);" onclick='confirmAdminDelete("${sectionKey}",${r.rowIndex})'>حذف</button>
+      </div>
+    </div>
+  `).join('');
+}
+async function startAdminEdit(sectionKey,rowIndex){
+  const cfg=ADMIN_SHEETS[sectionKey];
+  const rows=await sheetGet(cfg.sheet);
+  const row=rows.find(r=>r.rowIndex===rowIndex);
+  if(!row){showToast('تعذر العثور على العنصر','error');return;}
+  _adminEditRow={sectionKey,rowIndex};
+  cfg.fields.forEach(f=>{
+    const el=document.getElementById(`admin-field-${f.key}`);
+    if(el)el.value=row[f.key]||'';
+    const preview=document.getElementById(`admin-field-${f.key}-preview`);
+    if(preview&&row[f.key]){preview.src=row[f.key];preview.style.display='block';}
+  });
+  document.getElementById('admin-submit-btn').textContent='حفظ التعديلات';
+  document.getElementById('admin-cancel-edit-btn').style.display='inline-block';
+  document.getElementById('admin-body').scrollTop=0;
+}
+function cancelAdminEdit(){
+  _adminEditRow=null;
+  document.getElementById('admin-submit-btn').textContent='إضافة إلى قاعدة البيانات';
+  document.getElementById('admin-cancel-edit-btn').style.display='none';
+}
+async function confirmAdminDelete(sectionKey,rowIndex){
+  if(!confirm('هل أنت متأكد من حذف هذا العنصر نهائياً من قاعدة البيانات؟'))return;
+  const cfg=ADMIN_SHEETS[sectionKey];
+  const ok=await sheetDelete(cfg.sheet,rowIndex);
+  if(ok){
+    showToast('تم الحذف بنجاح');
+    loadAdminExistingList(sectionKey);
+    syncAll();
+  }else{
+    showToast('تعذر الحذف','error');
+  }
+}
+async function submitAdminForm(sectionKey){
+  const cfg=ADMIN_SHEETS[sectionKey];
+  const data={};
+  let missingRequired=false;
+  cfg.fields.forEach(f=>{
+    const el=document.getElementById(`admin-field-${f.key}`);
+    const val=el?el.value.trim():'';
+    if(f.required&&!val)missingRequired=true;
+    if(val)data[f.key]=val;
+  });
+  if(missingRequired){showToast('يرجى ملء الحقول المطلوبة','error');return;}
+  if(cfg.fixed)Object.assign(data,cfg.fixed);
+  const btn=document.getElementById('admin-submit-btn');
+  const isEditing=_adminEditRow&&_adminEditRow.sectionKey===sectionKey;
+  btn.textContent=isEditing?'جاري الحفظ...':'جاري الإضافة...';
+  const res=isEditing
+    ?await sheetPatch(cfg.sheet,_adminEditRow.rowIndex,data)
+    :await sheetPost(cfg.sheet,data);
+  btn.textContent=isEditing?'حفظ التعديلات':'إضافة إلى قاعدة البيانات';
+  if(res){
+    showToast(isEditing?'تم حفظ التعديلات!':'تمت الإضافة بنجاح!');
+    cancelAdminEdit();
+    renderAdminFields(sectionKey);
+    loadAdminExistingList(sectionKey);
+    syncAll();
+  }else{
+    showToast('حدث خطأ أثناء الحفظ — افتح "فحص الاتصال" لمعرفة السبب','error');
+  }
 }
 
 /* ─── INIT ─── */
 (async function init(){
+  if(currentUser&&await checkBlockedStatus())return;
   await Promise.all([
     loadStats(),
     loadBooks(),
@@ -1785,9 +2399,29 @@ function startPolling(){
     loadTimeline(),
     loadTestimonials(),
   ]);
+  if(_lastConnectionError)updateConnectionBanner(_lastConnectionError);
+  refreshCvButtonState();
+  trackVisitor();
   handleDeepLink();
   startPolling();
 })();
 </script>
+
+<!-- ══════════════ ADMIN PANEL (NEW) ══════════════ -->
+<button id="admin-toggle" onclick="openAdmin()" title="لوحة التحكم">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+</button>
+<div id="admin-modal">
+  <div class="admin-card">
+    <div class="admin-header">
+      <button class="modal-close" onclick="closeAdmin()" style="position:static;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <span class="modal-header-title">لوحة تحكم سَرْمَد</span>
+    </div>
+    <div class="admin-body" id="admin-body"></div>
+  </div>
+</div>
+
 </body>
 </html>
