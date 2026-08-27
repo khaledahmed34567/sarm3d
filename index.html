@@ -191,6 +191,10 @@
                         <button onclick="openModal('register-modal')" class="btn-primary px-5 py-2 text-sm font-heading">حساب جديد</button>
                     </div>
                     <div id="user-menu-desktop" class="hidden flex items-center space-x-4 space-x-reverse">
+                        <button onclick="openNotifModal()" class="relative text-dark hover:text-accent cursor-pointer bg-transparent border-0" title="الإشعارات">
+                            <i class="fas fa-bell"></i>
+                            <span id="notif-badge-desktop" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                        </button>
                         <a onclick="scrollToSection('view-profile')" class="text-dark font-heading text-sm bg-gray-100 hover:bg-borderline px-4 py-2 rounded-full cursor-pointer transition">
                             <i class="fas fa-user-circle"></i> <span id="user-name-desktop"></span>
                         </a>
@@ -240,6 +244,9 @@
                     <button onclick="openModal('register-modal'); document.getElementById('mobile-menu').classList.add('hidden')" class="block w-full btn-primary py-3 text-sm">إنشاء حساب</button>
                 </div>
                 <div id="user-menu-mobile" class="hidden space-y-3">
+                    <button onclick="openNotifModal()" class="relative block w-full bg-gray-100 text-dark font-heading py-2 rounded-xl cursor-pointer">
+                        <i class="fas fa-bell"></i> الإشعارات <span id="notif-badge-mobile" class="hidden bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-full mr-1">0</span>
+                    </button>
                     <a onclick="scrollToSection('view-profile')" class="block bg-gray-100 text-dark font-heading py-2 rounded-xl cursor-pointer">
                         <i class="fas fa-user"></i> <span id="user-name-mobile"></span> (حسابي)
                     </a>
@@ -272,6 +279,7 @@
                     <button onclick="scrollToSection('view-services')" class="btn-primary px-8 py-3 md:px-10 md:py-4 text-base md:text-lg">تصفح الخدمات</button>
                     <button onclick="scrollToSection('view-projects')" class="bg-white/50 backdrop-blur-md text-dark border border-borderline font-heading px-8 py-3 md:px-10 md:py-4 rounded-full hover:bg-white hover:border-accent transition-all duration-300">مشاريعنا السابقة</button>
                 </div>
+                <div id="stats-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-10 pt-10 md:pt-16"></div>
             </div>
         </section>
 
@@ -488,6 +496,13 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="lg:col-span-3">
+                    <div class="apple-card p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-heading text-dark mb-6 border-b border-borderline pb-2"><i class="fas fa-heart text-accent ml-2"></i> مفضلتي</h3>
+                        <div id="my-favorites-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -517,6 +532,9 @@
                 <button onclick="adminTab('bkg')" id="tab-adm-bkg" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إدارة الحجوزات</button>
                 <button onclick="adminTab('prs')" id="tab-adm-prs" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">تغطية إعلامية</button>
                 <button onclick="adminTab('mls')" id="tab-adm-mls" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">محطة جديدة</button>
+                <button onclick="adminTab('notif')" id="tab-adm-notif" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إرسال إشعار</button>
+                <button onclick="adminTab('stat')" id="tab-adm-stat" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إحصائية جديدة</button>
+                <button onclick="adminTab('fav')" id="tab-adm-fav" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">المفضلة</button>
             </div>
             
             <div class="apple-card p-6 md:p-8">
@@ -803,6 +821,42 @@
                         <div id="admin-list-mls" class="space-y-2 max-h-72 overflow-y-auto"></div>
                     </div>
                 </form>
+
+                <form id="adm-form-notif" onsubmit="adminSubmit(event, 'Notifications')" class="space-y-4 hidden">
+                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إرسال إشعار للمستخدمين</h3>
+                    <select id="a-notif-target" class="input-field" onchange="toggleNotifTargetEmail()" required>
+                        <option value="">إرسال لكل المستخدمين</option>
+                        <option value="specific">إرسال لبريد إلكتروني محدد</option>
+                    </select>
+                    <div id="notif-target-email-div" class="hidden">
+                        <input type="email" id="a-notif-email" class="input-field" placeholder="البريد الإلكتروني للمستخدم">
+                    </div>
+                    <input type="text" id="a-notif-title" class="input-field" placeholder="عنوان الإشعار" required>
+                    <textarea id="a-notif-message" class="input-field h-24" placeholder="نص الإشعار" required></textarea>
+                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">إرسال الإشعار</button>
+                    <div class="border-t border-borderline pt-4 mt-2">
+                        <p class="text-xs font-heading text-graytext mb-2">الإشعارات المرسلة حالياً</p>
+                        <div id="admin-list-notif" class="space-y-2 max-h-72 overflow-y-auto"></div>
+                    </div>
+                </form>
+
+                <form id="adm-form-stat" onsubmit="adminSubmit(event, 'Stats')" class="space-y-4 hidden">
+                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة إحصائية جديدة للصفحة الرئيسية</h3>
+                    <input type="text" id="a-stat-label" class="input-field" placeholder="التسمية (مثال: عملاء سعداء)" required>
+                    <input type="number" id="a-stat-number" class="input-field" placeholder="الرقم (مثال: 500)" required>
+                    <input type="text" id="a-stat-icon" class="input-field" placeholder="أيقونة FontAwesome (مثال: fa-users)" required>
+                    <p class="text-[10px] text-graytext font-dates px-2"><i class="fas fa-info-circle text-accent"></i> أمثلة لأيقونات جاهزة: fa-users، fa-project-diagram، fa-award، fa-headset، fa-shield-alt.</p>
+                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الإحصائية</button>
+                    <div class="border-t border-borderline pt-4 mt-2">
+                        <p class="text-xs font-heading text-graytext mb-2">الإحصائيات الحالية</p>
+                        <div id="admin-list-stat" class="space-y-2 max-h-72 overflow-y-auto"></div>
+                    </div>
+                </form>
+
+                <div id="adm-form-fav" class="space-y-4 hidden">
+                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة المفضلة لدى العملاء</h3>
+                    <div id="admin-list-fav" class="space-y-2 max-h-96 overflow-y-auto"></div>
+                </div>
             </div>
         </section>
 
@@ -983,6 +1037,15 @@
         </div>
     </div>
 
+    <!-- نافذة الإشعارات -->
+    <div id="notif-modal" class="modal">
+        <div class="modal-content relative">
+            <button onclick="closeModal('notif-modal')" class="absolute top-5 left-5 text-graytext hover:text-dark text-xl cursor-pointer"><i class="fas fa-times"></i></button>
+            <h3 class="text-xl md:text-2xl font-heading mb-4 text-center text-dark"><i class="fas fa-bell text-accent ml-2"></i> الإشعارات</h3>
+            <div id="notif-list" class="space-y-1 max-h-96 overflow-y-auto"></div>
+        </div>
+    </div>
+
     <!-- رسائل النظام -->
     <div id="msg-modal" class="modal">
         <div class="modal-content text-center !m-auto !w-[90%] md:!w-80 relative p-6">
@@ -1133,8 +1196,21 @@
             team: [
                 {name: 'خالد أحمد', role: 'المؤسس والمدير التنفيذي', bio: 'خبير في قيادة المشاريع التقنية وإدارة فرق العمل البرمجية.', image: 'https://via.placeholder.com/150'}
             ], 
-            downloads: [], certificates: [], orders: [], apps: [], faq: [], reviews: [], joinRequests: [], announcements: [], coupons: [], videos: [], events: [], partners: [], tickets: [], jobs: [], jobApplications: [], bookings: [], press: [], milestones: [] 
+            downloads: [], certificates: [], orders: [], apps: [], faq: [], reviews: [], joinRequests: [], announcements: [], coupons: [], videos: [], events: [], partners: [], tickets: [], jobs: [], jobApplications: [], bookings: [], press: [], milestones: [], favorites: [], notifications: [], stats: [] 
         };
+
+        // ===== تخزين مؤقت محلي (Cache) لتسريع ظهور البيانات فوراً عند الزيارة التالية قبل اكتمال الشبكة =====
+        const APP_DATA_CACHE_KEY = 'sarmad_cached_data';
+        function loadCachedAppData() {
+            try {
+                const cached = localStorage.getItem(APP_DATA_CACHE_KEY);
+                if(cached) { Object.assign(appData, JSON.parse(cached)); return true; }
+            } catch(e) {}
+            return false;
+        }
+        function saveCachedAppData() {
+            try { localStorage.setItem(APP_DATA_CACHE_KEY, JSON.stringify(appData)); } catch(e) {}
+        }
 
         const encryptData = (t) => btoa(encodeURIComponent(t));
         const decryptData = (t) => decodeURIComponent(atob(t));
@@ -1146,13 +1222,15 @@
 
         // جلب البيانات بشكل مستقل لتجنب توقف الموقع إذا كان هناك جدول فارغ
         async function fetchSafe(table) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 9000);
             try {
                 const url = `${SHEET_API_URL}${table}?spreadsheetId=${SHEET_ID}&_t=${new Date().getTime()}`;
-                const res = await fetch(url, { method: 'GET', headers: { 'Authorization': `Bearer ${SHEET_TOKEN}`, 'Content-Type': 'application/json'} });
+                const res = await fetch(url, { method: 'GET', headers: { 'Authorization': `Bearer ${SHEET_TOKEN}`, 'Content-Type': 'application/json'}, signal: controller.signal });
                 if (!res.ok) return null; 
                 const data = await res.json();
                 return data.results;
-            } catch (error) { return null; }
+            } catch (error) { return null; } finally { clearTimeout(timeoutId); }
         }
 
         async function saveToDB(table, data) {
@@ -1247,6 +1325,46 @@
             const sel = document.getElementById('reg-project').value;
             const div = document.getElementById('reg-project-other-div');
             sel === 'other' ? (div.classList.remove('hidden'), document.getElementById('reg-project-other').required = true) : (div.classList.add('hidden'), document.getElementById('reg-project-other').required = false);
+        }
+
+        function toggleNotifTargetEmail() {
+            const sel = document.getElementById('a-notif-target').value;
+            document.getElementById('notif-target-email-div').classList.toggle('hidden', sel !== 'specific');
+        }
+
+        // ===== نظام الإشعارات =====
+        function getMyNotifications() {
+            if(!currentUser) return [];
+            return appData.notifications.filter(n => !n.target_email || n.target_email === currentUser.email).slice().reverse();
+        }
+
+        function updateNotifBadges() {
+            const mine = getMyNotifications();
+            const seenKey = currentUser ? 'sarmad_notif_seen_' + currentUser.email : null;
+            const seenCount = seenKey ? parseInt(localStorage.getItem(seenKey) || '0') : 0;
+            const unread = currentUser ? Math.max(0, mine.length - seenCount) : 0;
+            ['notif-badge-desktop', 'notif-badge-mobile'].forEach(id => {
+                const el = document.getElementById(id);
+                if(!el) return;
+                if(unread > 0) { el.textContent = unread > 9 ? '9+' : unread; el.classList.remove('hidden'); }
+                else { el.classList.add('hidden'); }
+            });
+        }
+
+        function openNotifModal() {
+            if(!currentUser){ showMsg("تنبيه", "سجل دخولك أولاً لعرض إشعاراتك."); openModal('login-modal'); return; }
+            const mine = getMyNotifications();
+            const list = document.getElementById('notif-list');
+            list.innerHTML = mine.length
+                ? mine.slice(0, 30).map(n => `<div class="border-b border-borderline last:border-0 py-3 text-right">
+                    <h4 class="font-heading text-dark text-sm">${n.title || 'إشعار'}</h4>
+                    <p class="text-xs text-graytext font-dates mt-1">${n.message || ''}</p>
+                    <p class="text-[10px] text-accent font-dates mt-1">${n.date || ''}</p>
+                  </div>`).join('')
+                : '<p class="text-graytext font-dates text-center py-6 text-sm">لا توجد إشعارات حتى الآن.</p>';
+            localStorage.setItem('sarmad_notif_seen_' + currentUser.email, String(mine.length));
+            updateNotifBadges();
+            openModal('notif-modal');
         }
 
         async function handleRegister(e) {
@@ -1397,6 +1515,9 @@
                 renderMyTickets();
                 renderMyJobApps();
                 renderMyBookings();
+                renderMyFavorites();
+                updateNotifBadges();
+                renderServices(); renderProjects(); renderApps();
             } else {
                 document.getElementById('auth-menu-desktop').classList.remove('hidden'); document.getElementById('user-menu-desktop').classList.add('hidden');
                 document.getElementById('auth-menu-mobile').classList.remove('hidden'); document.getElementById('user-menu-mobile').classList.add('hidden');
@@ -1405,6 +1526,9 @@
                 renderMyTickets();
                 renderMyJobApps();
                 renderMyBookings();
+                renderMyFavorites();
+                updateNotifBadges();
+                renderServices(); renderProjects(); renderApps();
             }
         }
 
@@ -1430,7 +1554,8 @@
                 const safeName = (s.name || '').replace(/'/g, "\\'");
                 const notesHtml = s.notes ? `<div class="bg-notebg text-notetext p-3 rounded-xl text-xs md:text-sm font-dates border border-blue-100 flex items-start gap-2 mt-4"><i class="fas fa-info-circle mt-1"></i> <span>${s.notes}</span></div>` : '';
                 const alertHtml = s.alert ? `<div class="bg-alertbg text-alerttext p-3 rounded-xl text-xs md:text-sm font-dates border border-amber-200 flex items-start gap-2 mt-3"><i class="fas fa-star mt-1"></i> <span>${s.alert}</span></div>` : '';
-                grid.innerHTML += `<div class="apple-card p-6 md:p-8 flex flex-col h-full"><div class="flex justify-between items-start"><h3 class="text-xl md:text-2xl font-heading text-dark mb-4">${s.name}</h3><button onclick="shareDetail('services','${uniqueId}','${safeName}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-dark hover:bg-accent hover:text-white transition cursor-pointer shrink-0" title="مشاركة"><i class="fas fa-share-alt text-xs"></i></button></div><div class="mb-4">${discount > 0 ? `<span class="text-graytext line-through text-xs md:text-sm font-dates">${price}</span> <span class="text-dark font-heading text-2xl md:text-3xl mx-2">${finalPrice} ج.م</span> <span class="bg-red-50 text-red-500 text-[10px] px-2 py-1 rounded-full font-dates">خصم ${discount}%</span>` : `<span class="text-dark font-heading text-2xl md:text-3xl">${price} ج.م</span>`}</div><div class="flex-grow mb-6">${notesHtml} ${alertHtml}</div><button onclick="requestService('${s.name}', ${finalPrice})" class="btn-primary w-full py-3 mt-auto font-heading text-sm md:text-base">طلب الخدمة</button></div>`;
+                const favActive = isFavorited('services', uniqueId);
+                grid.innerHTML += `<div class="apple-card p-6 md:p-8 flex flex-col h-full"><div class="flex justify-between items-start"><h3 class="text-xl md:text-2xl font-heading text-dark mb-4">${s.name}</h3><div class="flex gap-2 shrink-0"><button onclick="toggleFavorite('services','${uniqueId}','${safeName}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center ${favActive ? 'text-red-500' : 'text-dark'} hover:bg-accent hover:text-white transition cursor-pointer" title="مفضلة"><i class="${favActive ? 'fas' : 'far'} fa-heart text-xs"></i></button><button onclick="shareDetail('services','${uniqueId}','${safeName}')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-dark hover:bg-accent hover:text-white transition cursor-pointer" title="مشاركة"><i class="fas fa-share-alt text-xs"></i></button></div></div><div class="mb-4">${discount > 0 ? `<span class="text-graytext line-through text-xs md:text-sm font-dates">${price}</span> <span class="text-dark font-heading text-2xl md:text-3xl mx-2">${finalPrice} ج.م</span> <span class="bg-red-50 text-red-500 text-[10px] px-2 py-1 rounded-full font-dates">خصم ${discount}%</span>` : `<span class="text-dark font-heading text-2xl md:text-3xl">${price} ج.م</span>`}</div><div class="flex-grow mb-6">${notesHtml} ${alertHtml}</div><button onclick="requestService('${s.name}', ${finalPrice})" class="btn-primary w-full py-3 mt-auto font-heading text-sm md:text-base">طلب الخدمة</button></div>`;
             });
         }
 
@@ -1802,8 +1927,12 @@
             appData.apps.forEach((a, idx) => {
                 const safeTitle = (a.title || 'تطبيق').replace(/'/g, "\\'");
                 const uniqueId = a.id || a.rowIndex || idx;
+                const favActive = isFavorited('apps', uniqueId);
                 grid.innerHTML += `<div class="apple-card overflow-hidden transition relative">
-                    <button onclick="shareDetail('apps','${uniqueId}','${safeTitle}')" class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-dark hover:bg-accent hover:text-white transition cursor-pointer" title="مشاركة"><i class="fas fa-share-alt text-xs"></i></button>
+                    <div class="absolute top-3 left-3 z-10 flex gap-2">
+                        <button onclick="toggleFavorite('apps','${uniqueId}','${safeTitle}')" class="w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center ${favActive ? 'text-red-500' : 'text-dark'} hover:bg-accent hover:text-white transition cursor-pointer" title="مفضلة"><i class="${favActive ? 'fas' : 'far'} fa-heart text-xs"></i></button>
+                        <button onclick="shareDetail('apps','${uniqueId}','${safeTitle}')" class="w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-dark hover:bg-accent hover:text-white transition cursor-pointer" title="مشاركة"><i class="fas fa-share-alt text-xs"></i></button>
+                    </div>
                     ${a.image ? `<img src="${a.image}" class="w-full h-40 md:h-48 object-cover">` : ''}
                     <div class="p-6 text-center">
                         <img src="${a.icon || 'https://via.placeholder.com/80'}" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl mx-auto -mt-14 mb-3 border-4 border-white shadow-apple object-cover">
@@ -1885,6 +2014,9 @@
             ptn: { data: () => appData.partners, table: 'Partners', label: p => p.name },
             prs: { data: () => appData.press, table: 'Press', label: p => p.title },
             mls: { data: () => appData.milestones, table: 'Milestones', label: m => `${m.year} — ${m.title}` },
+            fav: { data: () => appData.favorites, table: 'Favorites', label: f => `${f.item_title} (${f.user_email})` },
+            stat:{ data: () => appData.stats, table: 'Stats', label: s => `${s.label}: ${s.number}` },
+            notif:{ data: () => appData.notifications, table: 'Notifications', label: n => `${n.title} → ${n.target_email || 'كل المستخدمين'}` },
         };
 
         function renderAdminListFor(key) {
@@ -2308,13 +2440,76 @@
             catch(e) { showMsg("خطأ", "فشل تحديث الحالة."); }
         }
 
+        // ===== نظام المفضلة =====
+        function isFavorited(type, uniqueId) {
+            if(!currentUser) return false;
+            return appData.favorites.some(f => f.user_email === currentUser.email && f.item_type === type && String(f.item_id) === String(uniqueId));
+        }
+
+        async function toggleFavorite(type, uniqueId, title) {
+            if(!currentUser){ showMsg("تنبيه", "سجل دخولك لإضافة عناصر لمفضلتك."); openModal('login-modal'); return; }
+            const existing = appData.favorites.find(f => f.user_email === currentUser.email && f.item_type === type && String(f.item_id) === String(uniqueId));
+            try {
+                if(existing) { await deleteRow('Favorites', existing.rowIndex); }
+                else { await saveToDB('Favorites', { user_email: currentUser.email, item_type: type, item_id: String(uniqueId), item_title: title, date: new Date().toLocaleDateString('ar-EG') }); }
+                fetchAllData();
+            } catch(e) { showMsg("خطأ", "تعذر تحديث المفضلة."); }
+        }
+
+        function favoriteTypeLabel(type) {
+            const map = { services: 'خدمة', projects: 'مشروع', apps: 'تطبيق' };
+            return map[type] || type;
+        }
+
+        function renderMyFavorites() {
+            const list = document.getElementById('my-favorites-list');
+            if(!list) return;
+            if(!currentUser) { list.innerHTML = '<p class="text-graytext text-sm font-dates text-center py-6">سجل دخولك لعرض مفضلتك.</p>'; return; }
+            const mine = appData.favorites.filter(f => f.user_email === currentUser.email);
+            if(!mine.length) { list.innerHTML = '<p class="text-graytext text-sm font-dates text-center py-6">لا توجد عناصر في مفضلتك بعد.</p>'; return; }
+            list.innerHTML = mine.slice().reverse().map(f => `<div class="flex justify-between items-center border border-borderline p-3 rounded-2xl">
+                <div><span class="text-[10px] text-accent font-dates">${favoriteTypeLabel(f.item_type)}</span><h4 class="font-heading text-dark text-sm">${f.item_title}</h4></div>
+                <button onclick="deleteFavoriteRow(${f.rowIndex})" class="text-red-500 hover:text-red-700 text-xs cursor-pointer bg-transparent border-0" title="إزالة من المفضلة"><i class="fas fa-trash-alt"></i></button>
+            </div>`).join('');
+        }
+
+        async function deleteFavoriteRow(rowIndex) {
+            try { await deleteRow('Favorites', rowIndex); fetchAllData(); } catch(e) { showMsg("خطأ", "تعذر الحذف."); }
+        }
+
+        // ===== عدادات الإحصائيات في الصفحة الرئيسية =====
+        function animateStatCounter(el, target) {
+            let current = 0;
+            const increment = Math.max(1, Math.ceil(target / 60));
+            const step = () => {
+                current += increment;
+                if(current >= target) { el.textContent = target.toLocaleString('ar-EG'); return; }
+                el.textContent = current.toLocaleString('ar-EG');
+                requestAnimationFrame(step);
+            };
+            step();
+        }
+
+        function renderStats() {
+            const grid = document.getElementById('stats-grid');
+            if(!grid) return;
+            if(!appData.stats.length) { grid.innerHTML = ''; return; }
+            grid.innerHTML = appData.stats.map(s => `<div class="text-center">
+                <i class="fas ${s.icon || 'fa-star'} text-accent text-2xl md:text-3xl mb-2"></i>
+                <div class="font-heading text-2xl md:text-4xl text-dark stat-number" data-target="${parseInt(s.number) || 0}">0</div>
+                <p class="text-xs md:text-sm text-graytext font-dates mt-1">${s.label}</p>
+            </div>`).join('');
+            document.querySelectorAll('.stat-number').forEach(el => animateStatCounter(el, parseInt(el.dataset.target) || 0));
+        }
+
         function renderProjects() {
             const grid = document.getElementById('projects-grid'); grid.innerHTML = '';
             if(!appData.projects.length) { grid.innerHTML = '<p class="col-span-full text-center text-graytext font-dates py-10">لا توجد مشاريع مضافة حالياً.</p>'; return; }
             appData.projects.forEach((p, idx) => { 
                 const uniqueId = p.id || p.rowIndex || idx;
                 const safeTitle = (p.title || '').replace(/'/g, "\\'");
-                grid.innerHTML += `<div class="apple-card overflow-hidden transition" id="project-${p.id || p.rowIndex}"><div class="relative"><img src="${p.image}" class="w-full h-48 md:h-56 object-cover"><button onclick="shareDetail('projects','${uniqueId}','${safeTitle}')" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-dark hover:bg-accent hover:text-white transition cursor-pointer" title="مشاركة"><i class="fas fa-share-alt text-xs"></i></button></div><div class="p-4 md:p-6"><h3 class="font-heading text-lg md:text-xl mb-2">${p.title}</h3><p class="text-xs md:text-sm text-graytext font-dates">${p.description}</p></div></div>`; 
+                const favActive = isFavorited('projects', uniqueId);
+                grid.innerHTML += `<div class="apple-card overflow-hidden transition" id="project-${p.id || p.rowIndex}"><div class="relative"><img src="${p.image}" class="w-full h-48 md:h-56 object-cover"><div class="absolute top-3 left-3 flex gap-2"><button onclick="toggleFavorite('projects','${uniqueId}','${safeTitle}')" class="w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center ${favActive ? 'text-red-500' : 'text-dark'} hover:bg-accent hover:text-white transition cursor-pointer" title="مفضلة"><i class="${favActive ? 'fas' : 'far'} fa-heart text-xs"></i></button><button onclick="shareDetail('projects','${uniqueId}','${safeTitle}')" class="w-8 h-8 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-dark hover:bg-accent hover:text-white transition cursor-pointer" title="مشاركة"><i class="fas fa-share-alt text-xs"></i></button></div></div><div class="p-4 md:p-6"><h3 class="font-heading text-lg md:text-xl mb-2">${p.title}</h3><p class="text-xs md:text-sm text-graytext font-dates">${p.description}</p></div></div>`; 
             });
         }
 
@@ -2417,7 +2612,7 @@
         function adminTab(tabKey) {
             document.querySelectorAll('.admin-tab-btn').forEach(b => { b.classList.remove('active', 'bg-dark', 'text-white', 'shadow-md'); b.classList.add('text-graytext'); });
             document.getElementById(`tab-adm-${tabKey}`).classList.add('active', 'bg-dark', 'text-white', 'shadow-md'); document.getElementById(`tab-adm-${tabKey}`).classList.remove('text-graytext');
-            ['srv', 'art', 'prj', 'crt', 'dl', 'app', 'team', 'faq', 'ann', 'cpn', 'ord', 'jr', 'vid', 'evt', 'ptn', 'tkt', 'job', 'japp', 'bkg', 'prs', 'mls'].forEach(k => { document.getElementById(`adm-form-${k}`).classList.add('hidden'); });
+            ['srv', 'art', 'prj', 'crt', 'dl', 'app', 'team', 'faq', 'ann', 'cpn', 'ord', 'jr', 'vid', 'evt', 'ptn', 'tkt', 'job', 'japp', 'bkg', 'prs', 'mls', 'notif', 'stat', 'fav'].forEach(k => { document.getElementById(`adm-form-${k}`).classList.add('hidden'); });
             document.getElementById(`adm-form-${tabKey}`).classList.remove('hidden');
             if(tabKey === 'ord') renderAdminOrders();
             if(tabKey === 'jr') renderAdminJoinRequests();
@@ -2485,6 +2680,11 @@
                     const mlsFile = document.getElementById('a-mls-image-file').files[0];
                     const imageUrl = mlsFile ? await uploadToImgbb(mlsFile) : '';
                     data = { year: document.getElementById('a-mls-year').value, title: document.getElementById('a-mls-title').value, description: document.getElementById('a-mls-desc').value, image: imageUrl };
+                } else if(table === 'Notifications') {
+                    const target = document.getElementById('a-notif-target').value;
+                    data = { target_email: target === 'specific' ? document.getElementById('a-notif-email').value : '', title: document.getElementById('a-notif-title').value, message: document.getElementById('a-notif-message').value, date: new Date().toLocaleDateString('ar-EG') };
+                } else if(table === 'Stats') {
+                    data = { label: document.getElementById('a-stat-label').value, number: document.getElementById('a-stat-number').value, icon: document.getElementById('a-stat-icon').value };
                 }
 
                 await saveToDB(table, data); e.target.reset(); showMsg("تم الحفظ", `تمت الإضافة بنجاح إلى ${table}.`); fetchAllData();
@@ -2494,7 +2694,7 @@
         async function fetchAllData() {
             try {
                 // جلب كل الجداول بالتوازي في نفس الوقت بدل التتابع الواحد تلو الآخر — يسرّع التحميل بشكل كبير
-                const tableNames = ['Services', 'Projects', 'Articles', 'Downloads', 'Certificates', 'Orders', 'Team', 'Apps', 'FAQ', 'Reviews', 'Announcements', 'Coupons', 'JoinRequests', 'Videos', 'Events', 'Partners', 'Tickets', 'Jobs', 'JobApplications', 'Bookings', 'Press', 'Milestones'];
+                const tableNames = ['Services', 'Projects', 'Articles', 'Downloads', 'Certificates', 'Orders', 'Team', 'Apps', 'FAQ', 'Reviews', 'Announcements', 'Coupons', 'JoinRequests', 'Videos', 'Events', 'Partners', 'Tickets', 'Jobs', 'JobApplications', 'Bookings', 'Press', 'Milestones', 'Favorites', 'Notifications', 'Stats'];
                 const results = await Promise.all(tableNames.map(t => fetchSafe(t)));
                 const d = {};
                 tableNames.forEach((t, i) => { d[t] = results[i]; });
@@ -2534,8 +2734,16 @@
                 }
                 if (d.Press && JSON.stringify(d.Press) !== JSON.stringify(appData.press)) { appData.press = d.Press; renderPress(); }
                 if (d.Milestones && JSON.stringify(d.Milestones) !== JSON.stringify(appData.milestones)) { appData.milestones = d.Milestones; renderMilestones(); }
+                if (d.Favorites && JSON.stringify(d.Favorites) !== JSON.stringify(appData.favorites)) {
+                    appData.favorites = d.Favorites;
+                    renderMyFavorites();
+                    renderServices(); renderProjects(); renderApps();
+                }
+                if (d.Notifications && JSON.stringify(d.Notifications) !== JSON.stringify(appData.notifications)) { appData.notifications = d.Notifications; updateNotifBadges(); }
+                if (d.Stats && JSON.stringify(d.Stats) !== JSON.stringify(appData.stats)) { appData.stats = d.Stats; renderStats(); }
 
                 renderAllAdminLists();
+                saveCachedAppData();
 
                 window.__sarmadDataLoadedOnce = true;
                 handleHashRouting();
@@ -2588,8 +2796,11 @@
             if(savedUser) currentUser = JSON.parse(savedUser);
             updateUIAuth();
 
+            // استرجاع آخر نسخة محفوظة من البيانات فوراً (إن وجدت) لعرض سريع جداً قبل اكتمال الاتصال بالشبكة
+            loadCachedAppData();
+
             // رسم البيانات المدمجة فوراً لسرعة العرض
-            renderServices(); renderProjects(); renderDownloads(); renderArticles(); renderTeam(); renderCertificates(); renderApps(); renderFAQ(); renderReviews(); renderAnnouncementBanner(); renderVideos(); renderEvents(); renderPartners(); renderMyTickets(); renderCareers(); renderMyJobApps(); renderMyBookings(); renderPress(); renderMilestones();
+            renderServices(); renderProjects(); renderDownloads(); renderArticles(); renderTeam(); renderCertificates(); renderApps(); renderFAQ(); renderReviews(); renderAnnouncementBanner(); renderVideos(); renderEvents(); renderPartners(); renderMyTickets(); renderCareers(); renderMyJobApps(); renderMyBookings(); renderPress(); renderMilestones(); renderStats(); renderMyFavorites(); updateNotifBadges();
 
             await fetchAllData();
             
