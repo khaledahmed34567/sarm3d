@@ -198,7 +198,6 @@
                         <a onclick="scrollToSection('view-profile')" class="text-dark font-heading text-sm bg-gray-100 hover:bg-borderline px-4 py-2 rounded-full cursor-pointer transition">
                             <i class="fas fa-user-circle"></i> <span id="user-name-desktop"></span>
                         </a>
-                        <a onclick="scrollToSection('view-admin')" id="nav-admin-desktop" class="nav-link text-accent hidden" data-target="view-admin">الإدارة</a>
                         <button onclick="logout()" class="text-red-500 hover:text-red-700" title="خروج"><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 </div>
@@ -250,7 +249,6 @@
                     <a onclick="scrollToSection('view-profile')" class="block bg-gray-100 text-dark font-heading py-2 rounded-xl cursor-pointer">
                         <i class="fas fa-user"></i> <span id="user-name-mobile"></span> (حسابي)
                     </a>
-                    <a onclick="scrollToSection('view-admin')" id="nav-admin-mobile" class="block nav-link text-accent hidden">لوحة التحكم</a>
                     <button onclick="logout()" class="block w-full text-red-500 font-heading text-sm">تسجيل الخروج</button>
                 </div>
             </div>
@@ -512,360 +510,7 @@
         </section>
 
         <!-- قسم لوحة التحكم للمدير -->
-        <section id="view-admin" class="scroll-section hidden py-16 md:py-24 px-4 max-w-7xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-heading text-dark mb-10"><i class="fas fa-sliders-h text-accent ml-3"></i> إدارة سرمد</h2>
-            
-            <div class="flex flex-wrap gap-2 mb-8 bg-white/50 backdrop-blur-md p-2 rounded-2xl border border-borderline">
-                <button onclick="adminTab('srv')" id="tab-adm-srv" class="admin-tab-btn active px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading bg-dark text-white shadow-md transition-all cursor-pointer">إضافة خدمة</button>
-                <button onclick="adminTab('art')" id="tab-adm-art" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة مقال</button>
-                <button onclick="adminTab('prj')" id="tab-adm-prj" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة مشروع</button>
-                <button onclick="adminTab('crt')" id="tab-adm-crt" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة شهادة</button>
-                <button onclick="adminTab('dl')" id="tab-adm-dl" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة ملف تحميل</button>
-                <button onclick="adminTab('app')" id="tab-adm-app" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة تطبيق</button>
-                <button onclick="adminTab('team')" id="tab-adm-team" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة عضو فريق</button>
-                <button onclick="adminTab('faq')" id="tab-adm-faq" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة سؤال شائع</button>
-                <button onclick="adminTab('ann')" id="tab-adm-ann" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إعلان جديد</button>
-                <button onclick="adminTab('cpn')" id="tab-adm-cpn" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">كوبون خصم</button>
-                <button onclick="adminTab('ord')" id="tab-adm-ord" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إدارة الطلبات</button>
-                <button onclick="adminTab('jr')" id="tab-adm-jr" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">طلبات الانضمام</button>
-                <button onclick="adminTab('vid')" id="tab-adm-vid" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">رفع فيديو</button>
-                <button onclick="adminTab('evt')" id="tab-adm-evt" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة فعالية</button>
-                <button onclick="adminTab('ptn')" id="tab-adm-ptn" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إضافة شريك</button>
-                <button onclick="adminTab('tkt')" id="tab-adm-tkt" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">تذاكر الدعم</button>
-                <button onclick="adminTab('job')" id="tab-adm-job" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">وظيفة جديدة</button>
-                <button onclick="adminTab('japp')" id="tab-adm-japp" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">طلبات التقديم</button>
-                <button onclick="adminTab('bkg')" id="tab-adm-bkg" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إدارة الحجوزات</button>
-                <button onclick="adminTab('prs')" id="tab-adm-prs" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">تغطية إعلامية</button>
-                <button onclick="adminTab('mls')" id="tab-adm-mls" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">محطة جديدة</button>
-                <button onclick="adminTab('notif')" id="tab-adm-notif" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إرسال إشعار</button>
-                <button onclick="adminTab('stat')" id="tab-adm-stat" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">إحصائية جديدة</button>
-                <button onclick="adminTab('fav')" id="tab-adm-fav" class="admin-tab-btn px-4 py-2 text-sm md:text-base md:px-6 rounded-xl font-heading text-graytext hover:bg-white transition-all cursor-pointer">المفضلة</button>
-            </div>
-            
-            <div class="apple-card p-6 md:p-8">
-                <form id="adm-form-srv" onsubmit="adminSubmit(event, 'Services')" class="space-y-4">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">نشر خدمة جديدة</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <select id="a-srv-cat" class="input-field" required><option value="direct">دفع مباشر</option><option value="installment">تقسيط</option><option value="rent">إيجار</option></select>
-                        <input type="text" id="a-srv-name" class="input-field" placeholder="اسم الخدمة" required>
-                        <input type="number" id="a-srv-price" class="input-field" placeholder="السعر (ج.م)" required>
-                        <input type="number" id="a-srv-discount" class="input-field" placeholder="نسبة الخصم % (ضع 0 إن لم يوجد)" required value="0">
-                        <input type="text" id="a-srv-notes" class="input-field md:col-span-2" placeholder="ملاحظة (اختياري)">
-                        <input type="text" id="a-srv-alert" class="input-field md:col-span-2" placeholder="تنبيه (اختياري)">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الخدمة ونشرها</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الخدمات المنشورة حالياً</p>
-                        <div id="admin-list-srv" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-art" onsubmit="adminSubmit(event, 'Articles')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">نشر مقال جديد في المدونة</h3>
-                    <input type="text" id="a-art-title" class="input-field" placeholder="عنوان المقال" required>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة الغلاف (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-art-image-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-art-image">
-                    </div>
-                    <textarea id="a-art-content" class="input-field h-40" placeholder="محتوى المقال (يدعم أكواد HTML للتنسيقات والألوان)" required></textarea>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">نشر المقال</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">المقالات المنشورة حالياً</p>
-                        <div id="admin-list-art" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-prj" onsubmit="adminSubmit(event, 'Projects')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">نشر مشروع سابق</h3>
-                    <input type="text" id="a-prj-title" class="input-field" placeholder="اسم المشروع" required>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة المشروع (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-prj-image-file" accept="image/*" required class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-prj-image">
-                    </div>
-                    <textarea id="a-prj-desc" class="input-field h-24" placeholder="وصف المشروع وإنجازاته" required></textarea>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">نشر المشروع</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">المشاريع المنشورة حالياً</p>
-                        <div id="admin-list-prj" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-crt" onsubmit="adminSubmit(event, 'Certificates')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">رفع شهادة أو رخصة جديدة</h3>
-                    <input type="text" id="a-crt-title" class="input-field" placeholder="اسم الشهادة (مثل: أيزو 27001)" required>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة الشهادة (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-crt-image-file" accept="image/*" required class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-crt-image">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الشهادة</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الشهادات المنشورة حالياً</p>
-                        <div id="admin-list-crt" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-dl" onsubmit="adminSubmit(event, 'Downloads')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة ملف تحميل جديد (كتيب / مستند)</h3>
-                    <input type="text" id="a-dl-title" class="input-field" placeholder="اسم الملف" required>
-                    <input type="url" id="a-dl-url" class="input-field" placeholder="رابط الملف المباشر (PDF) — imgbb لا يدعم رفع ملفات غير الصور" required>
-                    <p class="text-[10px] text-graytext font-dates px-2"><i class="fas fa-info-circle text-accent"></i> ارفع ملف الـPDF على أي مستضيف مباشر (مثل Google Drive برابط مباشر أو Catbox) والصق رابطه هنا.</p>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الملف ونشره</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الملفات المنشورة حالياً</p>
-                        <div id="admin-list-dl" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-app" onsubmit="adminSubmit(event, 'Apps')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة تطبيق جديد إلى تطبيقاتنا</h3>
-                    <input type="text" id="a-app-title" class="input-field" placeholder="اسم التطبيق" required>
-                    <input type="text" id="a-app-category" class="input-field" placeholder="المجال (مثال: تعليمي، تجاري، صحي...)" required>
-                    <textarea id="a-app-desc" class="input-field h-24" placeholder="وصف التطبيق" required></textarea>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">أيقونة التطبيق (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-app-icon-file" accept="image/*" required class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-app-icon">
-                    </div>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة/سكرين شوت للتطبيق (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-app-image-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-app-image">
-                    </div>
-                    <input type="url" id="a-app-apk" class="input-field" placeholder="رابط ملف التطبيق المباشر (APK) — imgbb لا يدعم رفع ملفات غير الصور" required>
-                    <p class="text-[10px] text-graytext font-dates px-2"><i class="fas fa-info-circle text-accent"></i> ارفع ملف الـAPK على أي مستضيف مباشر والصق رابطه هنا، سيتم تحميله مباشرة على جهاز المستخدم عند الضغط.</p>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ التطبيق ونشره</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">التطبيقات المنشورة حالياً</p>
-                        <div id="admin-list-app" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-team" onsubmit="adminSubmit(event, 'Team')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة عضو جديد لفريق العمل</h3>
-                    <input type="text" id="a-team-name" class="input-field" placeholder="اسم العضو" required>
-                    <input type="text" id="a-team-role" class="input-field" placeholder="المنصب / الدور" required>
-                    <textarea id="a-team-bio" class="input-field h-24" placeholder="نبذة مختصرة (اختياري)"></textarea>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">الصورة الشخصية (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-team-image-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-team-image">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ العضو ونشره</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">أعضاء الفريق حالياً</p>
-                        <div id="admin-list-team" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-faq" onsubmit="adminSubmit(event, 'FAQ')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة سؤال شائع جديد</h3>
-                    <input type="text" id="a-faq-q" class="input-field" placeholder="السؤال" required>
-                    <textarea id="a-faq-a" class="input-field h-24" placeholder="الإجابة" required></textarea>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ السؤال ونشره</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الأسئلة المنشورة حالياً</p>
-                        <div id="admin-list-faq" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-ann" onsubmit="adminSubmit(event, 'Announcements')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">نشر إعلان جديد في الصفحة الرئيسية</h3>
-                    <input type="text" id="a-ann-title" class="input-field" placeholder="عنوان الإعلان (اختياري)">
-                    <textarea id="a-ann-message" class="input-field h-24" placeholder="نص الإعلان" required></textarea>
-                    <select id="a-ann-active" class="input-field" required>
-                        <option value="TRUE">فعّال (يظهر للزوار الآن)</option>
-                        <option value="FALSE">غير فعّال</option>
-                    </select>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">نشر الإعلان</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الإعلانات الحالية</p>
-                        <div id="admin-list-ann" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-cpn" onsubmit="adminSubmit(event, 'Coupons')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إنشاء كوبون خصم جديد</h3>
-                    <input type="text" id="a-cpn-code" class="input-field" placeholder="كود الكوبون (مثال: SARMAD20)" required>
-                    <input type="number" id="a-cpn-percent" class="input-field" placeholder="نسبة الخصم %" required>
-                    <select id="a-cpn-active" class="input-field" required>
-                        <option value="TRUE">فعّال</option>
-                        <option value="FALSE">غير فعّال</option>
-                    </select>
-                    <input type="text" id="a-cpn-expiry" class="input-field" placeholder="تاريخ الانتهاء (اختياري، مثال: 31/12/2026)">
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الكوبون</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الكوبونات الحالية</p>
-                        <div id="admin-list-cpn" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <div id="adm-form-ord" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة طلبات العملاء</h3>
-                    <div id="admin-orders-list" class="space-y-3"><p class="text-graytext font-dates text-center py-10">جاري التحميل...</p></div>
-                </div>
-
-                <div id="adm-form-jr" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة طلبات الانضمام للفريق</h3>
-                    <div id="admin-joinreq-list" class="space-y-3"><p class="text-graytext font-dates text-center py-10">جاري التحميل...</p></div>
-                </div>
-
-                <form id="adm-form-vid" onsubmit="adminSubmit(event, 'Videos')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">رفع فيديو جديد</h3>
-                    <input type="text" id="a-vid-title" class="input-field" placeholder="عنوان الفيديو" required>
-                    <textarea id="a-vid-desc" class="input-field h-24" placeholder="وصف الفيديو (يدعم كتابة الروابط مباشرة داخل النص)" required></textarea>
-                    <textarea id="a-vid-bio" class="input-field h-20" placeholder="نبذة / بايو (اختياري، يدعم الروابط أيضاً)"></textarea>
-                    <input type="url" id="a-vid-url" class="input-field" placeholder="رابط الفيديو (يوتيوب / فيميو / رابط mp4 مباشر)" required>
-                    <p class="text-[10px] text-graytext font-dates px-2"><i class="fas fa-info-circle text-accent"></i> يدعم روابط يوتيوب وفيميو (تُعرض كمشغل فيديو مباشرة)، أو رابط ملف mp4 مباشر — imgbb لا يدعم رفع الفيديوهات لأنه مخصص للصور فقط.</p>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">نشر الفيديو</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الفيديوهات المنشورة حالياً</p>
-                        <div id="admin-list-vid" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-evt" onsubmit="adminSubmit(event, 'Events')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة فعالية جديدة</h3>
-                    <input type="text" id="a-evt-title" class="input-field" placeholder="عنوان الفعالية" required>
-                    <textarea id="a-evt-desc" class="input-field h-24" placeholder="وصف الفعالية" required></textarea>
-                    <input type="text" id="a-evt-date" class="input-field" placeholder="التاريخ (مثال: 15/09/2026)" required>
-                    <input type="text" id="a-evt-location" class="input-field" placeholder="المكان (اختياري)">
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة الفعالية (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-evt-image-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-evt-image">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الفعالية ونشرها</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الفعاليات المنشورة حالياً</p>
-                        <div id="admin-list-evt" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-ptn" onsubmit="adminSubmit(event, 'Partners')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة شريك / عميل جديد</h3>
-                    <input type="text" id="a-ptn-name" class="input-field" placeholder="اسم الشريك أو الشركة" required>
-                    <input type="url" id="a-ptn-website" class="input-field" placeholder="رابط الموقع (اختياري)">
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">شعار الشريك (يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-ptn-logo-file" accept="image/*" required class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-ptn-logo">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الشريك ونشره</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الشركاء الحاليون</p>
-                        <div id="admin-list-ptn" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <div id="adm-form-tkt" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة تذاكر الدعم الفني</h3>
-                    <div id="admin-tickets-list" class="space-y-3"><p class="text-graytext font-dates text-center py-10">جاري التحميل...</p></div>
-                </div>
-
-                <form id="adm-form-job" onsubmit="adminSubmit(event, 'Jobs')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إعلان وظيفة شاغرة جديدة</h3>
-                    <input type="text" id="a-job-title" class="input-field" placeholder="المسمى الوظيفي" required>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" id="a-job-department" class="input-field" placeholder="القسم (مثال: التطوير، التصميم...)" required>
-                        <select id="a-job-type" class="input-field" required>
-                            <option value="دوام كامل">دوام كامل</option>
-                            <option value="دوام جزئي">دوام جزئي</option>
-                            <option value="عن بُعد">عن بُعد</option>
-                            <option value="عقد مؤقت">عقد مؤقت</option>
-                        </select>
-                    </div>
-                    <input type="text" id="a-job-location" class="input-field" placeholder="الموقع (اختياري)">
-                    <textarea id="a-job-desc" class="input-field h-28" placeholder="الوصف الوظيفي والمتطلبات" required></textarea>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">نشر الوظيفة</button>
-                </form>
-
-                <div id="adm-form-japp" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة طلبات التقديم على الوظائف</h3>
-                    <div id="admin-jobapps-list" class="space-y-3"><p class="text-graytext font-dates text-center py-10">جاري التحميل...</p></div>
-                </div>
-
-                <div id="adm-form-bkg" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة حجوزات الاستشارات</h3>
-                    <div id="admin-bookings-list" class="space-y-3"><p class="text-graytext font-dates text-center py-10">جاري التحميل...</p></div>
-                </div>
-
-                <form id="adm-form-prs" onsubmit="adminSubmit(event, 'Press')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة تغطية إعلامية جديدة</h3>
-                    <input type="text" id="a-prs-title" class="input-field" placeholder="عنوان الخبر أو المقال" required>
-                    <input type="text" id="a-prs-source" class="input-field" placeholder="اسم المصدر (مثال: جريدة كذا)" required>
-                    <input type="url" id="a-prs-url" class="input-field" placeholder="رابط الخبر الخارجي" required>
-                    <input type="text" id="a-prs-date" class="input-field" placeholder="التاريخ (مثال: 15/09/2026)" required>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة مصغّرة (اختياري، يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-prs-image-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-prs-image">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ التغطية ونشرها</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">التغطيات المنشورة حالياً</p>
-                        <div id="admin-list-prs" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-mls" onsubmit="adminSubmit(event, 'Milestones')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة محطة جديدة في قصة سرمد</h3>
-                    <input type="text" id="a-mls-year" class="input-field" placeholder="السنة (مثال: 2024)" required>
-                    <input type="text" id="a-mls-title" class="input-field" placeholder="عنوان المحطة" required>
-                    <textarea id="a-mls-desc" class="input-field h-24" placeholder="وصف المحطة" required></textarea>
-                    <div class="p-3 border border-borderline rounded-2xl bg-gray-50/30">
-                        <label class="block text-xs mb-2 text-graytext font-dates">صورة (اختياري، يتم الرفع تلقائياً عبر imgbb)</label>
-                        <input type="file" id="a-mls-image-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-dark file:text-white cursor-pointer">
-                        <input type="hidden" id="a-mls-image">
-                    </div>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ المحطة ونشرها</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">المحطات المنشورة حالياً</p>
-                        <div id="admin-list-mls" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-notif" onsubmit="adminSubmit(event, 'Notifications')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إرسال إشعار للمستخدمين</h3>
-                    <select id="a-notif-target" class="input-field" onchange="toggleNotifTargetEmail()" required>
-                        <option value="">إرسال لكل المستخدمين</option>
-                        <option value="specific">إرسال لبريد إلكتروني محدد</option>
-                    </select>
-                    <div id="notif-target-email-div" class="hidden">
-                        <input type="email" id="a-notif-email" class="input-field" placeholder="البريد الإلكتروني للمستخدم">
-                    </div>
-                    <input type="text" id="a-notif-title" class="input-field" placeholder="عنوان الإشعار" required>
-                    <textarea id="a-notif-message" class="input-field h-24" placeholder="نص الإشعار" required></textarea>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">إرسال الإشعار</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الإشعارات المرسلة حالياً</p>
-                        <div id="admin-list-notif" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <form id="adm-form-stat" onsubmit="adminSubmit(event, 'Stats')" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إضافة إحصائية جديدة للصفحة الرئيسية</h3>
-                    <input type="text" id="a-stat-label" class="input-field" placeholder="التسمية (مثال: عملاء سعداء)" required>
-                    <input type="number" id="a-stat-number" class="input-field" placeholder="الرقم (مثال: 500)" required>
-                    <input type="text" id="a-stat-icon" class="input-field" placeholder="أيقونة FontAwesome (مثال: fa-users)" required>
-                    <p class="text-[10px] text-graytext font-dates px-2"><i class="fas fa-info-circle text-accent"></i> أمثلة لأيقونات جاهزة: fa-users، fa-project-diagram، fa-award، fa-headset، fa-shield-alt.</p>
-                    <button type="submit" class="btn-accent px-8 py-3 w-full md:w-auto font-heading mt-4">حفظ الإحصائية</button>
-                    <div class="border-t border-borderline pt-4 mt-2">
-                        <p class="text-xs font-heading text-graytext mb-2">الإحصائيات الحالية</p>
-                        <div id="admin-list-stat" class="space-y-2 max-h-72 overflow-y-auto"></div>
-                    </div>
-                </form>
-
-                <div id="adm-form-fav" class="space-y-4 hidden">
-                    <h3 class="text-xl font-heading mb-4 border-b pb-2">إدارة المفضلة لدى العملاء</h3>
-                    <div id="admin-list-fav" class="space-y-2 max-h-96 overflow-y-auto"></div>
-                </div>
-            </div>
-        </section>
-
-    </main>
+            </main>
 
     <!-- الفوتر -->
     <footer class="bg-[#1D1D1F] text-white py-10 md:py-12 mt-auto no-print">
@@ -1248,6 +893,8 @@
 
         const openModal = (id) => { document.getElementById(id).classList.add('active-modal'); };
         const closeModal = (id) => { document.getElementById(id).classList.remove('active-modal'); };
+        // فحص آمن لظهور أي عنصر — يرجع false لو العنصر أصلاً غير موجود في الصفحة (مفيد لمشاركة نفس الكود بين الموقع ولوحة الإدارة المنفصلة)
+        const isTabVisible = (id) => { const el = document.getElementById(id); return !!el && !el.classList.contains('hidden'); };
         const showMsg = (title, body) => { document.getElementById('msg-title').textContent = title; document.getElementById('msg-body').textContent = body; openModal('msg-modal'); };
 
         // جلب البيانات بشكل مستقل لتجنب توقف الموقع إذا كان هناك جدول فارغ
@@ -1552,7 +1199,7 @@
                 localStorage.setItem('sarmad_user', JSON.stringify(currentUser));
                 closeModal('complete-profile-modal');
                 showMsg("تم الحفظ", "تم تحديث بياناتك بنجاح.");
-                if(!document.getElementById('view-profile').classList.contains('hidden')) renderProfileData();
+                if(isTabVisible('view-profile')) renderProfileData();
             } catch(err) { showMsg("خطأ", "تعذر حفظ البيانات، حاول لاحقاً من ملفك الشخصي."); } finally { btn.innerHTML = 'حفظ البيانات'; btn.disabled = false; }
         }
 
@@ -1565,10 +1212,6 @@
                 document.getElementById('user-name-desktop').textContent = firstName;
                 document.getElementById('user-name-mobile').textContent = firstName;
                 
-                if(currentUser.role === 'admin') { 
-                    document.getElementById('nav-admin-desktop').classList.remove('hidden'); 
-                    document.getElementById('nav-admin-mobile').classList.remove('hidden'); 
-                }
                 renderCertificates(); 
                 renderMyTickets();
                 renderMyJobApps();
@@ -1579,7 +1222,6 @@
             } else {
                 document.getElementById('auth-menu-desktop').classList.remove('hidden'); document.getElementById('user-menu-desktop').classList.add('hidden');
                 document.getElementById('auth-menu-mobile').classList.remove('hidden'); document.getElementById('user-menu-mobile').classList.add('hidden');
-                document.getElementById('nav-admin-desktop').classList.add('hidden'); document.getElementById('nav-admin-mobile').classList.add('hidden');
                 renderCertificates();
                 renderMyTickets();
                 renderMyJobApps();
@@ -1620,21 +1262,12 @@
         let pendingServiceRequest = null;
         function requestService(serviceName, price) { 
             if(!currentUser){ showMsg("تنبيه", "سجل دخولك أو أنشئ حساباً لطلب الخدمات."); openModal('login-modal'); return; }
-            if(fbAuth && fbAuth.currentUser && !fbAuth.currentUser.emailVerified) {
-                showEmailVerificationRequiredModal();
-                return;
-            }
             pendingServiceRequest = { name: serviceName, price: price, basePrice: price };
             document.getElementById('svc-choice-title').textContent = serviceName;
             document.getElementById('svc-choice-price').textContent = `السعر: ${price} ج.م`;
             document.getElementById('svc-coupon-code').value = '';
             document.getElementById('svc-coupon-msg').classList.add('hidden');
             openModal('svc-choice-modal');
-        }
-
-        function showEmailVerificationRequiredModal() {
-            showMsg("تفعيل البريد مطلوب", "يجب تفعيل بريدك الإلكتروني أولاً قبل طلب أي خدمة. تحقق من صندوق الوارد لديك، أو اضغط زر إعادة الإرسال من ملفك الشخصي.");
-            scrollToSection('view-profile');
         }
 
         function applyCoupon() {
@@ -2771,33 +2404,33 @@
                 if (d.Articles && JSON.stringify(d.Articles) !== JSON.stringify(appData.articles)) { appData.articles = d.Articles; renderArticles(); }
                 if (d.Downloads && JSON.stringify(d.Downloads) !== JSON.stringify(appData.downloads)) { appData.downloads = d.Downloads; renderDownloads(); }
                 if (d.Certificates && JSON.stringify(d.Certificates) !== JSON.stringify(appData.certificates)) { appData.certificates = d.Certificates; renderCertificates(); }
-                if (d.Orders && JSON.stringify(d.Orders) !== JSON.stringify(appData.orders)) { appData.orders = d.Orders; if(!document.getElementById('view-profile').classList.contains('hidden')) renderProfileData(); }
+                if (d.Orders && JSON.stringify(d.Orders) !== JSON.stringify(appData.orders)) { appData.orders = d.Orders; if(isTabVisible('view-profile')) renderProfileData(); }
                 if (d.Team && JSON.stringify(d.Team) !== JSON.stringify(appData.team)) { appData.team = d.Team; renderTeam(); }
                 if (d.Apps && JSON.stringify(d.Apps) !== JSON.stringify(appData.apps)) { appData.apps = d.Apps; renderApps(); }
                 if (d.FAQ && JSON.stringify(d.FAQ) !== JSON.stringify(appData.faq)) { appData.faq = d.FAQ; renderFAQ(); }
                 if (d.Reviews && JSON.stringify(d.Reviews) !== JSON.stringify(appData.reviews)) { appData.reviews = d.Reviews; renderReviews(); }
                 if (d.Announcements && JSON.stringify(d.Announcements) !== JSON.stringify(appData.announcements)) { appData.announcements = d.Announcements; renderAnnouncementBanner(); }
                 if (d.Coupons && JSON.stringify(d.Coupons) !== JSON.stringify(appData.coupons)) { appData.coupons = d.Coupons; }
-                if (d.JoinRequests && JSON.stringify(d.JoinRequests) !== JSON.stringify(appData.joinRequests)) { appData.joinRequests = d.JoinRequests; if(!document.getElementById('adm-form-jr').classList.contains('hidden')) renderAdminJoinRequests(); }
-                if(d.Orders && !document.getElementById('adm-form-ord').classList.contains('hidden')) renderAdminOrders();
+                if (d.JoinRequests && JSON.stringify(d.JoinRequests) !== JSON.stringify(appData.joinRequests)) { appData.joinRequests = d.JoinRequests; if(isTabVisible('adm-form-jr')) renderAdminJoinRequests(); }
+                if(d.Orders && isTabVisible('adm-form-ord')) renderAdminOrders();
                 if (d.Videos && JSON.stringify(d.Videos) !== JSON.stringify(appData.videos)) { appData.videos = d.Videos; renderVideos(); }
                 if (d.Events && JSON.stringify(d.Events) !== JSON.stringify(appData.events)) { appData.events = d.Events; renderEvents(); }
                 if (d.Partners && JSON.stringify(d.Partners) !== JSON.stringify(appData.partners)) { appData.partners = d.Partners; renderPartners(); }
                 if (d.Tickets && JSON.stringify(d.Tickets) !== JSON.stringify(appData.tickets)) {
                     appData.tickets = d.Tickets;
                     renderMyTickets();
-                    if(!document.getElementById('adm-form-tkt').classList.contains('hidden')) renderAdminTickets();
+                    if(isTabVisible('adm-form-tkt')) renderAdminTickets();
                 }
                 if (d.Jobs && JSON.stringify(d.Jobs) !== JSON.stringify(appData.jobs)) { appData.jobs = d.Jobs; renderCareers(); }
                 if (d.JobApplications && JSON.stringify(d.JobApplications) !== JSON.stringify(appData.jobApplications)) {
                     appData.jobApplications = d.JobApplications;
                     renderMyJobApps();
-                    if(!document.getElementById('adm-form-japp').classList.contains('hidden')) renderAdminJobApps();
+                    if(isTabVisible('adm-form-japp')) renderAdminJobApps();
                 }
                 if (d.Bookings && JSON.stringify(d.Bookings) !== JSON.stringify(appData.bookings)) {
                     appData.bookings = d.Bookings;
                     renderMyBookings();
-                    if(!document.getElementById('adm-form-bkg').classList.contains('hidden')) renderAdminBookings();
+                    if(isTabVisible('adm-form-bkg')) renderAdminBookings();
                 }
                 if (d.Press && JSON.stringify(d.Press) !== JSON.stringify(appData.press)) { appData.press = d.Press; renderPress(); }
                 if (d.Milestones && JSON.stringify(d.Milestones) !== JSON.stringify(appData.milestones)) { appData.milestones = d.Milestones; renderMilestones(); }
