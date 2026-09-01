@@ -1114,12 +1114,34 @@
 
         // ===== تسجيل الدخول عبر جوجل =====
         function initGoogleSignIn() {
-            if(!window.google || !google.accounts || !google.accounts.id) return;
-            google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential });
-            const loginBtn = document.getElementById('google-signin-btn-login');
-            const registerBtn = document.getElementById('google-signin-btn-register');
-            if(loginBtn) google.accounts.id.renderButton(loginBtn, { theme: 'outline', size: 'large', text: 'signin_with', shape: 'pill', width: 260 });
-            if(registerBtn) google.accounts.id.renderButton(registerBtn, { theme: 'outline', size: 'large', text: 'signup_with', shape: 'pill', width: 260 });
+            if(!window.google || !google.accounts || !google.accounts.id) {
+                console.error('Google Identity Services لم تُحمّل — تحقق من الاتصال بالإنترنت.');
+                showGoogleSignInFallback();
+                return;
+            }
+            try {
+                google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential });
+                const loginBtn = document.getElementById('google-signin-btn-login');
+                const registerBtn = document.getElementById('google-signin-btn-register');
+                if(loginBtn) google.accounts.id.renderButton(loginBtn, { theme: 'outline', size: 'large', text: 'signin_with', shape: 'pill', width: 260 });
+                if(registerBtn) google.accounts.id.renderButton(registerBtn, { theme: 'outline', size: 'large', text: 'signup_with', shape: 'pill', width: 260 });
+                // تحقق بعد ثانيتين هل زر جوجل فعلاً ظهر، وإلا أظهر رسالة بديلة توضح السبب الأشهر (نطاق غير مُصرّح به)
+                setTimeout(() => {
+                    if(loginBtn && !loginBtn.hasChildNodes()) { showGoogleSignInFallback(); }
+                }, 2000);
+            } catch(err) {
+                console.error('فشل تهيئة تسجيل الدخول عبر جوجل:', err);
+                showGoogleSignInFallback();
+            }
+        }
+
+        function showGoogleSignInFallback() {
+            ['google-signin-btn-login', 'google-signin-btn-register'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el && !el.hasChildNodes()) {
+                    el.innerHTML = '<p class="text-[10px] text-red-500 font-dates text-center leading-relaxed">تعذر تحميل تسجيل الدخول عبر جوجل. الأسباب الشائعة: الموقع لسه مش على نطاق (domain) مُصرّح به في إعدادات Google Client ID، أو بيتفتح كملف محلي (file:// أو content://) بدل رابط حقيقي.</p>';
+                }
+            });
         }
 
         function decodeGoogleJwt(token) {
@@ -1150,7 +1172,10 @@
                 resumePendingDownload();
                 showMsg("مرحباً بك", `تم تسجيل الدخول بنجاح باسم ${name}.`);
                 if(isNewUser) { setTimeout(checkAndShowMissingProfileModal, 30000); }
-            } catch(err) { showMsg("خطأ", "تعذر تسجيل الدخول عبر جوجل."); }
+            } catch(err) {
+                console.error('Google sign-in error:', err);
+                showMsg("خطأ", "تعذر تسجيل الدخول عبر جوجل. تأكد أن الموقع يعمل على نطاق حقيقي مُصرّح به في إعدادات Google، وحاول مرة أخرى.");
+            }
         }
 
         // ===== إكمال البيانات الناقصة بعد إنشاء حساب عبر جوجل =====
