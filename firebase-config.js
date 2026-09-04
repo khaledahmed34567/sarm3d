@@ -4,8 +4,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
   getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup,
-  sendPasswordResetEmail, updateProfile, signOut
+  signInWithEmailAndPassword, FacebookAuthProvider, signInWithPopup,
+  sendPasswordResetEmail, sendEmailVerification, updateProfile, signOut, signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc,
@@ -28,7 +28,8 @@ export const db   = getFirestore(app);
 
 export {
   onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail, updateProfile, signOut,
+  FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail, sendEmailVerification, updateProfile, signOut,
+  signInAnonymously,
   doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, getDocs,
   query, where, orderBy, serverTimestamp, onSnapshot
 };
@@ -45,6 +46,7 @@ export const APP = {
   imgbbKey: "36b0e2658ed6fad2ca48081442f1539b",
   paypalClientId: "AW_M1acPABnrPp2AJklYALUDZ1OUA2NS6CPGp3D3ZB9fVIfmfD87le9WZmHF3fOCqINDO3RAtQGWLteZ",
   adminEmail: "soudadteam@gmail.com",
+  adminPin: "9033",
 };
 
 // ============================================================

@@ -2,7 +2,7 @@ import {
   auth, db, APP, esc, toast, fmtDuration, fmtDate, uploadToImgbb,
   applyContentProtection, registerSW,
   onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail, updateProfile, signOut,
+  FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail, sendEmailVerification, updateProfile, signOut,
   doc, getDoc, setDoc, updateDoc, addDoc, collection, getDocs,
   query, where, orderBy, serverTimestamp
 } from "./firebase-config.js";
@@ -35,6 +35,19 @@ document.querySelectorAll(".tab-item").forEach(b => {
     if (b.dataset.tab === "scr-profile") loadProfile();
   });
 });
+
+// ================= دخول فعلي إلى واجهة التطبيق =================
+async function enterApp(uid, userData){
+  CURRENT_UID = uid;
+  CURRENT_USER = userData;
+  document.getElementById("auth-root").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  document.getElementById("tabbar").style.display = "flex";
+  document.getElementById("home-username").textContent = `مرحبًا بعودتك، ${userData.firstName || ""}`;
+  await loadProgress();
+  showScreen("scr-home");
+  loadTracks();
+}
 
 // ================= التبديل بين شاشات الدخول =================
 document.getElementById("go-signup").onclick = () => showScreen("scr-signup");
@@ -72,13 +85,16 @@ document.getElementById("form-signup").addEventListener("submit", async (e) => {
 
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: `${fname} ${mname} ${lname}` });
-    await setDoc(doc(db,"users",cred.user.uid), {
+    const userData = {
       firstName: fname, middleName: mname, lastName: lname,
       email, username, phone,
       isAdmin: email.toLowerCase() === APP.adminEmail,
       plan: "free", createdAt: serverTimestamp()
-    });
-    toast("تم إنشاء الحساب بنجاح");
+    };
+    await setDoc(doc(db,"users",cred.user.uid), userData);
+    sendEmailVerification(cred.user).catch(() => {}); // ترسل تلقائيًا من فايربيز، لا حاجة لانتظارها
+    toast("تم إنشاء الحساب بنجاح، وصلك رابط تفعيل بالبريد");
+    await enterApp(cred.user.uid, userData);
   }catch(err){
     toast(mapAuthError(err));
   }
@@ -114,22 +130,20 @@ document.getElementById("form-forgot").addEventListener("submit", async (e) => {
   }catch(err){ toast(mapAuthError(err)); }
 });
 
-// ================= الدخول بجوجل / فيسبوك =================
-async function socialFlow(provider){
+// ================= الدخول بفيسبوك =================
+async function facebookFlow(){
+  const provider = new FacebookAuthProvider();
   try{
     const result = await signInWithPopup(auth, provider);
     const userDoc = await getDoc(doc(db,"users",result.user.uid));
     if (!userDoc.exists()){
       PENDING_GOOGLE_CRED = result.user;
       document.getElementById("overlay-google-complete").classList.add("active");
+    } else {
+      await enterApp(result.user.uid, userDoc.data());
     }
   }catch(err){ toast(mapAuthError(err)); }
 }
-function googleFlow(){ return socialFlow(new GoogleAuthProvider()); }
-function facebookFlow(){ return socialFlow(new FacebookAuthProvider()); }
-
-document.getElementById("btn-google-login").onclick = googleFlow;
-document.getElementById("btn-google-signup").onclick = googleFlow;
 document.getElementById("btn-facebook-login").onclick = facebookFlow;
 document.getElementById("btn-facebook-signup").onclick = facebookFlow;
 
@@ -144,14 +158,16 @@ document.getElementById("form-google-complete").addEventListener("submit", async
   const phone = document.getElementById("gc-phone").value.trim();
   if (!/^[a-z0-9_.]+$/.test(username)){ toast("اسم مستخدم غير صالح"); return; }
 
-  await setDoc(doc(db,"users",u.uid), {
+  const userData = {
     firstName: fname, middleName: mname, lastName: lname,
     email: u.email, username, phone,
     isAdmin: (u.email || "").toLowerCase() === APP.adminEmail,
     plan: "free", createdAt: serverTimestamp()
-  });
+  };
+  await setDoc(doc(db,"users",u.uid), userData);
   document.getElementById("overlay-google-complete").classList.remove("active");
   toast("تم إكمال البيانات");
+  await enterApp(u.uid, userData);
 });
 
 function mapAuthError(err){
@@ -166,24 +182,21 @@ function mapAuthError(err){
     "auth/popup-closed-by-user": "تم إغلاق نافذة تسجيل الدخول",
     "auth/account-exists-with-different-credential": "هذا البريد مسجّل بالفعل بطريقة دخول أخرى (جوجل أو بريد إلكتروني)، استخدمها بدلًا من ذلك",
     "auth/too-many-requests": "محاولات كثيرة، حاول لاحقًا",
+    "permission-denied": "لا توجد صلاحية قراءة بيانات الحسابات — تحقق من Firestore Security Rules",
   };
-  return map[code] || "حدث خطأ، حاول مرة أخرى";
+  return map[code] || `حدث خطأ (${code || "غير معروف"})، حاول مرة أخرى`;
 }
 
 // ================= حالة تسجيل الدخول =================
 onAuthStateChanged(auth, async (user) => {
   if (user){
-    const snap = await getDoc(doc(db,"users",user.uid));
-    if (!snap.exists()) return; // ننتظر إكمال بيانات جوجل
-    CURRENT_UID = user.uid;
-    CURRENT_USER = snap.data();
-    document.getElementById("auth-root").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    document.getElementById("tabbar").style.display = "flex";
-    document.getElementById("home-username").textContent = `مرحبًا بعودتك، ${CURRENT_USER.firstName}`;
-    await loadProgress();
-    showScreen("scr-home");
-    loadTracks();
+    try{
+      const snap = await getDoc(doc(db,"users",user.uid));
+      if (!snap.exists()) return; // ننتظر إكمال بيانات فيسبوك عبر النافذة المنبثقة
+      await enterApp(user.uid, snap.data());
+    }catch(err){
+      toast("تعذّر تحميل بيانات الحساب، تحقق من اتصالك وحاول مجددًا");
+    }
   } else {
     CURRENT_UID = null; CURRENT_USER = null;
     document.getElementById("app").style.display = "none";
@@ -721,7 +734,7 @@ async function loadForum(){
   const snap = await getDocs(query(collection(db,"forumPosts"), orderBy("createdAt","desc")));
   if (snap.empty){ wrap.innerHTML = emptyState("لا توجد أسئلة بعد، كن أول من يسأل"); return; }
   wrap.innerHTML = "";
-  snap.forEach(d => {
+  for (const d of snap.docs){
     const p = d.data();
     const post = document.createElement("div");
     post.className = "post glass";
@@ -735,9 +748,19 @@ async function loadForum(){
       </div>
       <p style="color:var(--ink); margin:0;">${esc(p.text||"")}</p>
       ${p.image ? `<div class="post-images"><img class="allow-context" src="${esc(p.image)}"></div>` : ""}
+      <div id="forum-replies-${d.id}"></div>
     `;
     wrap.appendChild(post);
-  });
+    const repliesSnap = await getDocs(query(collection(db,"forumReplies"), where("postId","==",d.id), orderBy("createdAt","asc")));
+    if (!repliesSnap.empty){
+      const rWrap = document.getElementById(`forum-replies-${d.id}`);
+      rWrap.innerHTML = repliesSnap.docs.map(rd => `
+        <div style="background:var(--red-dim); border-radius:12px; padding:10px 12px; margin-top:10px;">
+          <div style="font-size:12px; font-weight:700; color:var(--red); margin-bottom:2px;">فريق سَرْمَد</div>
+          <div style="font-size:13.5px;">${esc(rd.data().text)}</div>
+        </div>`).join("");
+    }
+  }
 }
 
 // ================= لوحة الحساب / التقدم =================
