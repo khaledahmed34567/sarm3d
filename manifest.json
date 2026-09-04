@@ -1,18 +1,17 @@
 {
-  "short_name": "سرمد",
   "name": "سرمد",
-  "description": "منصة كورسات هندسة البرمجيات والأمن السيبراني",
-  "icons": [
-    { "src": "https://i.ibb.co/CyBhgJ0/icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "https://i.ibb.co/CyBhgJ0/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "https://i.ibb.co/CyBhgJ0/icon.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" }
-  ],
+  "short_name": "سرمد",
+  "description": "منصة كورسات في هندسة البرمجيات والأمن السيبراني",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F6F6F8",
-  "theme_color": "#F6F6F8",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "dir": "rtl",
-  "lang": "ar"
+  "lang": "ar",
+  "icons": [
+    { "src": "https://i.ibb.co/F16g2s7/Picsart-26-08-21-02-55-45-367.jpg", "sizes": "192x192", "type": "image/jpeg", "purpose": "any" },
+    { "src": "https://i.ibb.co/F16g2s7/Picsart-26-08-21-02-55-45-367.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" }
+  ]
 }

@@ -1,245 +1,261 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<title>سَرْمَد</title>
-<link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="https://i.ibb.co/CyBhgJ0/icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#F6F6F8">
-<link rel="stylesheet" href="./styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<title>سرمد</title>
+<meta name="description" content="منصة سرمد لكورسات هندسة البرمجيات والأمن السيبراني" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="apple-touch-icon" href="https://i.ibb.co/F16g2s7/Picsart-26-08-21-02-55-45-367.jpg" />
+<link rel="icon" href="https://i.ibb.co/F16g2s7/Picsart-26-08-21-02-55-45-367.jpg" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+<style>
+  /* ===== Fonts (licensed for this project) ===== */
+  @font-face{ font-family:'SarmadHead'; src:url('https://files.catbox.moe/fwgw08.otf') format('opentype'); font-display:swap; }
+  @font-face{ font-family:'SarmadBody'; src:url('https://files.catbox.moe/jernkn.otf') format('opentype'); font-display:swap; }
+  @font-face{ font-family:'SarmadArticle'; src:url('https://files.catbox.moe/mmhk4x.otf') format('opentype'); font-display:swap; }
+  @font-face{ font-family:'SarmadMeta'; src:url('https://files.catbox.moe/gsv6s7.otf') format('opentype'); font-display:swap; }
+
+  :root{
+    /* ===== Design tokens ===== */
+    --white:#ffffff;
+    --surface:#f6f7f9;
+    --surface-2:#eef0f3;
+    --ink:#0e0f11;
+    --ink-soft:#5a5e66;
+    --ink-faint:#9297a1;
+    --line:#e5e7eb;
+    --accent:#3a5cff;      /* signal blue — code / interaction */
+    --accent-ink:#1c2b8c;
+    --accent-soft:#eef1ff;
+    --guard:#00b39a;       /* teal — security / verified */
+    --guard-soft:#e6f9f6;
+    --warn:#d94f45;
+    --warn-soft:#fdeceb;
+    --radius-s:10px;
+    --radius-m:16px;
+    --radius-l:24px;
+    --shadow-1: 0 1px 2px rgba(14,15,17,0.04), 0 2px 10px rgba(14,15,17,0.04);
+    --shadow-2: 0 8px 30px rgba(14,15,17,0.10);
+    --glass-bg: rgba(255,255,255,0.62);
+    --glass-border: rgba(255,255,255,0.5);
+    --header-h: 60px;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-t: env(safe-area-inset-top, 0px);
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(58,92,255,0.06), transparent 60%),
+      radial-gradient(700px 400px at -10% 20%, rgba(0,179,154,0.05), transparent 60%),
+      var(--white);
+    color:var(--ink);
+    font-family:'SarmadBody','-apple-system',BlinkMacSystemFont,'Segoe UI',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3,h4,.font-head{ font-family:'SarmadHead','SarmadBody',sans-serif; font-weight:600; letter-spacing:0; margin:0; }
+  .font-article{ font-family:'SarmadArticle','SarmadBody',sans-serif; }
+  .meta,time,.font-meta{ font-family:'SarmadMeta','SarmadBody',sans-serif; color:var(--ink-faint); }
+  p{ margin:0; line-height:1.7; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; }
+  img{ max-width:100%; display:block; -webkit-user-drag:none; user-drag:none; }
+
+  /* ===== distinctive scroll indicator ===== */
+  ::-webkit-scrollbar{ width:9px; height:9px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{
+    background: linear-gradient(180deg, var(--accent), var(--guard));
+    border-radius:99px;
+    border:2px solid transparent;
+    background-clip:padding-box;
+  }
+  html{ scrollbar-color: var(--accent) transparent; scrollbar-width:thin; }
+
+  .protected{ -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+  .protected img, .protected video{ pointer-events:none; }
+  .allow-select{ -webkit-user-select:text; user-select:text; }
+
+  /* ===== layout shell ===== */
+  #app{ min-height:100vh; padding-bottom: calc(78px + var(--safe-b)); }
+
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    height:var(--header-h);
+    padding-top:var(--safe-t);
+    display:flex; align-items:center; justify-content:space-between;
+    padding-inline:16px;
+    background:var(--glass-bg);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid var(--glass-border);
+  }
+  .brand-logo{ height:30px; width:30px; border-radius:8px; object-fit:cover; }
+  .topbar-actions{ display:flex; align-items:center; gap:10px; }
+  .icon-btn{
+    width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.7); border:1px solid var(--line); cursor:pointer; color:var(--ink);
+  }
+  .icon-btn:active{ transform:scale(0.94); }
+
+  main{ padding:16px; max-width:720px; margin:0 auto; }
+
+  .tabbar{
+    position:fixed; bottom:0; inset-inline:0; z-index:50;
+    padding-bottom:var(--safe-b);
+    background:var(--glass-bg);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-top:1px solid var(--glass-border);
+    display:flex; justify-content:space-around;
+  }
+  .tab-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:9px 4px 8px; color:var(--ink-faint); cursor:pointer; font-size:11px;
+  }
+  .tab-item.active{ color:var(--accent); }
+  .tab-item svg{ width:22px; height:22px; }
+
+  /* ===== glass card ===== */
+  .glass{
+    background:var(--glass-bg);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border:1px solid var(--glass-border);
+    border-radius:var(--radius-m);
+    box-shadow:var(--shadow-1);
+  }
+  .card{ background:var(--white); border:1px solid var(--line); border-radius:var(--radius-m); box-shadow:var(--shadow-1); }
+  .section-title{ font-size:20px; margin-bottom:12px; }
+  .row{ display:flex; align-items:center; }
+  .col{ display:flex; flex-direction:column; }
+  .gap-8{ gap:8px; } .gap-12{ gap:12px; } .gap-16{ gap:16px; }
+  .between{ justify-content:space-between; }
+  .center{ justify-content:center; align-items:center; }
+  .muted{ color:var(--ink-soft); }
+  .faint{ color:var(--ink-faint); font-size:13px; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 18px; border-radius:14px; border:none; cursor:pointer;
+    font-family:'SarmadBody',sans-serif; font-size:15px; font-weight:600;
+    transition:transform .12s ease, opacity .12s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--ink); color:var(--white); width:100%; }
+  .btn-accent{ background:var(--accent); color:var(--white); }
+  .btn-ghost{ background:var(--surface-2); color:var(--ink); }
+  .btn-outline{ background:transparent; border:1.5px solid var(--line); color:var(--ink); }
+  .btn-danger{ background:var(--warn-soft); color:var(--warn); }
+  .btn[disabled]{ opacity:0.45; pointer-events:none; }
+  .btn-block{ width:100%; }
+
+  input,select,textarea{
+    width:100%; padding:13px 14px; border-radius:12px; border:1.5px solid var(--line);
+    background:var(--white); font-family:'SarmadBody',sans-serif; font-size:15px; color:var(--ink);
+    outline:none; transition:border-color .15s;
+  }
+  input:focus,select:focus,textarea:focus{ border-color:var(--accent); }
+  label{ font-size:13px; color:var(--ink-soft); margin-bottom:6px; display:block; }
+  .field{ margin-bottom:14px; }
+
+  .badge{ display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:99px; font-size:12px; font-weight:600; }
+  .badge-locked{ background:var(--surface-2); color:var(--ink-faint); }
+  .badge-done{ background:var(--guard-soft); color:var(--guard); }
+  .badge-live{ background:var(--accent-soft); color:var(--accent-ink); }
+  .badge-paid{ background:#fff4e0; color:#a3670a; }
+
+  .path-card{ position:relative; border-radius:var(--radius-l); overflow:hidden; height:150px; cursor:pointer; }
+  .path-card img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .path-card .overlay{ position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,0.72), rgba(0,0,0,0.05) 60%); }
+  .path-card .info{ position:absolute; bottom:0; inset-inline:0; padding:16px; color:#fff; }
+  .path-card .info h3{ font-size:18px; margin-bottom:4px; }
+  .path-card .info p{ font-size:12.5px; opacity:0.85; }
+
+  .list-card{ display:flex; gap:12px; padding:12px; align-items:center; cursor:pointer; }
+  .list-card img{ width:64px; height:64px; border-radius:14px; object-fit:cover; flex-shrink:0; background:var(--surface-2); }
+  .list-card .txt{ flex:1; min-width:0; }
+  .list-card h4{ font-size:15px; margin-bottom:3px; }
+  .list-card p{ font-size:12.5px; }
+  .chev{ color:var(--ink-faint); flex-shrink:0; }
+
+  .empty{ text-align:center; padding:50px 20px; color:var(--ink-faint); }
+  .empty svg{ width:44px; height:44px; margin-bottom:10px; opacity:0.5; }
+
+  .spinner{ width:22px; height:22px; border-radius:50%; border:3px solid var(--surface-2); border-top-color:var(--accent); animation:spin .7s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .center-screen{ min-height:70vh; display:flex; align-items:center; justify-content:center; }
+
+  .toast-wrap{ position:fixed; top:calc(var(--safe-t) + 70px); inset-inline:0; z-index:200; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; }
+  .toast{ background:rgba(20,20,22,0.92); color:#fff; padding:11px 18px; border-radius:99px; font-size:13.5px; box-shadow:var(--shadow-2); animation:toastin .25s ease; max-width:88%; text-align:center; }
+  @keyframes toastin{ from{ opacity:0; transform:translateY(-8px);} to{opacity:1; transform:translateY(0);} }
+
+  .modal-back{ position:fixed; inset:0; background:rgba(10,10,12,0.45); backdrop-filter:blur(3px); z-index:150; display:flex; align-items:flex-end; justify-content:center; animation:fadein .18s ease; }
+  @keyframes fadein{ from{opacity:0;} to{opacity:1;} }
+  .modal-sheet{ width:100%; max-width:720px; background:var(--white); border-radius:24px 24px 0 0; padding:22px; max-height:88vh; overflow-y:auto; animation:sheetup .25s cubic-bezier(.2,.8,.2,1); }
+  @keyframes sheetup{ from{ transform:translateY(30px); opacity:0;} to{ transform:translateY(0); opacity:1; } }
+  .modal-handle{ width:40px; height:4px; background:var(--line); border-radius:99px; margin:0 auto 16px; }
+
+  .progress-bar{ height:6px; background:var(--surface-2); border-radius:99px; overflow:hidden; }
+  .progress-bar > i{ display:block; height:100%; background:linear-gradient(90deg, var(--accent), var(--guard)); border-radius:99px; transition:width .3s ease; }
+
+  .divider{ height:1px; background:var(--line); margin:18px 0; }
+
+  .watermark-layer{ position:absolute; inset:0; pointer-events:none; opacity:0.07; overflow:hidden; z-index:5; display:flex; flex-wrap:wrap; align-content:space-around; justify-content:space-around; transform:rotate(-22deg) scale(1.3); }
+  .watermark-layer span{ font-size:12px; white-space:nowrap; padding:14px; font-family:'SarmadMeta',sans-serif; }
+
+  .sr-only-ai{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  .video-wrap{ position:relative; border-radius:var(--radius-m); overflow:hidden; background:#000; aspect-ratio:16/9; }
+  .video-wrap video, .video-wrap iframe{ width:100%; height:100%; display:block; border:0; }
+  .video-lock-hint{ position:absolute; top:10px; inset-inline-start:10px; background:rgba(0,0,0,0.55); color:#fff; font-size:11.5px; padding:5px 10px; border-radius:99px; z-index:6; }
+
+  .task-row{ display:flex; align-items:center; gap:12px; padding:14px; border-radius:16px; border:1px solid var(--line); margin-bottom:10px; cursor:pointer; }
+  .task-row.locked{ opacity:0.5; cursor:not-allowed; }
+  .task-icon{ width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:var(--accent-soft); color:var(--accent-ink); flex-shrink:0; }
+  .task-icon svg{ width:19px; height:19px; }
+
+  .mcq-option{ display:flex; align-items:center; gap:10px; padding:14px; border-radius:14px; border:1.5px solid var(--line); margin-bottom:10px; cursor:pointer; }
+  .mcq-option.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .mcq-option.correct{ border-color:var(--guard); background:var(--guard-soft); }
+  .mcq-option.wrong{ border-color:var(--warn); background:var(--warn-soft); }
+  .radio-dot{ width:18px; height:18px; border-radius:50%; border:2px solid var(--line); flex-shrink:0; }
+  .mcq-option.selected .radio-dot{ border-color:var(--accent); background:var(--accent); }
+
+  .code-editor{ width:100%; min-height:260px; background:#0e0f11; color:#e7e9ee; border-radius:16px; padding:16px; font-family:ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:13.5px; line-height:1.6; border:none; direction:ltr; text-align:left; resize:vertical; }
+  .console-out{ background:#0e0f11; color:#8ff0c1; font-family:ui-monospace,monospace; font-size:13px; padding:14px; border-radius:14px; direction:ltr; text-align:left; white-space:pre-wrap; max-height:220px; overflow:auto; }
+
+  .auth-tabs{ display:flex; background:var(--surface-2); border-radius:14px; padding:4px; margin-bottom:20px; }
+  .auth-tabs button{ flex:1; border:none; background:transparent; padding:11px; border-radius:11px; cursor:pointer; font-weight:600; color:var(--ink-faint); }
+  .auth-tabs button.active{ background:var(--white); color:var(--ink); box-shadow:var(--shadow-1); }
+
+  .install-fab{ position:fixed; bottom:calc(90px + var(--safe-b)); left:16px; z-index:60; display:flex; align-items:center; gap:8px; background:var(--ink); color:#fff; padding:11px 16px; border-radius:99px; box-shadow:var(--shadow-2); cursor:pointer; font-size:13px; font-weight:600; }
+  .install-fab img{ width:20px; height:20px; border-radius:5px; }
+
+  .forum-post{ padding:16px; border-radius:18px; border:1px solid var(--line); margin-bottom:12px; }
+  .avatar{ width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--guard)); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex-shrink:0; }
+
+  .stat-tile{ padding:16px; border-radius:16px; background:var(--surface); text-align:center; }
+  .stat-tile b{ font-size:22px; display:block; font-family:'SarmadHead',sans-serif; }
+
+  .timer-pill{ position:sticky; top:calc(var(--header-h) + 8px); z-index:20; display:inline-flex; align-items:center; gap:6px; background:var(--warn-soft); color:var(--warn); padding:8px 14px; border-radius:99px; font-weight:700; font-size:14px; margin-bottom:14px; }
+
+  @media (min-width:720px){ main{ padding:24px; } }
+</style>
 </head>
-<body class="protected">
+<body>
 
-<div id="toast-host"></div>
+<div id="app"></div>
+<div class="toast-wrap" id="toastWrap"></div>
 
-<!-- ============ شاشات المصادقة ============ -->
-<div id="auth-root">
-
-  <section class="screen active" id="scr-login">
-    <div class="auth-hero">
-      <img class="logo-mark allow-context" src="https://i.ibb.co/PZsJ4ptx/logo.png" alt="">
-      <h1>تسجيل الدخول</h1>
-      <p>أكمل مسارك التعليمي من حيث توقفت</p>
-    </div>
-    <form class="glass" style="padding:22px;" id="form-login">
-      <div class="field">
-        <label>البريد الإلكتروني / اسم المستخدم / رقم الهاتف</label>
-        <input type="text" id="login-id" required placeholder="example@mail.com" autocomplete="username">
-      </div>
-      <div class="field">
-        <label>كلمة المرور</label>
-        <input type="password" id="login-pass" required placeholder="••••••••" autocomplete="current-password">
-      </div>
-      <div style="text-align:left; margin-bottom:16px;">
-        <span class="meta" style="cursor:pointer; color:var(--red); font-weight:600;" id="btn-forgot">نسيت كلمة المرور؟</span>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">دخول</button>
-      <div class="divider-or">أو</div>
-      <button type="button" class="google-btn" id="btn-facebook-login" style="background:#1877F2; color:#fff; border-color:#1877F2;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
-        الدخول بحساب Facebook
-      </button>
-    </form>
-    <p class="auth-switch">ليس لديك حساب؟ <b id="go-signup">إنشاء حساب</b></p>
-  </section>
-
-  <section class="screen" id="scr-signup">
-    <div class="auth-hero">
-      <img class="logo-mark allow-context" src="https://i.ibb.co/PZsJ4ptx/logo.png" alt="">
-      <h1>إنشاء حساب</h1>
-      <p>ابدأ رحلتك في هندسة البرمجيات والأمن السيبراني</p>
-    </div>
-    <form class="glass" style="padding:22px;" id="form-signup">
-      <div class="field"><label>الاسم الأول</label><input type="text" id="su-fname" required></div>
-      <div class="field"><label>الاسم الثاني</label><input type="text" id="su-mname" required></div>
-      <div class="field"><label>الاسم الثالث</label><input type="text" id="su-lname" required></div>
-      <div class="field"><label>البريد الإلكتروني</label><input type="email" id="su-email" required></div>
-      <div class="field">
-        <label>اسم المستخدم (إنجليزي، حروف صغيرة، بدون مسافات)</label>
-        <input type="text" id="su-username" required pattern="[a-z0-9_.]+" placeholder="khaled_dev">
-        <div class="err">حروف إنجليزية صغيرة وأرقام فقط، بدون مسافات</div>
-      </div>
-      <div class="field"><label>رقم الهاتف</label><input type="tel" id="su-phone" required placeholder="01xxxxxxxxx"></div>
-      <div class="field"><label>كلمة المرور</label><input type="password" id="su-pass" required minlength="6"></div>
-      <div class="field"><label>تأكيد كلمة المرور</label><input type="password" id="su-pass2" required minlength="6">
-        <div class="err">كلمتا المرور غير متطابقتين</div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">إنشاء الحساب</button>
-      <div class="divider-or">أو</div>
-      <button type="button" class="google-btn" id="btn-facebook-signup" style="background:#1877F2; color:#fff; border-color:#1877F2;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
-        التسجيل بحساب Facebook
-      </button>
-    </form>
-    <p class="auth-switch">لديك حساب بالفعل؟ <b id="go-login">تسجيل الدخول</b></p>
-  </section>
-
-  <section class="screen" id="scr-forgot">
-    <div class="auth-hero">
-      <img class="logo-mark allow-context" src="https://i.ibb.co/PZsJ4ptx/logo.png" alt="">
-      <h1>استعادة كلمة المرور</h1>
-      <p>سيصلك رابط إعادة التعيين عبر البريد الإلكتروني — تحقق من مجلد الرسائل غير المهمة أيضًا</p>
-    </div>
-    <form class="glass" style="padding:22px;" id="form-forgot">
-      <div class="field"><label>البريد الإلكتروني</label><input type="email" id="forgot-email" required></div>
-      <button type="submit" class="btn btn-primary btn-block">إرسال رابط الاستعادة</button>
-    </form>
-    <p class="auth-switch"><b id="go-login-2">العودة لتسجيل الدخول</b></p>
-  </section>
-
-</div>
-
-<!-- ============ نافذة إكمال بيانات جوجل (إجباري) ============ -->
-<div class="overlay" id="overlay-google-complete">
-  <div class="sheet glass-strong">
-    <div class="sheet-handle"></div>
-    <h2>إكمال البيانات</h2>
-    <p style="margin-bottom:16px;">لإتمام إنشاء حسابك، أدخل البيانات التالية</p>
-    <form id="form-google-complete">
-      <div class="field"><label>الاسم الأول</label><input type="text" id="gc-fname" required></div>
-      <div class="field"><label>الاسم الثاني</label><input type="text" id="gc-mname" required></div>
-      <div class="field"><label>الاسم الثالث</label><input type="text" id="gc-lname" required></div>
-      <div class="field">
-        <label>اسم المستخدم (إنجليزي، حروف صغيرة، بدون مسافات)</label>
-        <input type="text" id="gc-username" required pattern="[a-z0-9_.]+">
-      </div>
-      <div class="field"><label>رقم الهاتف</label><input type="tel" id="gc-phone" required></div>
-      <button type="submit" class="btn btn-primary btn-block">حفظ ومتابعة</button>
-    </form>
-  </div>
-</div>
-
-<!-- ============ التطبيق الرئيسي ============ -->
-<div id="app" style="display:none;">
-
-  <div class="topbar">
-    <img class="logo allow-context" src="https://i.ibb.co/PZsJ4ptx/logo.png" alt="سرمد">
-    <button class="icon-btn" id="btn-open-notify" aria-label="حسابي">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6"/></svg>
-    </button>
-  </div>
-
-  <!-- الرئيسية: المسارات -->
-  <section class="screen" id="scr-home">
-    <h2 style="font-size:20px; margin-bottom:2px;">مرحبًا 👋</h2>
-    <p style="margin-bottom:18px;" id="home-username">اختر مسارك وابدأ التعلم</p>
-
-    <div class="section-title"><h2>المسارات</h2></div>
-    <div id="tracks-list"><div class="spinner"></div></div>
-  </section>
-
-  <!-- تفاصيل المسار -->
-  <section class="screen" id="scr-track">
-    <button class="icon-btn back-btn" data-back="scr-home" style="margin-bottom:14px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>
-    </button>
-    <img class="card-thumb-wide allow-context" id="track-image" style="height:170px;" src="">
-    <h1 id="track-title"></h1>
-    <p id="track-desc"></p>
-    <div class="section-title"><h2>الكورسات</h2></div>
-    <div id="track-courses"><div class="spinner"></div></div>
-  </section>
-
-  <!-- تفاصيل الكورس -->
-  <section class="screen" id="scr-course">
-    <button class="icon-btn back-btn" data-back="scr-track" style="margin-bottom:14px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>
-    </button>
-    <img class="card-thumb-wide allow-context" id="course-image" style="height:170px;" src="">
-    <h1 id="course-title"></h1>
-    <div class="pill-row">
-      <span class="pill" id="course-instructor"></span>
-      <span class="pill" id="course-start"></span>
-    </div>
-    <p id="course-desc"></p>
-    <div id="course-progress-wrap" style="margin:16px 0;">
-      <div class="progress-track"><div class="progress-fill" id="course-progress-fill" style="width:0%"></div></div>
-      <p class="meta" style="margin-top:6px;" id="course-progress-text"></p>
-    </div>
-    <div id="course-paywall"></div>
-    <div class="section-title"><h2>المحاضرات</h2></div>
-    <div id="course-lectures"><div class="spinner"></div></div>
-  </section>
-
-  <!-- تفاصيل المحاضرة -->
-  <section class="screen" id="scr-lecture">
-    <button class="icon-btn back-btn" data-back="scr-course" style="margin-bottom:14px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>
-    </button>
-    <h1 id="lecture-title"></h1>
-    <p id="lecture-desc"></p>
-    <div class="pill-row">
-      <span class="pill" id="lecture-duration"></span>
-      <span class="pill" id="lecture-tasks-count"></span>
-    </div>
-    <div class="section-title"><h2>المهام</h2></div>
-    <div id="lecture-tasks"><div class="spinner"></div></div>
-  </section>
-
-  <!-- المنتدى -->
-  <section class="screen" id="scr-forum">
-    <h1>منتدى الأسئلة</h1>
-    <p style="margin-bottom:16px;">اسأل، شارك صورة، وناقش زملاءك</p>
-    <div class="glass" style="padding:14px; margin-bottom:18px;">
-      <textarea id="forum-text" placeholder="اكتب سؤالك هنا..." rows="3" style="width:100%; border:none; outline:none; font-family:inherit; font-size:14.5px; resize:none; background:transparent;"></textarea>
-      <div id="forum-preview" style="display:none; margin:8px 0;"><img id="forum-preview-img" style="width:70px;height:70px;border-radius:12px;object-fit:cover;"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-        <label class="icon-btn" style="cursor:pointer;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-          <input type="file" accept="image/*" id="forum-image" style="display:none;">
-        </label>
-        <button class="btn btn-primary" id="btn-post-forum">نشر</button>
-      </div>
-    </div>
-    <div id="forum-list"><div class="spinner"></div></div>
-  </section>
-
-  <!-- لوحة التقدم / الحساب -->
-  <section class="screen" id="scr-profile">
-    <h1>حسابي</h1>
-    <div class="glass" style="padding:20px; margin-bottom:16px;" id="profile-card">
-      <div class="spinner"></div>
-    </div>
-    <div class="section-title"><h2>تقرير التقدم</h2></div>
-    <div class="glass report-watermark" style="padding:18px; margin-bottom:16px;" id="progress-report">
-      <div class="spinner"></div>
-    </div>
-    <div class="section-title"><h2>اشتراكاتي</h2></div>
-    <div id="my-subs" style="margin-bottom:20px;"><p class="meta">لا توجد اشتراكات بعد</p></div>
-    <button class="btn btn-secondary btn-block" id="btn-contact">تواصل معنا</button>
-    <button class="btn btn-ghost btn-block" style="margin-top:10px;" id="btn-logout">تسجيل الخروج</button>
-  </section>
-
-</div>
-
-<!-- ============ ورقة المهمة (تفتح فوق أي شاشة) ============ -->
-<div class="overlay" id="overlay-task">
-  <div class="sheet glass-strong" id="task-sheet-content" style="max-height:92vh;">
-    <div class="sheet-handle"></div>
-    <div id="task-body"></div>
-  </div>
-</div>
-
-<!-- ============ شريط التنقل السفلي ============ -->
-<nav class="tabbar" id="tabbar" style="display:none;">
-  <button class="tab-item active" data-tab="scr-home">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-    <span>الرئيسية</span>
-  </button>
-  <button class="tab-item" data-tab="scr-forum">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5H4l3-3.5a8.38 8.38 0 0 1 6.5-13.5 8.38 8.38 0 0 1 7.5 8.5z"/></svg>
-    <span>المنتدى</span>
-  </button>
-  <button class="tab-item" data-tab="scr-profile">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6"/></svg>
-    <span>حسابي</span>
-  </button>
-</nav>
-
-<script src="https://www.paypal.com/sdk/js?client-id=AW_M1acPABnrPp2AJklYALUDZ1OUA2NS6CPGp3D3ZB9fVIfmfD87le9WZmHF3fOCqINDO3RAtQGWLteZ&currency=USD"></script>
 <script type="module" src="./app.js"></script>
 </body>
 </html>
